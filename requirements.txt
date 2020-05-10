@@ -1,0 +1,7 @@
+praw
+numpy
+matplotlib
+discord
+gspread
+oauth2client
+scipy
