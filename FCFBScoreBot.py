@@ -21,7 +21,7 @@ from discord.ext import commands
 from scipy.stats import norm
 
 """
-Program that posts game data to Discord. Heroku email is FCFBDataBot@gmail.com
+Program that posts game data to Discord. Heroku email is FCFBScoreBot@gmail.com
 
 @author: Andrew Kicklighter
 """
@@ -108,12 +108,19 @@ def loginDiscord(r):
                     elif(awayteam == "Southern Mississippi"):
                         awayteam = "Southern Miss"
                         
-                    homecolor = getColor(hometeam)
-                    awaycolor = getColor(awayteam)
-                    
+                    colorDictionary = getColorData()
+                    teamcolorcolumn = colorDictionary[1]
+                    colordatacolumn = colorDictionary[2]
+                    eloDictionary = getEloData()
+                    teamelocolumn = eloDictionary[1]
+                    elodatacolumn = eloDictionary[2]
+                        
+                    homecolor = getColor(hometeam, teamcolorcolumn, colordatacolumn)
+                    awaycolor = getColor(awayteam, teamcolorcolumn, colordatacolumn)
+                      
                     # Get the vegas odds
-                    homeelo = getElo(hometeam)
-                    awayelo = getElo(awayteam)
+                    homeelo = getElo(hometeam, teamelocolumn, elodatacolumn)
+                    awayelo = getElo(awayteam, teamelocolumn, elodatacolumn)
                     homeVegasOdds = getHomeVegasOdds(homeelo, awayelo)
                     awayVegasOdds = getAwayVegasOdds(homeelo, awayelo)
                     
@@ -258,12 +265,19 @@ def loginDiscord(r):
                     elif(awayteam == "Southern Mississippi"):
                         awayteam = "Southern Miss"
                         
-                    homecolor = getColor(hometeam)
-                    awaycolor = getColor(awayteam)
-                    
+                    colorDictionary = getColorData()
+                    teamcolorcolumn = colorDictionary[1]
+                    colordatacolumn = colorDictionary[2]
+                    eloDictionary = getEloData()
+                    teamelocolumn = eloDictionary[1]
+                    elodatacolumn = eloDictionary[2]
+                        
+                    homecolor = getColor(hometeam, teamcolorcolumn, colordatacolumn)
+                    awaycolor = getColor(awayteam, teamcolorcolumn, colordatacolumn)
+                      
                     # Get the vegas odds
-                    homeelo = getElo(hometeam)
-                    awayelo = getElo(awayteam)
+                    homeelo = getElo(hometeam, teamelocolumn, elodatacolumn)
+                    awayelo = getElo(awayteam, teamelocolumn, elodatacolumn)
                     homeVegasOdds = getHomeVegasOdds(homeelo, awayelo)
                     awayVegasOdds = getAwayVegasOdds(homeelo, awayelo)
         
@@ -499,22 +513,49 @@ def getHomeVegasOdds(homeelo, awayelo):
     odds = (float(awayelo) - float(homeelo))/constant
     return odds
 
-# Get the team hex color
-def getColor(team):
-    teamcolumn = []
-    colorcolumn = []
+# Get Elo Data
+def getEloData():
+    teamelocolumn = []
+    elodatacolumn = []
+    fbscolumn = fbsworksheet.col_values(2)
+    fbscolumn.pop(0)
+    fcscolumn = fcsworksheet.col_values(4)
+    fcscolumn.pop(0)
+    teamelocolumn.extend(fbscolumn)
+    teamelocolumn.extend(fcscolumn)
+
+    fbselocolumn = fbsworksheet.col_values(3)
+    fbselocolumn.pop(0)
+    fcselocolumn = fcsworksheet.col_values(1)
+    fcselocolumn.pop(0)
+    elodatacolumn.extend(fbselocolumn)
+    elodatacolumn.extend(fcselocolumn)
+    
+    return {1: teamelocolumn, 2: elodatacolumn}
+ 
+# Get color data
+def getColorData():
+    teamcolorcolumn = []
+    colordatacolumn = []
     fbscolumn = colorworksheet.col_values(1)
     fbscolumn.pop(0)
     fcscolumn = colorworksheet.col_values(7)
     fcscolumn.pop(0)
-    teamcolumn.extend(fbscolumn)
-    teamcolumn.extend(fcscolumn)
+    teamcolorcolumn.extend(fbscolumn)
+    teamcolorcolumn.extend(fcscolumn)
     fbscolorcolumn = colorworksheet.col_values(4)
     fbscolorcolumn.pop(0)
     fcscolorcolumn = colorworksheet.col_values(10)
     fcscolorcolumn.pop(0)
-    colorcolumn.extend(fbscolorcolumn)
-    colorcolumn.extend(fcscolorcolumn)
+    colordatacolumn.extend(fbscolorcolumn)
+    colordatacolumn.extend(fcscolorcolumn)
+    
+    return {1: teamcolorcolumn, 2: colordatacolumn}
+ 
+# Get the team hex color
+def getColor(team, teamcolorcolumn, colordatacolumn):
+    teamcolumn = teamcolorcolumn
+    colorcolumn = colordatacolumn
     i = 0
     color = "black"
     for value in teamcolumn:
@@ -523,27 +564,13 @@ def getColor(team):
                 break
             i = i + 1  
     return color
-  
-# Get the team's elo
-def getElo(team):
-    i = 0
-    elo = 0
-    teamcolumn = []
-    elocolumn = []
-    fbscolumn = fbsworksheet.col_values(2)
-    fbscolumn.pop(0)
-    fcscolumn = fcsworksheet.col_values(4)
-    fcscolumn.pop(0)
-    teamcolumn.extend(fbscolumn)
-    teamcolumn.extend(fcscolumn)
 
-    fbselocolumn = fbsworksheet.col_values(3)
-    fbselocolumn.pop(0)
-    fcselocolumn = fcsworksheet.col_values(1)
-    fcselocolumn.pop(0)
-    elocolumn.extend(fbselocolumn)
-    elocolumn.extend(fcselocolumn)
-    
+# Get the team's elo
+def getElo(team, teamelocolumn, elodatacolumn):
+    teamcolumn = teamelocolumn
+    elocolumn = elodatacolumn
+    elo = 0
+    i = 0
     for value in teamcolumn:
         if("(" in value):
             value = value.split("(")[0]
