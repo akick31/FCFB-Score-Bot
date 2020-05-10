@@ -832,8 +832,6 @@ def parseDataFromGithub(githubURL):
 # Main method
 if __name__ == '__main__':
     r = loginReddit()
-    for submission in r.subreddit("FakeCollegeFootball").search("Iowa State", sort='new'):
-        print(submission.title)
     loginDiscord(r)
     #print(calculateExpectedPoints(1, 10, 10, "PASS"))
     
