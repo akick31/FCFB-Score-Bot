@@ -789,7 +789,7 @@ def parseAwayTeam(submissionbody):
 def searchForGameThread(r, homeTeam, awayTeam):
     count = 0
     while True:
-        for submission in r.redditor('NFCAAOfficialRefBot').submissions.new(limit=300):
+        for submission in r.redditor('NFCAAOfficialRefBot').submissions.new(limit=None):
             if submission.link_flair_text == "Game Thread":
                 submissionHome = parseHomeTeam(submission.selftext)
                 submissionAway = parseAwayTeam(submission.selftext)
