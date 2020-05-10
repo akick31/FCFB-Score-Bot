@@ -76,6 +76,12 @@ def loginDiscord(r):
                 awayteam = awayteam.strip()
                 await message.channel.send("Looking for the game thread...")
                 print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + hometeam + " vs " + awayteam)
+                
+                if(hometeam.find('&') >= 0):
+                    hometeam = hometeam.replace('&', '&amp;')
+                if(awayteam.find('&') >= 0):
+                    awayteam = awayteam.replace('&', '&amp;')
+                
                 submission = searchForGameThread(r, hometeam, awayteam)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
@@ -106,6 +112,7 @@ def loginDiscord(r):
                         hometeam = "Southern Miss"
                     elif(awayteam == "Southern Mississippi"):
                         awayteam = "Southern Miss"
+                        
                         
                     colorDictionary = getColorData()
                     teamcolorcolumn = colorDictionary[1]
@@ -232,6 +239,11 @@ def loginDiscord(r):
                 
                 await message.channel.send("Looking for the game thread...")
                 print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + hometeam + " vs " + awayteam)
+                if(hometeam.find('&') >= 0):
+                    hometeam = hometeam.replace('&', '&amp;')
+                if(awayteam.find('&') >= 0):
+                    awayteam = awayteam.replace('&', '&amp;')
+                
                 submission = searchForGameThread(r, hometeam, awayteam)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
