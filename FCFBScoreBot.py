@@ -81,7 +81,6 @@ def loginDiscord(r):
                     await message.channel.send("No game thread found.")
                 else:
                     print("GAME THREAD FOUND")
-                    await message.channel.send("Game thread found. Parsing data...")
                     url = parseURLFromGameThread(submission.selftext)
                     if(url != "NO PLAYS"):
                         data = parseDataFromGithub(url)
@@ -238,7 +237,6 @@ def loginDiscord(r):
                     await message.channel.send("No game thread found.")
                 else:
                     print("GAME THREAD FOUND")
-                    await message.channel.send("Game thread found. Graphing plot...")
                     url = parseURLFromGameThread(submission.selftext)
                     if(url != "NO PLAYS"):
                         data = parseDataFromGithub(url)
