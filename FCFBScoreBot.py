@@ -92,9 +92,9 @@ def loginDiscord(r):
                     hometeam = hometeam.replace('&', '&amp;')
                 if(awayteam.find('A&M') >= 0 or awayteam.find('a&m') >= 0):
                     awayteam = awayteam.replace('&', '&amp;')
-                if(hometeam is 'Miami' or hometeam is 'miami'):
+                if(hometeam == 'Miami' or hometeam == 'miami'):
                     hometeam = 'miami (fl)'
-                if(awayteam is 'Miami' or awayteam is 'miami'):
+                if(awayteam == 'Miami' or awayteam == 'miami'):
                     awayteam = 'miami (fl)'
                 
                 submission = searchForGameThread(r, hometeam, awayteam, season)
@@ -128,6 +128,11 @@ def loginDiscord(r):
                         hometeam = "Southern Miss"
                     elif(awayteam == "Southern Mississippi"):
                         awayteam = "Southern Miss"
+                        
+                    if(hometeam == "Miami (FL)"):
+                        hometeam = "Miami"
+                    elif(awayteam == "Miami (FL)"):
+                        awayteam = "Miami"
                         
                         
                     colorDictionary = getColorData()
