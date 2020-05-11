@@ -165,9 +165,9 @@ def loginDiscord(r):
                         curPossession = parsePossession(submission.selftext)
                         possessingTeamProbability = getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds)
                         if(curPossession == hometeam):
-                            curHomeWinProbability = possessingTeamProbability
+                            curHomeWinProbability = 100 - possessingTeamProbability
                         else:
-                            curHomeWinProbability = 100-possessingTeamProbability
+                            curHomeWinProbability = possessingTeamProbability
                         curAwayWinProbability = 100-curHomeWinProbability
                         # Get other game data
                         curYardLine = parseYardLine(submission.selftext)
