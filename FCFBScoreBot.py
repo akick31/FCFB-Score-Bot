@@ -88,9 +88,9 @@ def loginDiscord(r):
                 await message.channel.send("Looking for the game thread...")
                 print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + hometeam + " vs " + awayteam)
                 
-                if(hometeam.find('A&M') >= 0):
+                if(hometeam.find('A&M') >= 0) or hometeam.find('a&m'):
                     hometeam = hometeam.replace('&', '&amp;')
-                if(awayteam.find('A&M') >= 0):
+                if(awayteam.find('A&M') >= 0 or awayteam.find('a&m')):
                     awayteam = awayteam.replace('&', '&amp;')
                 
                 submission = searchForGameThread(r, hometeam, awayteam, season)
@@ -282,9 +282,9 @@ def loginDiscord(r):
                 
                 await message.channel.send("Looking for the game thread...")
                 print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + hometeam + " vs " + awayteam)
-                if(hometeam.find('&') >= 0):
+                if(hometeam.find('A&M') >= 0 or hometeam.find('a&m)):
                     hometeam = hometeam.replace('&', '&amp;')
-                if(awayteam.find('&') >= 0):
+                if(awayteam.find('A&M') >= 0 or awayteam.find('a&m') >= 0):
                     awayteam = awayteam.replace('&', '&amp;')
                 
                 # Look for game thread
