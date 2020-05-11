@@ -443,6 +443,12 @@ def getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds):
                 if(row[5] == "away" and row[14] == "PAT"):
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 1, int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
+                if(row[5] == "home" and row[14] == "TWO POINT"):
+                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 2, int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    winProbability.append(curWinProbability)
+                if(row[5] == "away" and row[14] == "TWO POINT"):
+                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 2, int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
+                    winProbability.append(curWinProbability)
                 if(row[5] == "home" and row[14] == "SAFETY"):
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]) + 2, down, distance, yardLine, playType, homeVegasOdds) * 100
                     winProbability.append(curWinProbability)
