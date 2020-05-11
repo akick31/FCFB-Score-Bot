@@ -710,12 +710,18 @@ def parseYardLine(submissionbody):
     if(len(submissionbody.split("___")) == 7):
         # Get the time
         yardLineField = submissionbody.split("___")[4].split("\n")[4].split("|")[3]
-        sideOfField = yardLineField.split("]")[0].split("[")[1]
-        yardLine = yardLineField.split("[")[0]
+        if(yardLineField != 50):
+            sideOfField = yardLineField.split("]")[0].split("[")[1]
+            yardLine = yardLineField.split("[")[0]
+        else:
+            return "50"
     else:
         yardLineField = submissionbody.split("___")[3].split("\n")[4].split("|")[3]
-        sideOfField = yardLineField.split("]")[0].split("[")[1]
-        yardLine = yardLineField.split("[")[0]
+        if(yardLineField != 50):
+            sideOfField = yardLineField.split("]")[0].split("[")[1]
+            yardLine = yardLineField.split("[")[0]
+        else:
+            return "50"
     return sideOfField + " " + yardLine  
  
 # Parse the current down and distance
