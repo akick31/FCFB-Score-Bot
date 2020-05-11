@@ -163,10 +163,6 @@ def loginDiscord(r):
                     if(season == "S4"):
                         # Get win probability
                         curPossession = parsePossession(submission.selftext)
-                        if(curPossession == "home"):
-                            curPossession = hometeam
-                        elif(curPossession == "away"):
-                            curPossession = awayteam
                         possessingTeamProbability = getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds)
                         if(curPossession == hometeam):
                             curHomeWinProbability = possessingTeamProbability
@@ -448,6 +444,7 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
     #Iterate through playlist file
     with open('data.txt', 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
+        print(len(reader))
         for row in reader:
             if(row[0] != '--------------------------------------------------------------------------------'):
                 dottedCount = 0
@@ -763,14 +760,14 @@ def parseDown(submissionbody):
 # Parse who has the ball    
 def parsePossession(submissionbody):
     possession = "home"
-    
+    possession = submissionbody.split("___")[3].split("\n")[4].split("|")[4].split("]")[0].split("[")[1]
     #Iterate through playlist file
-    with open('data.txt', 'r') as csvfile:
-        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
-        for row in reader:
-            if(row[0] != '--------------------------------------------------------------------------------'):
-                possession = row[5]
-        return possession
+    #with open('data.txt', 'r') as csvfile:
+    #    reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
+    #    for row in reader:
+    #        if(row[0] != '--------------------------------------------------------------------------------'):
+    #            possession = row[5]
+    return possession
     
 # Parse the time
 def parseTime(submissionbody):
