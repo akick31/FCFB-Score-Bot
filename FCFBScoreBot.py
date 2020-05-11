@@ -16,6 +16,7 @@ import discord
 import time
 import gspread
 import math
+import datetime
 from oauth2client.service_account import ServiceAccountCredentials
 from discord.ext import commands
 from scipy.stats import norm
@@ -74,6 +75,21 @@ def loginDiscord(r):
                 
                 hometeam = hometeam.strip()
                 awayteam = awayteam.strip()
+                
+                # Parse the season number from string
+                season = "S4"
+                if(("S1" in awayteam or "S2" in awayteam or "S3" in awayteam or "S4" in awayteam)
+                   or ("s1" in awayteam or "s2" in awayteam or "s3" in awayteam or "s4" in awayteam)):
+                    teamsplit = awayteam.split(" ")
+                    i = 0
+                    for split in teamsplit:
+                        if(("S1" in split or "S2" in split or "S3" in split or "S4" in split)
+                           or ("s1" in split or "s2" in split or "s3" in split or "s4" in split)):
+                            season = teamsplit[i]
+                        i = i + 1
+                    awayteam = awayteam.split(season)[0] 
+                    awayteam = awayteam.strip()
+                
                 await message.channel.send("Looking for the game thread...")
                 print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + hometeam + " vs " + awayteam)
                 
@@ -82,12 +98,13 @@ def loginDiscord(r):
                 if(awayteam.find('&') >= 0):
                     awayteam = awayteam.replace('&', '&amp;')
                 
-                submission = searchForGameThread(r, hometeam, awayteam)
+                submission = searchForGameThread(r, hometeam, awayteam, season)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
                 else:
                     print("GAME THREAD FOUND")
-                    url = parseURLFromGameThread(submission.selftext)
+                    
+                    url = parseURLFromGameThread(submission.selftext, season)
                     if(url != "NO PLAYS"):
                         data = parseDataFromGithub(url)
                         text_file = open("data.txt", "w")
@@ -134,92 +151,109 @@ def loginDiscord(r):
                     homescore = parseHomeScore(submission.selftext)
                     awayscore = parseAwayScore(submission.selftext)
                     
-                    # Get win probability
-                    curPossession = parsePossession()
-                    if(curPossession == "home"):
-                        curPossession = hometeam
-                    else:
-                        curPossession = awayteam
-                    possessingTeamProbability = getCurrentWinProbability(homeVegasOdds, awayVegasOdds)
-                    if(curPossession == hometeam):
-                        curHomeWinProbability = possessingTeamProbability
-                    else:
-                        curHomeWinProbability = 100-possessingTeamProbability
-                    curAwayWinProbability = 100-curHomeWinProbability
-                    
-                    # Get other game data
-                    curYardLine = parseYardLine(submission.selftext)
-                    curQuarter = parseQuarter(submission.selftext)
-                    curDown = parseDown(submission.selftext)
-                    curTime = parseTime(submission.selftext)
-                    
-                    # If game is final, display that
-                    curClock = curTime + " " + curQuarter 
+                    #Work with new gist
+                    if(season == "S4"):
+                        # Get win probability
+                        curPossession = parsePossession()
+                        if(curPossession == "home"):
+                            curPossession = hometeam
+                        else:
+                            curPossession = awayteam
+                        possessingTeamProbability = getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds)
+                        if(curPossession == hometeam):
+                            curHomeWinProbability = possessingTeamProbability
+                        else:
+                            curHomeWinProbability = 100-possessingTeamProbability
+                        curAwayWinProbability = 100-curHomeWinProbability
+                        # Get other game data
+                        curYardLine = parseYardLine(submission.selftext)
+                        curQuarter = parseQuarter(submission.selftext)
+                        curDown = parseDown(submission.selftext)
+                        curTime = parseTime(submission.selftext)
+                        # If game is final, display that
+                        curClock = curTime + " " + curQuarter 
+                        
                     if("Game complete" in submission.selftext):
-                        if(int(homescore) > int(awayscore) or int(homescore) == int(awayscore)):
-                            odds = round(homeVegasOdds * 2) / 2
-                            numberOdds = odds
-                            if(odds == 0):
-                                odds = "Push"
-                            elif(odds > 0):
-                                odds = "+" + str(odds)
-                            post = "**FINAL | " + hometeam + " defeated " + awayteam + " " + homescore + "-" + awayscore + "**\n"
-                            if(int(numberOdds) > 0):
-                                await message.channel.send(post + "UPSET! " + hometeam + " was underdogs at " + str(odds) + " and won!")
-                            if(int(numberOdds) < 0 and ((int(awayscore) - int(homescore)) > numberOdds)):
-                                await message.channel.send(post + awayteam + " beat the spread listed at " + str(odds))
-                            elif(int(numberOdds) < 0 and ((int(awayscore) - int(homescore)) < numberOdds)):
-                                print(numberOdds)
-                                await message.channel.send(post + hometeam + " covered the spread listed at " + str(odds))
-                            if(int(numberOdds) == 0 or ((int(awayscore) - int(homescore)) == numberOdds)):
-                                await message.channel.send(post + "This game was a push!")
-                        elif(int(homescore) < int(awayscore)):
-                            odds = round(awayVegasOdds * 2) / 2
-                            numberOdds = odds
-                            if(odds == 0):
-                                odds = "Push"
-                            elif(odds > 0):
-                                odds = "+" + str(odds)
-                            post = "**FINAL | " + awayteam + " defeated " + hometeam + " " + awayscore + "-" + homescore + "**\n"
-                            if(int(numberOdds) > 0):
-                                await message.channel.send(post + "UPSET! " + awayteam + " was underdogs at " + str(odds) + " and won!")
-                            if(int(numberOdds) < 0 and ((int(homescore) - int(awayscore)) > numberOdds)):
-                                await message.channel.send(post + hometeam + " beat the spread listed at " + str(odds))
-                            elif(int(numberOdds) < 0 and ((int(homescore) - int(awayscore)) < numberOdds)):
-                                await message.channel.send(post + awayteam + " covered the spread listed at " + str(odds))
-                            if(int(numberOdds) == 0 or ((int(homescore) - int(awayscore)) == numberOdds)):
-                                await message.channel.send(post + "This game was a push!")                             
+                        if(season == "S4"):
+                            if(int(homescore) > int(awayscore) or int(homescore) == int(awayscore)):
+                                odds = round(homeVegasOdds * 2) / 2
+                                numberOdds = odds
+                                if(odds == 0):
+                                    odds = "Push"
+                                elif(odds > 0):
+                                    odds = "+" + str(odds)
+                                post = "**FINAL | " + hometeam + " defeated " + awayteam + " " + homescore + "-" + awayscore + "**\n"
+                                if(int(numberOdds) > 0):
+                                    await message.channel.send(post + "UPSET! " + hometeam + " was underdogs at " + str(odds) + " and won!")
+                                if(int(numberOdds) < 0 and ((int(awayscore) - int(homescore)) > numberOdds)):
+                                    await message.channel.send(post + awayteam + " beat the spread listed at " + str(odds))
+                                elif(int(numberOdds) < 0 and ((int(awayscore) - int(homescore)) < numberOdds)):
+                                    print(numberOdds)
+                                    await message.channel.send(post + hometeam + " covered the spread listed at " + str(odds))
+                                if(int(numberOdds) == 0 or ((int(awayscore) - int(homescore)) == numberOdds)):
+                                    await message.channel.send(post + "This game was a push!")
+                            elif(int(homescore) < int(awayscore)):
+                                odds = round(awayVegasOdds * 2) / 2
+                                numberOdds = odds
+                                if(odds == 0):
+                                    odds = "Push"
+                                elif(odds > 0):
+                                    odds = "+" + str(odds)
+                                post = "**FINAL | " + awayteam + " defeated " + hometeam + " " + awayscore + "-" + homescore + "**\n"
+                                if(int(numberOdds) > 0):
+                                    await message.channel.send(post + "UPSET! " + awayteam + " was underdogs at " + str(odds) + " and won!")
+                                if(int(numberOdds) < 0 and ((int(homescore) - int(awayscore)) > numberOdds)):
+                                    await message.channel.send(post + hometeam + " beat the spread listed at " + str(odds))
+                                elif(int(numberOdds) < 0 and ((int(homescore) - int(awayscore)) < numberOdds)):
+                                    await message.channel.send(post + awayteam + " covered the spread listed at " + str(odds))
+                                if(int(numberOdds) == 0 or ((int(homescore) - int(awayscore)) == numberOdds)):
+                                    await message.channel.send(post + "This game was a push!")   
+                        else:
+                            post = "blank"
+                            if(int(homescore) > int(awayscore)):
+                                post = "**FINAL | " + hometeam + " defeated " + awayteam + " " + homescore + "-" + awayscore + "**\n"
+                            else:
+                                post = "**FINAL | " + awayteam + " defeated " + hometeam + " " + awayscore + "-" + homescore + "**\n"
+                            await message.channel.send(post)
                     else:
-                        # If home team is winning or the score is tied
-                        if(int(homescore) > int(awayscore) or int(homescore) == int(awayscore)):
-                            odds = round(homeVegasOdds * 2) / 2
-                            if(odds == 0):
-                                odds = "Push"
-                            elif(odds > 0):
-                                odds = "+" + str(odds)
-                            post = "**" + curClock +  " | " + awayteam + " " + awayscore + " " + hometeam + " " + homescore + " (" + str(odds) + ")** \n"
-                            yardPost = curDown + " | :football: " + curPossession + " | " + curYardLine + "\n"
-                            winPost = "Each team has a 50% chance to win\n"
-                            if(int(curHomeWinProbability) > int(curAwayWinProbability)):
-                                winPost = hometeam + " has a " + str(int(curHomeWinProbability)) + "% chance to win\n"
-                            elif(int(curHomeWinProbability) < int(curAwayWinProbability)):
-                                winPost = awayteam + " has a " + str(int(curAwayWinProbability)) + "% chance to win\n"
-                            await message.channel.send(post + yardPost + winPost)   
-                        #If the home team is losing
-                        elif(int(homescore) < int(awayscore)):
-                            odds = round(awayVegasOdds * 2) / 2
-                            if(odds == 0):
-                                odds = "Push"
-                            elif(odds > 0):
-                                odds = "+" + str(odds)
-                            post = "**" + curClock + " | " + awayteam + " " + awayscore  + " (" + str(odds) + ") " + hometeam + " " + homescore + "**\n"
-                            yardPost = curDown + " | :football: " + curPossession + " | " + curYardLine + "\n"
-                            winPost = "Each team has a 50% chance to win \n"
-                            if(int(curHomeWinProbability) > int(curAwayWinProbability)):
-                                winPost = hometeam + " has a " + str(int(curHomeWinProbability)) + "% chance to win\n"
-                            elif(int(curHomeWinProbability) < int(curAwayWinProbability)):
-                                winPost = awayteam + " has a " + str(int(curAwayWinProbability)) + "% chance to win\n"
-                            await message.channel.send(post + yardPost + winPost)
+                        if(season == "S4"):
+                            # If home team is winning or the score is tied
+                            if(int(homescore) > int(awayscore) or int(homescore) == int(awayscore)):
+                                odds = round(homeVegasOdds * 2) / 2
+                                if(odds == 0):
+                                    odds = "Push"
+                                elif(odds > 0):
+                                    odds = "+" + str(odds)
+                                post = "**" + curClock +  " | " + awayteam + " " + awayscore + " " + hometeam + " " + homescore + " (" + str(odds) + ")** \n"
+                                yardPost = curDown + " | :football: " + curPossession + " | " + curYardLine + "\n"
+                                winPost = "Each team has a 50% chance to win\n"
+                                if(int(curHomeWinProbability) > int(curAwayWinProbability)):
+                                    winPost = hometeam + " has a " + str(int(curHomeWinProbability)) + "% chance to win\n"
+                                elif(int(curHomeWinProbability) < int(curAwayWinProbability)):
+                                    winPost = awayteam + " has a " + str(int(curAwayWinProbability)) + "% chance to win\n"
+                                await message.channel.send(post + yardPost + winPost)   
+                            #If the home team is losing
+                            elif(int(homescore) < int(awayscore)):
+                                odds = round(awayVegasOdds * 2) / 2
+                                if(odds == 0):
+                                    odds = "Push"
+                                elif(odds > 0):
+                                    odds = "+" + str(odds)
+                                post = "**" + curClock + " | " + awayteam + " " + awayscore  + " (" + str(odds) + ") " + hometeam + " " + homescore + "**\n"
+                                yardPost = curDown + " | :football: " + curPossession + " | " + curYardLine + "\n"
+                                winPost = "Each team has a 50% chance to win \n"
+                                if(int(curHomeWinProbability) > int(curAwayWinProbability)):
+                                    winPost = hometeam + " has a " + str(int(curHomeWinProbability)) + "% chance to win\n"
+                                elif(int(curHomeWinProbability) < int(curAwayWinProbability)):
+                                    winPost = awayteam + " has a " + str(int(curAwayWinProbability)) + "% chance to win\n"
+                                await message.channel.send(post + yardPost + winPost)
+                        else:
+                            post = "blank"
+                            if(int(homescore) > int(awayscore)):
+                                post = "**FINAL | " + hometeam + " defeated " + awayteam + " " + homescore + "-" + awayscore + "**\n"
+                            else:
+                                post = "**FINAL | " + awayteam + " defeated " + hometeam + " " + awayscore + "-" + homescore + "**\n"
+                            await message.channel.send(post)
                   
             else: 
                 await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
@@ -237,6 +271,20 @@ def loginDiscord(r):
                 hometeam = hometeam.strip()
                 awayteam = awayteam.strip()
                 
+                # Parse the season number from string
+                season = "S4"
+                if(("S1" in awayteam or "S2" in awayteam or "S3" in awayteam or "S4" in awayteam)
+                   or ("s1" in awayteam or "s2" in awayteam or "s3" in awayteam or "s4" in awayteam)):
+                    teamsplit = awayteam.split(" ")
+                    i = 0
+                    for split in teamsplit:
+                        if(("S1" in split or "S2" in split or "S3" in split or "S4" in split)
+                           or ("s1" in split or "s2" in split or "s3" in split or "s4" in split)):
+                            season = teamsplit[i]
+                        i = i + 1
+                    awayteam = awayteam.split(season)[0] 
+                    awayteam = awayteam.strip()
+                
                 await message.channel.send("Looking for the game thread...")
                 print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + hometeam + " vs " + awayteam)
                 if(hometeam.find('&') >= 0):
@@ -244,14 +292,22 @@ def loginDiscord(r):
                 if(awayteam.find('&') >= 0):
                     awayteam = awayteam.replace('&', '&amp;')
                 
-                submission = searchForGameThread(r, hometeam, awayteam)
+                # Look for game thread
+                submission = searchForGameThread(r, hometeam, awayteam, season)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
                 else:
                     print("GAME THREAD FOUND")
-                    url = parseURLFromGameThread(submission.selftext)
-                    if(url != "NO PLAYS"):
+                    
+                    # Parse data from url
+                    url = parseURLFromGameThread(submission.selftext, season)
+                    if(url != "NO PLAYS" and "github" in url):
                         data = parseDataFromGithub(url)
+                        text_file = open("data.txt", "w")
+                        text_file.write(data)
+                        text_file.close()
+                    elif(url != "NO PLAYS" and "pastebin" in url):
+                        data = parseDataFromPastebin(url)
                         text_file = open("data.txt", "w")
                         text_file.write(data)
                         text_file.close()
@@ -291,20 +347,24 @@ def loginDiscord(r):
                     homeVegasOdds = getHomeVegasOdds(homeelo, awayelo)
                     awayVegasOdds = getAwayVegasOdds(homeelo, awayelo)
         
-                    #If there is a GitHub URL as plays have been called
-                    if(url != "NO PLAYS"):
-                        # Iterate through the data and plot the graphs
-                        iterateThroughData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor)
-                        
-                        # Send score plot
-                        with open('output.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                    #Work with new gist
+                    if(season == "S4"):
+                        #If there is a GitHub URL as plays have been called
+                        if(url != "NO PLAYS"):
+                            # Iterate through the data and plot the graphs
+                            iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor)
                             
-                        # Send the win probability plot
-                        with open('outputWinProbability.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                            # Send score plot
+                            with open('output.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                                
+                            # Send the win probability plot
+                            with open('outputWinProbability.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                        else:
+                            await message.channel.send("No plays for the game found.")
                     else:
-                        await message.channel.send("No plays for the game found.")
+                        await message.channel.send("This game is too old to plot the data.")
             else: 
                 await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
                 
@@ -317,53 +377,9 @@ def loginDiscord(r):
         print('------')
 
     client.run(token)
-   
-# Parse the quarter
-def parseQuarter(submissionbody):
-    # Get the quarter
-    quarter = submissionbody.split("___")[4].split("\n")[4].split("|")[1].split(" ")[0]
-    if quarter == "1":
-        return "1Q"
-    elif quarter == "2":
-        return "2Q"
-    elif quarter == "3":
-        return "3Q"
-    elif quarter == "4":
-        return "4Q"    
- 
-# Parse the current yard line
-def parseYardLine(submissionbody):
-    # Get the time
-    yardLineField = submissionbody.split("___")[4].split("\n")[4].split("|")[3]
-    sideOfField = yardLineField.split("]")[0].split("[")[1]
-    yardLine = yardLineField.split("[")[0]
-    return sideOfField + " " + yardLine  
- 
-# Parse the current down and distance
-def parseDown(submissionbody):
-    # Get the time
-    down = submissionbody.split("___")[4].split("\n")[4].split("|")[2]
-    return down
-
-# Parse who has the ball    
-def parsePossession():
-    possession = "home"
-    #Iterate through playlist file
-    with open('data.txt', 'r') as csvfile:
-        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
-        for row in reader:
-            if(row[0] != '--------------------------------------------------------------------------------'):
-                possession = row[5]
-        return possession
-    
-# Parse the time
-def parseTime(submissionbody):
-    # Get the time
-    time = submissionbody.split("___")[4].split("\n")[4].split("|")[0]
-    return time
  
 # Get the current win probability for the current play
-def getCurrentWinProbability(homeVegasOdds, awayVegasOdds):
+def getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds):
     winProbability = []
     
     #Iterate through playlist file
@@ -391,7 +407,7 @@ def getCurrentWinProbability(homeVegasOdds, awayVegasOdds):
         return winProbability[-1]
     
 # Iterate through the data for the plots
-def iterateThroughData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor):
+def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor):
     homeScore = []
     awayScore = []
     playNumber = []
@@ -672,145 +688,251 @@ def calculateExpectedPoints(down, distance, yardLine, playType):
     if(down == 1):
         return intercept + (slope * (yardLine - 50)) + (((yardLine - 50) ** 3) / 100000) + max(0, (((1.65 ** 0.2) ** (yardLine - 94)) - 1) * (4))
     return intercept + (slope * (yardLine - 50)) + (((yardLine - 50) ** 3) / 100000) + max(0, (((1.65 ** 0.2) ** (yardLine - 94)) - 1) * (down/4))
-    
-# Parse the home time of possession
-def parseHomeTimeOfPossession(submissionbody):
-    # Get the stat portion of the submission
-    stats = submissionbody.split("___")[1].split("|")
-    # Parse the home team's time of possesion
-    homeTimeOfPossession = stats[21]
 
-    return homeTimeOfPossession
-
-# Parse the away time of possesion
-def parseAwayTimeOfPossession(submissionbody):
-    # Get the stat portion of the submission
-    stats = submissionbody.split("___")[0].split("|")
-    # Parse the away team's time of possesion
-    awayTimeOfPossession = stats[21]
-
-    return awayTimeOfPossession
+# Parse the quarter
+def parseQuarter(submissionbody):
+    if(len(submissionbody.split("___")) == 7):
+        # Get the quarter
+        quarter = submissionbody.split("___")[4].split("\n")[4].split("|")[1].split(" ")[0]
+    else:
+        quarter = submissionbody.split("___")[4].split("\n")[3].split("|")[1].split(" ")[0]
+    if quarter == "1":
+        return "1Q"
+    elif quarter == "2":
+        return "2Q"
+    elif quarter == "3":
+        return "3Q"
+    elif quarter == "4":
+        return "4Q"    
  
-# Parse the home total yards
-def parseHomeTotalYards(submissionbody):
-    # Get the stat portion of the submission
-    stats = submissionbody.split("___")[1].split("|")
-    # Parse the home team's yards
-    homeTotalYards = stats[17]
+# Parse the current yard line
+def parseYardLine(submissionbody):
+    if(len(submissionbody.split("___")) == 7):
+        # Get the time
+        yardLineField = submissionbody.split("___")[4].split("\n")[4].split("|")[3]
+        sideOfField = yardLineField.split("]")[0].split("[")[1]
+        yardLine = yardLineField.split("[")[0]
+    else:
+        yardLineField = submissionbody.split("___")[3].split("\n")[4].split("|")[3]
+        sideOfField = yardLineField.split("]")[0].split("[")[1]
+        yardLine = yardLineField.split("[")[0]
+    return sideOfField + " " + yardLine  
+ 
+# Parse the current down and distance
+def parseDown(submissionbody):
+    if(len(submissionbody.split("___")) == 7):
+        # Get the time
+        down = submissionbody.split("___")[4].split("\n")[4].split("|")[2]
+    else:
+        down = submissionbody.split("___")[3].split("\n")[4].split("|")[2]
+    return down
 
-    return homeTotalYards
-
-# Parse the away total yards
-def parseAwayTotalYards(submissionbody):
-    # Get the stat portion of the submission
-    stats = submissionbody.split("___")[0].split("|")
-    # Parse the away team's yards
-    awayTotalYards = stats[17]
-
-    return awayTotalYards
-
-# Parse the home rushing yards
-def parseHomeRushingYards(submissionbody):
-    # Get the stat portion of the submission
-    stats = submissionbody.split("___")[1].split("|")
-    # Parse the home team's yards
-    homeRushingYards = stats[16]
-
-    return homeRushingYards
-
-# Parse the away rushing yards
-def parseAwayRushingYards(submissionbody):
-    # Get the stat portion of the submission
-    stats = submissionbody.split("___")[0].split("|")
-    # Parse the away team's yards
-    awayRushingYards = stats[16]
-
-    return awayRushingYards
-
-# Parse the home passing yards
-def parseHomePassingYards(submissionbody):
-    # Get the stat portion of the submission
-    stats = submissionbody.split("___")[1].split("|")
-    # Parse the home team's yards
-    homeRushingYards = stats[15].split("\n")[1]
+# Parse who has the ball    
+def parsePossession():
+    possession = "home"
+    #Iterate through playlist file
+    with open('data.txt', 'r') as csvfile:
+        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
+        for row in reader:
+            if(row[0] != '--------------------------------------------------------------------------------'):
+                possession = row[5]
+        return possession
     
-
-    return homeRushingYards
-
-# Parse the away passing yards
-def parseAwayPassingYards(submissionbody):
-    # Get the stat portion of the submission
-    stats = submissionbody.split("___")[0].split("|")
-    # Parse the away team's yards
-    awayRushingYards = stats[15].split("\n")[1]
-
-    return awayRushingYards
+# Parse the time
+def parseTime(submissionbody):
+    if(len(submissionbody.split("___")) == 7):
+        # Get the time
+        time = submissionbody.split("___")[4].split("\n")[4].split("|")[0]
+    else:
+        time = submissionbody.split("___")[4].split("\n")[3].split("|")[0]
+    return time 
     
 # Parse the home score
 def parseHomeScore(submissionbody):
-    # Get the scoreboard portion of the submission
-    scoreboard = submissionbody.split("___")[5].split("\n")
-    # Parse the home team's score
-    homeTeamScore = scoreboard[4].split("**")[1]
-
+    if(len(submissionbody.split("___")) == 7):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[5].split("\n")
+        # Parse the home team's score
+        homeTeamScore = scoreboard[4].split("**")[1]
+    elif(len(submissionbody.split("___")) == 5):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[4].split("\n")
+        # Parse the home team's score
+        homeTeamScore = scoreboard[4].split("**")[1]
+    elif(len(submissionbody.split("___")) == 4):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[3].split("\n")
+        # Parse the home team's score
+        homeTeamScore = scoreboard[4].split("**")[1]
+    elif(len(submissionbody.split("___")) == 3):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[2].split("\n")
+        # Parse the home team's score
+        homeTeamScore = scoreboard[3].split("**")[1]
+    elif(len(submissionbody.split("___")) == 1):
+        scoreboard = submissionbody.split("Q4")[1].split("\n")
+        # Parse the second team and their score
+        homeTeamScore = scoreboard[2].split(" | ")[-1]
+        
     return homeTeamScore
 
 # Parse the away score
 def parseAwayScore(submissionbody):
-    # Get the scoreboard portion of the submission
-    scoreboard = submissionbody.split("___")[5].split("\n")
-    # Parse the second team and their score
-    awayTeamScore = scoreboard[5].split("**")[1]
-
+    if(len(submissionbody.split("___")) == 7):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[5].split("\n")
+        # Parse the second team and their score
+        awayTeamScore = scoreboard[5].split("**")[1]
+    elif(len(submissionbody.split("___")) == 5):
+        # Get the scoreboard portion of the submission'
+        scoreboard = submissionbody.split("___")[4].split("\n")
+        # Parse the second team and their score
+        awayTeamScore = scoreboard[5].split("**")[1]
+    elif(len(submissionbody.split("___")) == 4):
+        # Get the scoreboard portion of the submission'
+        scoreboard = submissionbody.split("___")[3].split("\n")
+        # Parse the second team and their score
+        awayTeamScore = scoreboard[5].split("**")[1]
+    elif(len(submissionbody.split("___")) == 3):
+        # Get the scoreboard portion of the submission'
+        scoreboard = submissionbody.split("___")[2].split("\n")
+        # Parse the second team and their score
+        awayTeamScore = scoreboard[4].split("**")[1]
+    elif(len(submissionbody.split("___")) == 1):
+        scoreboard = submissionbody.split("Q4")[1].split("\n")
+        # Parse the second team and their score
+        awayTeamScore = scoreboard[3].split(" | ")[-1]
     return awayTeamScore
     
 
 # Parse the home team
 def parseHomeTeam(submissionbody):
-    # Get the scoreboard portion of the submission
-    scoreboard = submissionbody.split("___")[5].split("\n")
-    # Parse the first team and their score
-    homeTeam = scoreboard[4].split("]")[0]
-    homeTeam = homeTeam.replace('[', '')
-
+    homeTeam = "blank"
+    if(len(submissionbody.split("___")) == 7):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[5].split("\n")
+        # Parse the first team and their score
+        homeTeam = scoreboard[4].split("]")[0]
+        homeTeam = homeTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 5):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[4].split("\n")
+        # Parse the first team and their score
+        homeTeam = scoreboard[4].split("]")[0]
+        homeTeam = homeTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 4):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[3].split("\n")
+        # Parse the first team and their score
+        homeTeam = scoreboard[4].split("]")[0]
+        homeTeam = homeTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 3):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[2].split("\n")
+        # Parse the first team and their score
+        homeTeam = scoreboard[3].split("]")[0]
+        homeTeam = homeTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 1):
+        scoreboard = submissionbody.split("Q4")[1].split("\n")
+        # Parse the second team and their score
+        homeTeam = scoreboard[2].split("]")[0]
+        homeTeam = homeTeam.replace('[', '')
     return homeTeam
 
 # Parse the away team
 def parseAwayTeam(submissionbody):
-    # Get the scoreboard portion of the submission
-    scoreboard = submissionbody.split("___")[5].split("\n")
-    # Parse the second team and their score
-    awayTeam = scoreboard[5].split("]")[0]
-    awayTeam = awayTeam.replace('[', '')
-
+    awayTeam = "blank"
+    if(len(submissionbody.split("___")) == 7):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[5].split("\n")
+        # Parse the second team and their score
+        awayTeam = scoreboard[5].split("]")[0]
+        awayTeam = awayTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 5):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[4].split("\n")
+        # Parse the second team and their score
+        awayTeam = scoreboard[5].split("]")[0]
+        awayTeam = awayTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 4):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[3].split("\n")
+        # Parse the second team and their score
+        awayTeam = scoreboard[5].split("]")[0]
+        awayTeam = awayTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 3):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[2].split("\n")
+        # Parse the second team and their score
+        awayTeam = scoreboard[4].split("]")[0]
+        awayTeam = awayTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 1):
+        scoreboard = submissionbody.split("Q4")[1].split("\n")
+        # Parse the second team and their score
+        awayTeam = scoreboard[3].split("]")[0]
+        awayTeam = awayTeam.replace('[', '')
     return awayTeam
       
 # Iterate through Reddit to find the post game threads
-def searchForGameThread(r, homeTeam, awayTeam):
-    count = 0
-    while True:
-        for submission in r.redditor('NFCAAOfficialRefBot').submissions.new(limit=None):
-            if submission.link_flair_text == "Game Thread":
-                submissionHome = parseHomeTeam(submission.selftext)
-                submissionAway = parseAwayTeam(submission.selftext)
-                if((submissionHome.lower() == homeTeam.lower() and submissionAway.lower() == awayTeam.lower()) or 
-                   (submissionHome.lower() == awayTeam.lower() and submissionAway.lower() == homeTeam.lower())):
-                    return submission
-                count = count + 1
-                if(count > 129):
-                    break
-        if(count > 129):
-            break
+def searchForGameThread(r, homeTeam, awayTeam, season):
+    searchItem = "\"Game Thread\" \"" + homeTeam + "\" \"" + awayTeam + "\""
+    print(searchItem)
+    for submission in r.subreddit("FakeCollegeFootball").search(searchItem, sort='new'):
+        # Get game thread submission day
+        submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
+        year = int(submissionTime.split("-")[0])
+        month = int(submissionTime.split("-")[1])
+        day = int(submissionTime.split("-")[2].split(" ")[0])
+        away = "blank"
+        home = "blank"
+        homeTeam = homeTeam.lower()
+        awayTeam = awayTeam.lower()
+        if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
+           or submission.link_flair_text == "Week 10 Game Thread"):
+            away = parseAwayTeam(submission.selftext).lower()
+            home = parseHomeTeam(submission.selftext).lower()
+        # If looking for season 4...
+        if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
+        and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+            return submission
+        # If looking for season 3...
+        if (submission.link_flair_text == "Post Game Thread" and season == "S3" and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) 
+        or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+            return submission
+        # If looking for season 2...
+        if (submission.link_flair_text == "Post Game Thread" and season == "S2" and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6)
+        or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+            return submission
+        # If looking for season 1...
+        if (submission.link_flair_text == "Post Game Thread" and season == "S1" and ((year == 2018 and month <= 11 and day <= 5) or (year == 2018 and month < 11)
+        or (year == 2018 and month >= 1 and month < 11)) and (homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away)):
+            return submission
     return "NONE"
     
 # Parse the URL from the post game thread
-def parseURLFromGameThread(submissionbody):
-    splitlist = submissionbody.split("Waiting on")[0].split("[Plays](")
-    numItems = len(splitlist) - 1
-    if("github" not in splitlist[numItems].split(")")[0]):
+def parseURLFromGameThread(submissionbody, season):
+    if("github" not in submissionbody and "pastebin" not in submissionbody):
         return "NO PLAYS"
-    else:
+    elif("Waiting on a response" in submissionbody):
+        splitlist = submissionbody.split("Waiting on")[0].split("[Plays](")
+        numItems = len(splitlist) - 1
         return splitlist[numItems].split(")")[0]
+    else:
+        splitlist = submissionbody.split("#Game complete")[0].split("[Plays](")
+        numItems = len(splitlist) - 1
+        return splitlist[numItems].split(")")[0]
+    
+# Parse the data from the Pastebin play list
+def parseDataFromPastebin(pastebinURL):
+    #Parse data from the github url
+    urlSplit = pastebinURL.split("/")
+    url = "https://" + urlSplit[2] + "/raw/" + urlSplit[3]
+    req = requests.get(url)
+
+    data = ""
+    for character in req.text:
+        data = data + character
+    return data
 
 # Parse the data from the Github play list
 def parseDataFromGithub(githubURL):
