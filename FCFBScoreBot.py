@@ -444,7 +444,6 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
     #Iterate through playlist file
     with open('data.txt', 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
-        print(len(reader))
         for row in reader:
             if(row[0] != '--------------------------------------------------------------------------------'):
                 dottedCount = 0
