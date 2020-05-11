@@ -760,7 +760,7 @@ def parseDown(submissionbody):
 # Parse who has the ball    
 def parsePossession(submissionbody):
     possession = "home"
-    possession = submissionbody.split("___")[3].split("\n")[4].split("|")[4].split("]")[0].split("[")[-1]
+    possession = submissionbody.split("___")[4].split("\n")[4].split("|")[4].split("]")[0].split("[")[-1]
     #Iterate through playlist file
     #with open('data.txt', 'r') as csvfile:
     #    reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
