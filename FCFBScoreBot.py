@@ -133,7 +133,11 @@ def loginDiscord(r):
                         hometeam = "Miami"
                     elif(awayteam == "Miami (FL)"):
                         awayteam = "Miami"
-                        
+                    
+                    if(hometeam == "Miami (OH)"):
+                        hometeam = "Miami, OH"
+                    elif(awayteam == "Miami (OH)"):
+                        awayteam = "Miami, OH"
                         
                     colorDictionary = getColorData()
                     teamcolorcolumn = colorDictionary[1]
@@ -341,10 +345,15 @@ def loginDiscord(r):
                     elif(awayteam == "Southern Mississippi"):
                         awayteam = "Southern Miss"
                         
-                    if(hometeam == 'Miami' or hometeam == 'miami'):
-                        hometeam = 'miami (fl)'
-                    if(awayteam == 'Miami' or awayteam == 'miami'):
-                        awayteam = 'miami (fl)'
+                    if(hometeam == "Miami (FL)"):
+                        hometeam = "Miami"
+                    elif(awayteam == "Miami (FL)"):
+                        awayteam = "Miami"
+                        
+                    if(hometeam == "Miami (OH)"):
+                        hometeam = "Miami, OH"
+                    elif(awayteam == "Miami (OH)"):
+                        awayteam = "Miami, OH"
                         
                     colorDictionary = getColorData()
                     teamcolorcolumn = colorDictionary[1]
