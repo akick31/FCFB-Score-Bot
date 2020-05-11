@@ -92,6 +92,10 @@ def loginDiscord(r):
                     hometeam = hometeam.replace('&', '&amp;')
                 if(awayteam.find('A&M') >= 0 or awayteam.find('a&m') >= 0):
                     awayteam = awayteam.replace('&', '&amp;')
+                if(hometeam is 'Miami' or hometeam is 'miami'):
+                    hometeam = 'miami (fl)'
+                if(awayteam is 'Miami' or awayteam is 'miami'):
+                    awayteam = 'miami (fl)'
                 
                 submission = searchForGameThread(r, hometeam, awayteam, season)
                 if(submission == "NONE"):
@@ -892,8 +896,6 @@ def searchForGameThread(r, homeTeam, awayTeam, season):
            or submission.link_flair_text == "Week 10 Game Thread"):
             away = parseAwayTeam(submission.selftext).lower()
             home = parseHomeTeam(submission.selftext).lower()
-            print(home)
-            print(away)
         # If looking for season 4...
         if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
