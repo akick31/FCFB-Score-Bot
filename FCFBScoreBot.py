@@ -162,7 +162,7 @@ def loginDiscord(r):
                     #Work with new gist
                     if(season == "S4"):
                         # Get win probability
-                        curPossession = parsePossession()
+                        curPossession = parsePossession(submission.selftext)
                         if(curPossession == "home"):
                             curPossession = hometeam
                         else:
@@ -758,15 +758,22 @@ def parseDown(submissionbody):
     return down
 
 # Parse who has the ball    
-def parsePossession():
+def parsePossession(submissionbody):
     possession = "home"
+    if(len(submissionbody.split("___")) == 7):
+        # Get the time
+        possession = submissionbody.split("___")[4].split("\n")[4].split("|")[4].split("[")[0].split["["][1]
+    else:
+        possession = submissionbody.split("___")[4].split("\n")[4].split("|")[3].split("[")[0].split["["][1]
+    return possession
+    
     #Iterate through playlist file
-    with open('data.txt', 'r') as csvfile:
-        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
-        for row in reader:
-            if(row[0] != '--------------------------------------------------------------------------------'):
-                possession = row[5]
-        return possession
+    #with open('data.txt', 'r') as csvfile:
+    #    reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
+    #    for row in reader:
+    #        if(row[0] != '--------------------------------------------------------------------------------'):
+    #            possession = row[5]
+    #    return possession
     
 # Parse the time
 def parseTime(submissionbody):
