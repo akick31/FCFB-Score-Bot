@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sat May  9 18:10:08 2020
-
-@author: apkick
-"""
 
 
 import numpy as np
@@ -93,9 +88,9 @@ def loginDiscord(r):
                 await message.channel.send("Looking for the game thread...")
                 print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + hometeam + " vs " + awayteam)
                 
-                if(hometeam.find('&') >= 0):
+                if(hometeam.find('A&M') >= 0):
                     hometeam = hometeam.replace('&', '&amp;')
-                if(awayteam.find('&') >= 0):
+                if(awayteam.find('A&M') >= 0):
                     awayteam = awayteam.replace('&', '&amp;')
                 
                 submission = searchForGameThread(r, hometeam, awayteam, season)
