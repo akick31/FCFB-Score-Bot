@@ -759,9 +759,9 @@ def parsePossession(submissionbody):
     possession = "home"
     if(len(submissionbody.split("___")) == 7):
         # Get the time
-        possession = submissionbody.split("___")[4].split("\n")[4].split("|")[4].split("[")[0].split("[")[1]
+        possession = submissionbody.split("___")[4].split("\n")[4].split("|")[4].split("[")[0].split("[")[-1]
     else:
-        possession = submissionbody.split("___")[4].split("\n")[4].split("|")[3].split("[")[0].split("[")[1]
+        possession = submissionbody.split("___")[4].split("\n")[4].split("|")[3].split("[")[0].split("[")[-1]
     return possession
     
     #Iterate through playlist file
