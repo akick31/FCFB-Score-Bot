@@ -163,11 +163,15 @@ def loginDiscord(r):
                     if(season == "S4"):
                         # Get win probability
                         curPossession = parsePossession(submission.selftext)
+                        if(curPossession == "home"):
+                            curPossession = hometeam
+                        elif(curPossession == "away"):
+                            curPossession = awayteam
                         possessingTeamProbability = getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds)
                         if(curPossession == hometeam):
-                            curHomeWinProbability = 100 - possessingTeamProbability
-                        else:
                             curHomeWinProbability = possessingTeamProbability
+                        else:
+                            curHomeWinProbability = 100-possessingTeamProbability
                         curAwayWinProbability = 100-curHomeWinProbability
                         # Get other game data
                         curYardLine = parseYardLine(submission.selftext)
@@ -757,20 +761,14 @@ def parseDown(submissionbody):
 # Parse who has the ball    
 def parsePossession(submissionbody):
     possession = "home"
-    if(len(submissionbody.split("___")) == 7):
-        # Get the time
-        possession = submissionbody.split("___")[4].split("\n")[4].split("|")[4].split("]")[0].split("[")[-1]
-    else:
-        possession = submissionbody.split("___")[4].split("\n")[4].split("|")[3].split("]")[0].split("[")[-1]
-    return possession
     
     #Iterate through playlist file
-    #with open('data.txt', 'r') as csvfile:
-    #    reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
-    #    for row in reader:
-    #        if(row[0] != '--------------------------------------------------------------------------------'):
-    #            possession = row[5]
-    #    return possession
+    with open('data.txt', 'r') as csvfile:
+        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
+        for row in reader:
+            if(row[0] != '--------------------------------------------------------------------------------'):
+                possession = row[5]
+        return possession
     
 # Parse the time
 def parseTime(submissionbody):
