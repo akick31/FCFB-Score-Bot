@@ -291,10 +291,16 @@ def loginDiscord(r):
                 
                 await message.channel.send("Looking for the game thread...")
                 print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + hometeam + " vs " + awayteam)
+                
+                # Hard code inconsistencies 
                 if(hometeam.find('A&M') >= 0 or hometeam.find('a&m') >= 0):
                     hometeam = hometeam.replace('&', '&amp;')
                 if(awayteam.find('A&M') >= 0 or awayteam.find('a&m') >= 0):
                     awayteam = awayteam.replace('&', '&amp;')
+                if(hometeam == 'Miami' or hometeam == 'miami'):
+                    hometeam = 'miami (fl)'
+                if(awayteam == 'Miami' or awayteam == 'miami'):
+                    awayteam = 'miami (fl)'
                 
                 # Look for game thread
                 submission = searchForGameThread(r, hometeam, awayteam, season)
@@ -334,6 +340,11 @@ def loginDiscord(r):
                         hometeam = "Southern Miss"
                     elif(awayteam == "Southern Mississippi"):
                         awayteam = "Southern Miss"
+                        
+                    if(hometeam == 'Miami' or hometeam == 'miami'):
+                        hometeam = 'miami (fl)'
+                    if(awayteam == 'Miami' or awayteam == 'miami'):
+                        awayteam = 'miami (fl)'
                         
                     colorDictionary = getColorData()
                     teamcolorcolumn = colorDictionary[1]
