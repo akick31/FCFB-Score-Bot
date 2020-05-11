@@ -163,10 +163,6 @@ def loginDiscord(r):
                     if(season == "S4"):
                         # Get win probability
                         curPossession = parsePossession(submission.selftext)
-                        if(curPossession == "home"):
-                            curPossession = hometeam
-                        else:
-                            curPossession = awayteam
                         possessingTeamProbability = getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds)
                         if(curPossession == hometeam):
                             curHomeWinProbability = possessingTeamProbability
@@ -420,14 +416,15 @@ def getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds):
                 expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                 
                 # Parse the win probability
-                if(row[5] == "home"):
+                if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
+                    or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
                     winProbability.append(curWinProbability)
-                if(row[5] == "away"):
+                if((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
+                    or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 
-        
         return winProbability[-1]
     
 # Iterate through the data for the plots
