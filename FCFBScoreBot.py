@@ -888,6 +888,7 @@ def parseAwayScore(submissionbody):
 # Parse the home team
 def parseHomeTeam(submissionbody):
     homeTeam = "blank"
+    print(len(submissionbody.split("___")))
     if(len(submissionbody.split("___")) == 7):
         # Get the scoreboard portion of the submission
         scoreboard = submissionbody.split("___")[5].split("\n")
