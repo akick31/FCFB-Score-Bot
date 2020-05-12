@@ -1088,7 +1088,7 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
             homeUser = comment.body.split("The game has started!")[1].split(",")[0].strip()
             awayUser = comment.body.split("The game has started!")[1].split(",")[1].split("home. ")[1].strip()
         # Look through top level comment
-        if(comment.author == 'NFCAAOfficialRefBot' and 'has submitted their' in comment.body):
+        if(comment.author == 'NFCAAOfficialRefBot' and 'has submitted their' in comment.body and OTFlag != 1):
             # Get the clock and quarter
             clock = comment.body.split("left in the")[0].split("on the")[-1].split(". ")[-1]
             quarter = comment.body.split("left in the ")[1].split(".")[0]
