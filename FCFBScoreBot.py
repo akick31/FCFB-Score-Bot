@@ -175,7 +175,10 @@ def loginDiscord(r):
                         curDown = parseDown(submission.selftext)
                         curTime = parseTime(submission.selftext)
                         # If game is final, display that
-                        curClock = curTime + " " + curQuarter 
+                        if(curQuarter == "OT"):
+                            curClock = "OT"
+                        else:
+                            curClock = str(curTime) + " " + str(curQuarter) 
                         
                     if("Game complete" in submission.selftext):
                         if(season == "S4"):
@@ -413,6 +416,80 @@ def loginDiscord(r):
         print('------')
 
     client.run(token)
+
+# Calculate win probability
+def calculateWinProbability(expectedPoints, quarter, time, teamScore, opponentScore, down, distance, yardLine, playType, vegasLine):  
+    if(time == 0):
+        time = 0.00001
+    minutesInQuarter = time/60
+    minutesRemaining = 28
+    if(int(quarter) == 1):
+        minutesRemaining = 28-(7-minutesInQuarter)
+    elif(int(quarter) == 2):
+        minutesRemaining = 21-(7-minutesInQuarter)
+    elif(int(quarter) == 3):
+        minutesRemaining = 14-(7-minutesInQuarter)
+    elif(int(quarter) == 4):
+        minutesRemaining = 7-(7-minutesInQuarter)
+    else:
+        minutesRemaining = 2
+    
+    if(minutesRemaining < 0):
+        minutesRemaining = 0.01
+        
+    opponentMargin = opponentScore - teamScore
+    opponentMargin = opponentMargin - expectedPoints
+        
+    stdDev = (13.45/math.sqrt((28/minutesRemaining)))
+        
+    winProbability = ((1-norm.cdf(((opponentMargin)+0.5),(-vegasLine*(minutesRemaining/28)),stdDev))
+    +(0.5*(norm.cdf(((opponentMargin)+0.5), (-vegasLine*(minutesRemaining/28)), stdDev)
+    - norm.cdf(((opponentMargin)-0.5),(-vegasLine*(minutesRemaining/28)), stdDev))))
+    
+    return winProbability
+    
+# Calculate the expected points
+def calculateExpectedPoints(down, distance, yardLine, playType):
+    if ((playType == 'PAT') or (playType == 'TWO_POINT')):
+        return 0.952
+        
+    if ("KICKOFF" in playType):
+        return 0 - calculateExpectedPoints(1, 10, 25, "EMPTY")
+    
+    intercept = 0
+    slope = 0
+    avgDist = 0
+    distanceDiff = 0
+    
+    if(down == 1):
+        avgDist = 10
+        intercept = 2.43
+        slope = 0.0478
+        distanceDiff = distance - avgDist
+        intercept = (distanceDiff / -10) + intercept
+    elif(down == 2):
+        avgDist = 7.771
+        intercept = 2.07
+        distanceDiff = distance - avgDist
+        intercept = (distanceDiff / -10) + intercept
+        slope = (distanceDiff * 0.0015) + 0.055
+    elif(down == 3):
+        avgDist = 6.902
+        intercept = 1.38
+        distanceDiff = distance - avgDist
+        intercept = (distanceDiff / -10) + intercept
+        slope = (distanceDiff * 0.0015) + 0.055
+    elif(down == 4):
+        avgDist = 6.864
+        intercept = -0.03
+        distanceDiff = distance - avgDist
+        intercept = (distanceDiff / -10) + intercept
+        slope = (distanceDiff * 0.0015) + 0.055
+    
+    if(down == 1):
+        return intercept + (slope * (yardLine - 50)) + (((yardLine - 50) ** 3) / 100000) + max(0, (((1.65 ** 0.2) ** (yardLine - 94)) - 1) * (4))
+    return intercept + (slope * (yardLine - 50)) + (((yardLine - 50) ** 3) / 100000) + max(0, (((1.65 ** 0.2) ** (yardLine - 94)) - 1) * (down/4))
+
  
 # Get the current win probability for the current play
 def getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds):
@@ -424,52 +501,75 @@ def getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds):
         for row in reader:
             if(row[0] != '--------------------------------------------------------------------------------'):
                 quarter = int(row[2])
-                time = int(row[3])
+                if(row[16] != ""):
+                    time = int(row[3]) - int(row[17]) - int(row[16])
+                else:
+                    time = int(row[3]) 
                 down = int(row[6])
                 distance = int(row[7])
-                yardLine = int(row[4])       
+                if(row[15] != "" and int(row[15]) >= int(distance)):
+                    down = 1
+                    distance = 10
+                elif(row[15] != "" and int(row[15]) < int(distance) and int(down) != 4):
+                    down = int(down) + 1
+                    distance = int(distance) - int(row[15])
+                if(row[15] != ""):
+                    yardLine = int(row[4]) + int(row[15])  
+                else:
+                    yardLine = int(row[4])
                 playType = row[12]
-                expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                 
                 # Parse the win probability
                 
                 if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
                     or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
                     or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 # Handle if points were scored
                 if(row[5] == "home" and row[14] == "TOUCHDOWN"):
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 6, int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
+                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 6, int(row[1]), down, distance, yardLine, "PAT", homeVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if(row[5] == "away" and row[14] == "TOUCHDOWN"):
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 6, int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
+                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 6, int(row[0]), down, distance, yardLine, "PAT", awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if(row[5] == "home" and row[14] == "FIELD GOAL"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 3, int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if(row[5] == "away" and row[14] == "FIELD GOAL"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 3, int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if(row[5] == "home" and row[14] == "PAT"):
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 1, int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 1, int(row[1]), down, distance, yardLine, "KICKOFF", homeVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if(row[5] == "away" and row[14] == "PAT"):
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 1, int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 1, int(row[0]), down, distance, yardLine, "KICKOFF", awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if(row[5] == "home" and row[14] == "TWO POINT"):
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 2, int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 2, int(row[1]), down, distance, yardLine, "KICKOFF", homeVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if(row[5] == "away" and row[14] == "TWO POINT"):
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 2, int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 2, int(row[0]), down, distance, yardLine, "KICKOFF", awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if(row[5] == "home" and row[14] == "SAFETY"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]) + 2, down, distance, yardLine, playType, homeVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 if(row[5] == "away" and row[14] == "SAFETY"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]) + 2, down, distance, yardLine, playType, awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
                 
@@ -485,16 +585,24 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
     xList = []
     playCount = 1
     OTFlag = 0
-    dottedCount = 0
     curHomeScore = 0
     curAwayScore = 0
     
     #Iterate through playlist file
-    with open('data.txt', 'r') as csvfile:
-        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
+    with open('data.txt', 'r+') as csvfile:
+        lines = csvfile.readlines()
+        csvfile.seek(0)
+        rowCount = 1
+        for line in lines:
+            if line == '--------------------------------------------------------------------------------':
+                csvfile.remove(line)
+            else:
+                rowCount = rowCount + 1
+        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')  
+        currentRow = 1
         for row in reader:
+            currentRow = currentRow + 1
             if(row[0] != '--------------------------------------------------------------------------------'):
-                dottedCount = 0
                 homeScore.append(int(row[0])) 
                 awayScore.append(int(row[1]))
                 curHomeScore = int(row[0])
@@ -515,6 +623,19 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                 
                 expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
             
+                if(rowCount == currentRow):
+                    if(curHomeScore > curAwayScore):
+                        homeWinProbability.append(100)
+                        curHomeWinProbability = 100
+                        awayWinProbability.append(0)
+                        curAwayWinProbability = 0
+                        break
+                    elif(curHomeScore < curAwayScore):
+                        awayWinProbability.append(100)
+                        curAwayWinProbability = 100
+                        homeWinProbability.append(0)
+                        curHomeWinProbability = 0
+                        break   
                 # Parse the win probability
                 if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
                     or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
@@ -527,11 +648,9 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                     curAwayWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
                     curHomeWinProbability = 100 - curAwayWinProbability
                     awayWinProbability.append(curAwayWinProbability)
-                    homeWinProbability.append(curHomeWinProbability)
-            else:
-                dottedCount = dottedCount + 1
+                    homeWinProbability.append(curHomeWinProbability)  
             # Handle OT so that winner is at 100%
-            if(dottedCount == 2 and OTFlag == 1):
+            if(rowCount == currentRow and OTFlag == 1):
                 if(curHomeScore > curAwayScore):
                     homeWinProbability.append(100)
                     curHomeWinProbability = 100
@@ -689,83 +808,9 @@ def convert(seconds):
       
     return "%02d:%02d" % (minutes, seconds) 
    
-# Calculate win probability
-def calculateWinProbability(expectedPoints, quarter, time, teamScore, opponentScore, down, distance, yardLine, playType, vegasLine):  
-    if(time == 0):
-        time = 0.00001
-    minutesInQuarter = time/60
-    minutesRemaining = 28
-    if(quarter == 1):
-        minutesRemaining = 28-(7-minutesInQuarter)
-    elif(quarter == 2):
-        minutesRemaining = 21-(7-minutesInQuarter)
-    elif(quarter == 3):
-        minutesRemaining = 14-(7-minutesInQuarter)
-    elif(quarter == 4):
-        minutesRemaining = 7-(7-minutesInQuarter)
-    else:
-        minutesRemaining = 2
-    
-    if(minutesRemaining < 0):
-        minutesRemaining = 0.01
-        
-    opponentMargin = opponentScore - teamScore
-    opponentMargin = opponentMargin - expectedPoints
-        
-    stdDev = (13.45/math.sqrt((28/minutesRemaining)))
-        
-    winProbability = ((1-norm.cdf(((opponentMargin)+0.5),(-vegasLine*(minutesRemaining/28)),stdDev))
-    +(0.5*(norm.cdf(((opponentMargin)+0.5), (-vegasLine*(minutesRemaining/28)), stdDev)
-    - norm.cdf(((opponentMargin)-0.5),(-vegasLine*(minutesRemaining/28)), stdDev))))
-    
-    return winProbability
-    
-# Calculate the expected points
-def calculateExpectedPoints(down, distance, yardLine, playType):
-    if ((playType == 'PAT') or (playType == 'TWO_POINT')):
-        return 0.952
-        
-    if ("KICKOFF" in playType):
-        return 0 - calculateExpectedPoints(1, 10, 25, "EMPTY")
-    
-    intercept = 0
-    slope = 0
-    avgDist = 0
-    distanceDiff = 0
-    
-    if(down == 1):
-        avgDist = 10
-        intercept = 2.43
-        slope = 0.0478
-        distanceDiff = distance - avgDist
-        intercept = (distanceDiff / -10) + intercept
-    elif(down == 2):
-        avgDist = 7.771
-        intercept = 2.07
-        distanceDiff = distance - avgDist
-        intercept = (distanceDiff / -10) + intercept
-        slope = (distanceDiff * 0.0015) + 0.055
-    elif(down == 3):
-        avgDist = 6.902
-        intercept = 1.38
-        distanceDiff = distance - avgDist
-        intercept = (distanceDiff / -10) + intercept
-        slope = (distanceDiff * 0.0015) + 0.055
-    elif(down == 4):
-        avgDist = 6.864
-        intercept = -0.03
-        distanceDiff = distance - avgDist
-        intercept = (distanceDiff / -10) + intercept
-        slope = (distanceDiff * 0.0015) + 0.055
-    
-    if(down == 1):
-        return intercept + (slope * (yardLine - 50)) + (((yardLine - 50) ** 3) / 100000) + max(0, (((1.65 ** 0.2) ** (yardLine - 94)) - 1) * (4))
-    return intercept + (slope * (yardLine - 50)) + (((yardLine - 50) ** 3) / 100000) + max(0, (((1.65 ** 0.2) ** (yardLine - 94)) - 1) * (down/4))
-
 # Parse the quarter
 def parseQuarter(submissionbody):
     if(len(submissionbody.split("___")) == 7):
-        # Get the quarter
         quarter = submissionbody.split("___")[4].split("\n")[4].split("|")[1].split(" ")[0]
     else:
         quarter = submissionbody.split("___")[4].split("\n")[3].split("|")[1].split(" ")[0]
@@ -776,7 +821,9 @@ def parseQuarter(submissionbody):
     elif quarter == "3":
         return "3Q"
     elif quarter == "4":
-        return "4Q"    
+        return "4Q" 
+    else:
+        return "OT"
  
 # Parse the current yard line
 def parseYardLine(submissionbody):
@@ -834,6 +881,11 @@ def parseHomeScore(submissionbody):
         scoreboard = submissionbody.split("___")[5].split("\n")
         # Parse the home team's score
         homeTeamScore = scoreboard[4].split("**")[1]
+    elif(len(submissionbody.split("___")) == 6):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[5].split("\n")
+        # Parse the home team's score
+        homeTeamScore = scoreboard[4].split("**")[1]
     elif(len(submissionbody.split("___")) == 5):
         # Get the scoreboard portion of the submission
         scoreboard = submissionbody.split("___")[4].split("\n")
@@ -859,6 +911,11 @@ def parseHomeScore(submissionbody):
 # Parse the away score
 def parseAwayScore(submissionbody):
     if(len(submissionbody.split("___")) == 7):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[5].split("\n")
+        # Parse the second team and their score
+        awayTeamScore = scoreboard[5].split("**")[1]
+    elif(len(submissionbody.split("___")) == 6):
         # Get the scoreboard portion of the submission
         scoreboard = submissionbody.split("___")[5].split("\n")
         # Parse the second team and their score
@@ -895,6 +952,12 @@ def parseHomeTeam(submissionbody):
         # Parse the first team and their score
         homeTeam = scoreboard[4].split("]")[0]
         homeTeam = homeTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 6):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[5].split("\n")
+        # Parse the first team and their score
+        homeTeam = scoreboard[4].split("]")[0]
+        homeTeam = homeTeam.replace('[', '')
     elif(len(submissionbody.split("___")) == 5):
         # Get the scoreboard portion of the submission
         scoreboard = submissionbody.split("___")[4].split("\n")
@@ -924,6 +987,12 @@ def parseHomeTeam(submissionbody):
 def parseAwayTeam(submissionbody):
     awayTeam = "blank"
     if(len(submissionbody.split("___")) == 7):
+        # Get the scoreboard portion of the submission
+        scoreboard = submissionbody.split("___")[5].split("\n")
+        # Parse the second team and their score
+        awayTeam = scoreboard[5].split("]")[0]
+        awayTeam = awayTeam.replace('[', '')
+    elif(len(submissionbody.split("___")) == 6):
         # Get the scoreboard portion of the submission
         scoreboard = submissionbody.split("___")[5].split("\n")
         # Parse the second team and their score
@@ -981,10 +1050,15 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request):
                or submission.link_flair_text == "Week 10 Game Thread"):
                 away = parseAwayTeam(submission.selftext).lower()
                 home = parseHomeTeam(submission.selftext).lower()
+                print(submission.title)
+                print(submission.link_flair_text)
                 print(away)
                 print(home)
                 print(awayTeam)
                 print(homeTeam)
+                print(day)
+                print(month)
+                print(year)
                 print("\n")
             # If looking for season 4...
             if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
@@ -1007,12 +1081,23 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request):
                or submission.link_flair_text == "Week 10 Game Thread"):
                 away = parseAwayTeam(submission.selftext).lower()
                 home = parseHomeTeam(submission.selftext).lower()
+                if("–" in away):
+                    away = away.replace('–', '-')
+                elif("–" in home):
+                    home = home.replace('–', '-')
                 print(submission.title)
                 print(submission.link_flair_text)
+                print(away == homeTeam)
+                print(away == awayTeam)
+                print(home == homeTeam)
+                print(home == awayTeam)
                 print(away)
                 print(home)
                 print(awayTeam)
                 print(homeTeam)
+                print(day)
+                print(month)
+                print(year)
                 print("\n")
             # If looking for season 4...
             if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
@@ -1110,6 +1195,7 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
             homeUser = comment.body.split("The game has started!")[1].split(",")[0].strip()
             awayUser = comment.body.split("The game has started!")[1].split(",")[1].split("home. ")[1].strip()
         # Look through top level comment
+        print(comment.author)
         if(comment.author == 'NFCAAOfficialRefBot' and 'has submitted their' in comment.body and OTFlag != 1):
             # Get the clock and quarter
             clock = comment.body.split("left in the")[0].split("on the")[-1].split(". ")[-1]
@@ -1180,10 +1266,13 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                 elif(possessionUser == awayUser):
                     possession = "away"
             for secondLevelComment in comment.replies:
-                # Look through second level comment     
+                print(secondLevelComment.author)
+                # Look through second level comment  
                 if(" and " in homeUser):
                     homeUser1 = homeUser.split(" and ")[0]
                     homeUser2 = homeUser.split(" and ")[1]
+                    print(homeUser1)
+                    print(homeUser2)
                 else:
                     homeUser1 = homeUser
                     homeUser2 = "BLANK USER"

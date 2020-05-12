@@ -1,547 +1,98 @@
-0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-5VVPHVN');</script>
-    <!-- End Google Tag Manager -->
-
-    
-
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Thread summary - Pastebin.com</title>
-		<link rel="shortcut icon" href="/favicon.ico" />
-		<script src="/js/jquery.min.js"></script>
-		<script src="/js/pastebin.min.v3.js"></script>
-            
-            
-		<link href="/i/pastebin.min.v9.css?1588178291" rel="stylesheet" type="text/css" />
-		<!--[if lt IE 10]>
-			<link href="/i/pastebin.ie8.css" rel="stylesheet" type="text/css" />
-		<![endif]-->
-
-
-			<link href="/cache/css_lang/text.css" rel="stylesheet" type="text/css" /> 
-		<style>body{-webkit-text-size-adjust:none;}</style>
-				<meta property="fb:app_id" content="231493360234820" />
-		<meta property="og:title" content="Thread summary - Pastebin.com" />
-		<meta property="og:type" content="article" />
-		<meta property="og:url" content="https://pastebin.com/BhJqeWXB" />
-		<meta property="og:image" content="https://pastebin.com/i/facebook.png" />
-		<meta property="og:site_name" content="Pastebin" />
-		<meta name="google-site-verification" content="jkUAIOE8owUXu8UXIhRLB9oHJsWBfOgJbZzncqHoF4A" />
-		<link rel="canonical" href="https://pastebin.com/BhJqeWXB" />
-				<meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=1.0, user-scalable=yes">
-		<script type="text/javascript">
-			if (top != self)
-				top.location.href = location.href;
-		</script>
-
-                                <!--<script type="text/javascript" src="https://cdn.bidder.dev/clients/StreamAMP/pastebin/sa-script.js"></script>-->
-            </head>
-	<body>
-
-            <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5VVPHVN"
-                          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
-    
-	<div id="main_frame">
-		<div id="jq-dropdown-1" class="jq-dropdown jq-dropdown-anchor-right jq-dropdown-scroll">
-			<ul class="jq-dropdown-menu">
-				
-				<li onclick="location.href='/signup'" class="dd_su">Sign Up</li>
-				<li onclick="location.href='/login'" class="dd_lo">Login</li>
-				<li class="lih_div"></li>
-				<li onclick="location.href='/api'" class="lih_640">API</li>
-				<li onclick="location.href='/faq'" class="lih_640">FAQ</li>
-				<li onclick="location.href='/tools'" class="lih_640">Tools</li>
-				<li onclick="location.href='/archive'" class="lih_640">Archive</li>			</ul>
-		</div>
-		<div id="header">
-			<div id="header_wrap">
-				<div id="header_top">
-					<div id="header_logo" onclick="location.href='/'">PASTEBIN</div>
-                    <div id="header_links">
-                                                    <a href="/pro" class="mmh">GO <img src="/i/t.gif" alt="" class="header_pro_btn"></a>
-                        
-                        <a href="/api" class="mmh">API</a>
-                        <a href="/tools" class="mmh">TOOLS</a>
-                        <a href="/faq" class="mmh">FAQ</a>
-                        <a href="https://deals.pastebin.com" target="_blank" class="mmh">DEALS</a>
-                    </div>
-                    <!--
-                    <div id="header_search">
-                        <form class="search_form" name="search_form" method="get" action="/search" id="cse-search-box">
-                            <input class="search_input" type="text" name="q" size="5" value="" placeholder="Search..." />
-                        </form>
-                    </div>
-                    -->
-                    <div id="header_new_paste" class="new_paste_button" onclick="location.href='/'">paste</div>
-                    
-			<div class="header_sign">
-				<a href="/login" class="btn-sign sign-in">SIGN IN</a>
-				<a href="/signup" class="btn-sign sign-up">SIGN UP</a>
-			</div>				</div>
-			</div>
-		</div>
-		<div id="super_frame">
-			<div id="monster_frame">
-				<div id="content_frame">
-					<div id="content_right">						
-
-	<div class="content_right_menu">
-									<div class="content_right_title"><a href="/archive">Public Pastes</a></div>
-									<div id="menu_2">
-										<ul class="right_menu"><li><a href="/nD58uXXW">Untitled</a><span>C++ | 24 min ago</span></li><li><a href="/D4M6KHA3">aparteror</a><span>C++ | 25 min ago</span></li><li><a href="/yQKwcRR9">bc.pl</a><span>Perl | 42 min ago</span></li><li><a href="/bcWHfqwj">descript</a><span>Lua | 1 hour ago</span></li><li><a href="/yrqqvgcz">Zakra transparent ...</a><span>CSS | 1 hour ago</span></li><li><a href="/J3ZnL1HF">cl_base.h</a><span>C++ | 2 hours ago</span></li><li><a href="/y4AT5KSi">main.cpp</a><span>C++ | 2 hours ago</span></li><li><a href="/bT0X01ic">Reactor_Controller</a><span>Lua | 2 hours ago</span></li></ul></div></div>	<div id="abrpm2"></div>
-	
-<div id="steadfast" title="Pastebin is proudly hosted by Steadfast.net" onclick="location.href='http://steadfast.net/?utm_source=pastebin.com&amp;utm_medium=referral&amp;utm_content=hosting_by_banner&amp;utm_campaign=referral_20140118_x_x_pastebin_partner&amp;source=referral_20140118_x_x_pastebin_partner'"></div>
-	</div>
-	<div id="content_left"><div id="ie_msg"></div>
-					
-		
-	<div class="paste_box_frame">
-		<div class="tweet h_800">
-			<div onclick="facebookpopup('/BhJqeWXB/raw'); return false;" id="b_facebook2" title="Share on Facebook!"><span id="b_facebook">SHARE</span></div>
-			<div onclick="twitpopup('/BhJqeWXB/raw'); return false;" id="b_twitter2" title="Share on Twitter!"><span id="b_twitter">TWEET</span></div>
-		</div>
-		<div class="paste_box_icon">
-			<img src="/i/t.gif" class="i_gb" title="Anonymous guest user" alt="" />
-		</div>
-		<div class="paste_box_info">
-			<div class="paste_box_line1" title="Thread summary"><h1>Thread summary</h1></div>
-			<div class="paste_box_line2">
-				<img src="/i/t.gif" class="img_line t_us" alt="" style="margin-left:0"> a guest 
-				<img src="/i/t.gif" class="img_line t_da" alt=""> <span title="Friday 30th of November 2018 09:32:05 PM CDT">Nov 30th, 2018</span>
-				<img src="/i/t.gif" class="img_line t_vi" alt="" title="Unique visits to this paste"> 91
-				<img src="/i/t.gif" class="img_line t_ex" alt="" title="When this paste gets automatically deleted"> Never
-			</div>
-		</div>
-	</div>
-	
-			<div class="banner_728">
-				<a href="/doc_ads" target="_blank"><img src="adserver/i/pastebin_special_728x90.jpg" width="728" height="90" border="0" alt="" /></a>
-			</div>
-			<div class="layout_clear"></div>
-			<div class="content_text no_padding">
-				<div id="notice" style="margin: 0 0 10px 0">
-					<b>Not a member of Pastebin yet?</b> <a href="/signup"><b><u>Sign Up</u></b></a>, it unlocks many cool features!
-				</div>
-			</div>
-	<div id="code_frame2">
-		<div id="code_frame">
-			<div id="code_buttons">
-				<span class="go_right">
-					<a href="/raw/BhJqeWXB" class="buttonsm">raw</a><a href="/dl/BhJqeWXB" class="buttonsm">download</a><a href="/index/BhJqeWXB" class="buttonsm buttonhide">clone</a><a href="/embed/BhJqeWXB" class="buttonsm buttonhide">embed</a><a href="/report/BhJqeWXB" class="buttonsm">report</a><a href="/print/BhJqeWXB" class="buttonsm buttonhide">print</a>
-				</span>
-				<span class="h_640"><a href="/archive/text" class="buttonsm" style="margin:0">text</a></span> 13.94 KB
-			</div>
-			<div id="selectable">
-				<ol class="text"><li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 800, 751 | home</div></li>
-<li class="li1"><div class="de1">Play.RUN = Result.GAIN = Result.GAIN, 1 | 1 and 10 on 20 | 3 | 69, 1100 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 19 | 2 and 9 on 21 | 8 | 21, 1419 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, -10 | 1 and 10 on 40 | 10 | 10, 790 | away</div></li>
-<li class="li2"><div class="de2">Play.RUN = Result.GAIN = Result.GAIN, 1 | 2 and 20 on 30 | 3 | 741, 250 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 35 | 3 and 19 on 31 | 9 | 508, 450 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 20 | 1 and 10 on 66 | 8 | 88, 1 | away</div></li>
-<li class="li1"><div class="de1">Play.RUN = Result.TURNOVER_TOUCHDOWN = Result.TURNOVER_TOUCHDOWN, 86 | 1 and 10 on 86 | 25 | 2, 751 | away</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 81, 5 | home</div></li>
-<li class="li2"><div class="de2">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 7 | 1000, 22 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 70 | 1 and 10 on 30 | 12 | 1221, 1250 | away</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.KICKOFF = Result.KICKOFF, None | 1 and 10 on 97 | 0 | 7, 751 | away</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 218, 1475 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 75 | 1 and 10 on 25 | 12 | 78, 79 | home</div></li>
-<li class="li2"><div class="de2">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1131, 1500 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 25 | 1 and 10 on 35 | 9 | 1000, 178 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 40 | 5 | 900, 350 | away</div></li>
-<li class="li1"><div class="de1">Play.RUN = Result.GAIN = Result.GAIN, -3 | 2 and 10 on 40 | 5 | 1, 827 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 35 | 3 and 13 on 37 | 9 | 101, 150 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.GAIN, -1 | 1 and 10 on 72 | 4 | 781, 150 | away</div></li>
-<li class="li1"><div class="de1">Play.RUN = Result.GAIN = Result.GAIN, 0 | 2 and 11 on 71 | 2 | 1400, 500 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, -3 | 3 and 11 on 71 | 4 | 500, 1170 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TURNOVER, None | 4 and 14 on 68 | 10 | 750, 380 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 65 | 1 and 10 on 29 | 11 | 25, 56 | home</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 94 | 5 | 1105, 75 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 10 on 94 | 5 | 975, 22 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 6 | 3 and 10 on 94 | 6 | 1405, 100 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1469, 619 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_SQUIB = Result.GAIN = Result.GAIN, 30 | 1 and 10 on 35 | 3 | 9, 1499 | home</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 35 | 1 and 10 on 65 | 9 | 125, 99 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 331, 22 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 3 | 1493, 44 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 13 | 1 and 10 on 30 | 7 | 77, 250 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 30 | 1 and 10 on 43 | 9 | 888, 827 | away</div></li>
-<li class="li2"><div class="de2">Play.RUN = Result.GAIN = Result.GAIN, -5 | 1 and 10 on 73 | 10 | 22, 827 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 15 on 68 | 5 | 231, 1150 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 32 | 3 and 15 on 68 | 9 | 590, 600 | away</div></li>
-<li class="li1"><div class="de1">Play.TWO_POINT = Result.KICKOFF = Result.KICKOFF, None | 1 and 10 on 97 | 0 | 1000, 1 | away</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 7 | 600, 25 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.GAIN, 35 | 1 and 10 on 30 | 9 | 1475, 20 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 11 | 1 and 10 on 65 | 7 | 175, 1 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 17 | 1 and 10 on 76 | 7 | 1425, 22 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 7 | 1 and 10 on 93 | 6 | 125, 1456 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 231, 55 | home</div></li>
-<li class="li2"><div class="de2">Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 20 | 1 and 10 on 35 | 9 | 9, 863 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 7 | 1 and 10 on 45 | 6 | 77, 365 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 48 | 2 and 3 on 52 | 10 | 79, 77 | away</div></li>
-<li class="li1"><div class="de1">Play.TWO_POINT = Result.TURNOVER_PAT = Result.TURNOVER_PAT, None | 1 and 10 on 97 | 0 | 2, 751 | away</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 25, 1480 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.GAIN, 4 | 1 and 10 on 20 | 5 | 45, 1200 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 76 | 2 and 6 on 24 | 12 | 105, 99 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.KICKOFF = Result.KICKOFF, None | 1 and 10 on 97 | 0 | 811, 77 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 420, 618 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TURNOVER = Result.TURNOVER, None | 1 and 10 on 25 | 15 | 12, 751 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.GAIN, 19 | 1 and 10 on 75 | 8 | 125, 45 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 6 | 1 and 10 on 94 | 6 | 275, 1500 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 381, 2 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 3 | 9, 32 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 0 | 1 and 10 on 30 | 3 | 871, 250 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.GAIN, 40 | 2 and 10 on 30 | 9 | 781, 827 | away</div></li>
-<li class="li1"><div class="de1">Play.RUN = Result.GAIN = Result.TOUCHDOWN, 30 | 1 and 10 on 70 | 11 | 781, 827 | away</div></li>
-<li class="li1"><div class="de1">Play.TWO_POINT = Result.TWO_POINT = Result.TWO_POINT, None | 1 and 10 on 97 | 0 | 671, 751 | away</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 25 | 1 and 10 on 35 | 9 | 881, 25 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 40 | 5 | 1475, 891 | home</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 10 on 40 | 5 | 875, 1499 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 15 | 3 and 10 on 40 | 7 | 1475, 89 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 55 | 5 | 875, 1 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 5 | 2 and 10 on 55 | 6 | 74, 400 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 4 | 3 and 5 on 60 | 5 | 395, 750 | home</div></li>
-<li class="li2"><div class="de2">Play.RUN = Result.GAIN = Result.GAIN, 1 | 4 and 1 on 64 | 3 | 995, 2 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 35 | 1 and 10 on 65 | 9 | 77, 77 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1131, 22 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 20 | 1 and 10 on 35 | 9 | 743, 77 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 20 | 1 and 10 on 45 | 8 | 88, 1 | away</div></li>
-<li class="li2"><div class="de2">Play.RUN = Result.GAIN = Result.GAIN, 0 | 1 and 10 on 65 | 2 | 1400, 500 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 12 | 2 and 10 on 65 | 7 | 642, 827 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 77 | 5 | 88, 650 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 4 | 2 and 10 on 77 | 5 | 5, 1150 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, -5 | 3 and 6 on 81 | 5 | 40, 838 | away</div></li>
-<li class="li2"><div class="de2">Play.FIELD_GOAL = Result.FIELD_GOAL = Result.FIELD_GOAL, None | 4 and 11 on 76 | 5 | 880, 1150 | away</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 25 | 1 and 10 on 35 | 9 | 99, 795 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 19 | 1 and 10 on 40 | 8 | 84, 1 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 59 | 5 | 46, 570 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 41 | 2 and 10 on 59 | 9 | 45, 50 | home</div></li>
-<li class="li2"><div class="de2">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 281, 12 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 3 | 83, 16 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 11 | 1 and 10 on 30 | 7 | 632, 838 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 35 | 1 and 10 on 41 | 4 | 800, 751 | away</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 632, 837 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 25 | 5 | 675, 1200 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 75 | 2 and 10 on 25 | 12 | 45, 21 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 431, 88 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_ONSIDE = Result.KICK = Result.KICK, 10 | 1 and 10 on 35 | 3 | 45, 862 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 8 | 1 and 10 on 55 | 6 | 881, 1150 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 37 | 2 and 2 on 63 | 9 | 99, 141 | away</div></li>
-<li class="li1"><div class="de1">Play.TWO_POINT = Result.TWO_POINT = Result.TWO_POINT, None | 1 and 10 on 97 | 0 | 1000, 838 | away</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_ONSIDE = Result.KICK = Result.KICK, 10 | 1 and 10 on 35 | 3 | 452, 835 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 45 | 1 and 10 on 55 | 10 | 125, 121 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 631, 1 | home</div></li>
-<li class="li2"><div class="de2">Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 435, 81 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, -1 | 1 and 10 on 25 | 4 | 891, 250 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 5 | 2 and 11 on 24 | 6 | 100, 1270 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TURNOVER_TOUCHDOWN = Result.TURNOVER_TOUCHDOWN, 29 | 3 and 6 on 29 | 25 | 100, 849 | away</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1031, 11 | home</div></li>
-<li class="li2"><div class="de2">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 99, 1500 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TURNOVER_TOUCHDOWN = Result.TURNOVER_TOUCHDOWN, 20 | 1 and 10 on 20 | 25 | 1500, 750 | away</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1031, 88 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 7 | 1000, 77 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 5 | 1 and 10 on 30 | 6 | 1499, 1150 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.GAIN, 30 | 2 and 5 on 35 | 9 | 891, 827 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 10 | 1 and 10 on 65 | 7 | 981, 750 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 9 | 1 and 10 on 75 | 7 | 999, 750 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 16 | 2 and 1 on 84 | 7 | 91, 149 | away</div></li>
-<li class="li1"><div class="de1">Play.TWO_POINT = Result.KICKOFF = Result.KICKOFF, None | 1 and 10 on 97 | 0 | 991, 149 | away</div></li>
-<li class="li2"><div class="de2">Play.KICKOFF_ONSIDE = Result.KICK = Result.KICK, 10 | 1 and 10 on 35 | 3 | 1, 735 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 45 | 1 and 10 on 55 | 10 | 71, 99 | home</div></li>
-<li class="li1"><div class="de1">Play.TWO_POINT = Result.TWO_POINT = Result.TWO_POINT, None | 1 and 10 on 97 | 0 | 298, 2 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 25 | 1 and 10 on 35 | 9 | 999, 99 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 17 | 1 and 10 on 40 | 7 | 871, 750 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 57 | 5 | 1200, 131 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 10 on 57 | 5 | 881, 450 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 3 and 10 on 57 | 5 | 1400, 850 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.TURNOVER, None | 4 and 10 on 57 | 5 | 700, 250 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 30 | 1 and 10 on 43 | 9 | 45, 99 | home</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 73 | 5 | 65, 600 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 13 | 2 and 10 on 73 | 7 | 925, 781 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 14 | 1 and 10 on 86 | 7 | 55, 2 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 231, 5 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 99, 55 | home</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 20 | 5 | 55, 450 | away</div></li>
-<li class="li1"><div class="de1">Play.RUN = Result.TURNOVER = Result.TURNOVER, None | 2 and 10 on 20 | 15 | 44, 805 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 20 | 1 and 10 on 80 | 8 | 1475, 4 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1431, 886 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 7 | 999, 52 | home</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.GAIN, -3 | 1 and 10 on 30 | 4 | 1475, 805 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 11 | 2 and 13 on 27 | 7 | 1001, 1200 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 5 | 3 and 2 on 38 | 6 | 1411, 250 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 57 | 1 and 10 on 43 | 10 | 805, 805 | away</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 245, 55 | away</div></li>
-<li class="li2"><div class="de2">Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 2, 254 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 4 | 1 and 10 on 25 | 5 | 80, 1221 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 25 | 2 and 6 on 29 | 8 | 1445, 5 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 46 | 1 and 10 on 54 | 10 | 25, 5 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1465, 1 | home</div></li>
-<li class="li2"><div class="de2">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 55, 13 | home</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 20 | 5 | 266, 666 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 10 on 20 | 5 | 1421, 1016 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 0 | 3 and 10 on 20 | 3 | 1368, 752 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TURNOVER, None | 4 and 10 on 20 | 10 | 509, 225 | away</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.TOUCHDOWN, 27 | 1 and 10 on 73 | 8 | 25, 2 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 931, 5 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.TOUCHDOWN = Result.TOUCHDOWN, None | 1 and 10 on 35 | 15 | 1, 1 | home</div></li>
-<li class="li1"><div class="de1">Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 281, 578 | home</div></li>
-<li class="li1"><div class="de1">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 55 | 1 and 10 on 35 | 3 | 400, 367 | home</div></li>
-<li class="li2"><div class="de2">Play.PASS = Result.GAIN = Result.GAIN, 9 | 1 and 10 on 10 | 7 | 899, 666 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 1 on 19 | 5 | 422, 1350 | away</div></li>
-<li class="li1"><div class="de1">Play.RUN = Result.GAIN = Result.GAIN, 5 | 3 and 1 on 19 | 5 | 456, 735 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 2 | 1 and 10 on 24 | 4 | 532, 149 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 8 on 26 | 5 | 125, 1200 | away</div></li>
-<li class="li2"><div class="de2">Play.RUN = Result.GAIN = Result.GAIN, 4 | 3 and 8 on 26 | 4 | 557, 249 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 13 | 4 and 4 on 30 | 7 | 921, 751 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 35 | 1 and 10 on 43 | 9 | 99, 149 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.GAIN, 5 | 1 and 10 on 78 | 6 | 875, 1212 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 5 on 83 | 5 | 501, 1450 | away</div></li>
-<li class="li2"><div class="de2">Play.RUN = Result.GAIN = Result.GAIN, 4 | 3 and 5 on 83 | 4 | 996, 1302 | away</div></li>
-<li class="li1"><div class="de1">Play.PASS = Result.GAIN = Result.TURNOVER, None | 4 and 1 on 87 | 10 | 1498, 600 | away</div></li>
-<li class="li1"><div class="de1">Play.KNEEL = Result.KNEEL = Result.KNEEL, None | 1 and 10 on 13 | 1 | -1, None | home</div></li>
-</ol>
-			</div>
-		</div>
-	</div>
-	<div class="content_title no_border">RAW Paste Data<div id="bsa-footer"></div></div>
-	<div class="textarea_border" style="margin-bottom:0">
-		<textarea id="paste_code" class="paste_code" name="paste_code" onkeydown="return catchTab(this,event)">Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 800, 751 | home
-Play.RUN = Result.GAIN = Result.GAIN, 1 | 1 and 10 on 20 | 3 | 69, 1100 | away
-Play.PASS = Result.GAIN = Result.GAIN, 19 | 2 and 9 on 21 | 8 | 21, 1419 | away
-Play.PASS = Result.GAIN = Result.GAIN, -10 | 1 and 10 on 40 | 10 | 10, 790 | away
-Play.RUN = Result.GAIN = Result.GAIN, 1 | 2 and 20 on 30 | 3 | 741, 250 | away
-Play.PASS = Result.GAIN = Result.GAIN, 35 | 3 and 19 on 31 | 9 | 508, 450 | away
-Play.PASS = Result.GAIN = Result.GAIN, 20 | 1 and 10 on 66 | 8 | 88, 1 | away
-Play.RUN = Result.TURNOVER_TOUCHDOWN = Result.TURNOVER_TOUCHDOWN, 86 | 1 and 10 on 86 | 25 | 2, 751 | away
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 81, 5 | home
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 7 | 1000, 22 | home
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 70 | 1 and 10 on 30 | 12 | 1221, 1250 | away
-Play.PAT = Result.KICKOFF = Result.KICKOFF, None | 1 and 10 on 97 | 0 | 7, 751 | away
-Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 218, 1475 | away
-Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 75 | 1 and 10 on 25 | 12 | 78, 79 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1131, 1500 | home
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 25 | 1 and 10 on 35 | 9 | 1000, 178 | home
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 40 | 5 | 900, 350 | away
-Play.RUN = Result.GAIN = Result.GAIN, -3 | 2 and 10 on 40 | 5 | 1, 827 | away
-Play.PASS = Result.GAIN = Result.GAIN, 35 | 3 and 13 on 37 | 9 | 101, 150 | away
-Play.PASS = Result.GAIN = Result.GAIN, -1 | 1 and 10 on 72 | 4 | 781, 150 | away
-Play.RUN = Result.GAIN = Result.GAIN, 0 | 2 and 11 on 71 | 2 | 1400, 500 | away
-Play.PASS = Result.GAIN = Result.GAIN, -3 | 3 and 11 on 71 | 4 | 500, 1170 | away
-Play.PASS = Result.GAIN = Result.TURNOVER, None | 4 and 14 on 68 | 10 | 750, 380 | away
-Play.PASS = Result.GAIN = Result.GAIN, 65 | 1 and 10 on 29 | 11 | 25, 56 | home
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 94 | 5 | 1105, 75 | home
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 10 on 94 | 5 | 975, 22 | home
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 6 | 3 and 10 on 94 | 6 | 1405, 100 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1469, 619 | home
-Play.KICKOFF_SQUIB = Result.GAIN = Result.GAIN, 30 | 1 and 10 on 35 | 3 | 9, 1499 | home
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 35 | 1 and 10 on 65 | 9 | 125, 99 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 331, 22 | home
-Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 3 | 1493, 44 | home
-Play.PASS = Result.GAIN = Result.GAIN, 13 | 1 and 10 on 30 | 7 | 77, 250 | away
-Play.PASS = Result.GAIN = Result.GAIN, 30 | 1 and 10 on 43 | 9 | 888, 827 | away
-Play.RUN = Result.GAIN = Result.GAIN, -5 | 1 and 10 on 73 | 10 | 22, 827 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 15 on 68 | 5 | 231, 1150 | away
-Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 32 | 3 and 15 on 68 | 9 | 590, 600 | away
-Play.TWO_POINT = Result.KICKOFF = Result.KICKOFF, None | 1 and 10 on 97 | 0 | 1000, 1 | away
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 7 | 600, 25 | away
-Play.PASS = Result.GAIN = Result.GAIN, 35 | 1 and 10 on 30 | 9 | 1475, 20 | home
-Play.PASS = Result.GAIN = Result.GAIN, 11 | 1 and 10 on 65 | 7 | 175, 1 | home
-Play.PASS = Result.GAIN = Result.GAIN, 17 | 1 and 10 on 76 | 7 | 1425, 22 | home
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 7 | 1 and 10 on 93 | 6 | 125, 1456 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 231, 55 | home
-Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 20 | 1 and 10 on 35 | 9 | 9, 863 | home
-Play.PASS = Result.GAIN = Result.GAIN, 7 | 1 and 10 on 45 | 6 | 77, 365 | away
-Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 48 | 2 and 3 on 52 | 10 | 79, 77 | away
-Play.TWO_POINT = Result.TURNOVER_PAT = Result.TURNOVER_PAT, None | 1 and 10 on 97 | 0 | 2, 751 | away
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 25, 1480 | away
-Play.PASS = Result.GAIN = Result.GAIN, 4 | 1 and 10 on 20 | 5 | 45, 1200 | home
-Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 76 | 2 and 6 on 24 | 12 | 105, 99 | home
-Play.PAT = Result.KICKOFF = Result.KICKOFF, None | 1 and 10 on 97 | 0 | 811, 77 | home
-Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 420, 618 | home
-Play.PASS = Result.TURNOVER = Result.TURNOVER, None | 1 and 10 on 25 | 15 | 12, 751 | away
-Play.PASS = Result.GAIN = Result.GAIN, 19 | 1 and 10 on 75 | 8 | 125, 45 | home
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 6 | 1 and 10 on 94 | 6 | 275, 1500 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 381, 2 | home
-Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 3 | 9, 32 | home
-Play.PASS = Result.GAIN = Result.GAIN, 0 | 1 and 10 on 30 | 3 | 871, 250 | away
-Play.PASS = Result.GAIN = Result.GAIN, 40 | 2 and 10 on 30 | 9 | 781, 827 | away
-Play.RUN = Result.GAIN = Result.TOUCHDOWN, 30 | 1 and 10 on 70 | 11 | 781, 827 | away
-Play.TWO_POINT = Result.TWO_POINT = Result.TWO_POINT, None | 1 and 10 on 97 | 0 | 671, 751 | away
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 25 | 1 and 10 on 35 | 9 | 881, 25 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 40 | 5 | 1475, 891 | home
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 10 on 40 | 5 | 875, 1499 | home
-Play.PASS = Result.GAIN = Result.GAIN, 15 | 3 and 10 on 40 | 7 | 1475, 89 | home
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 55 | 5 | 875, 1 | home
-Play.PASS = Result.GAIN = Result.GAIN, 5 | 2 and 10 on 55 | 6 | 74, 400 | home
-Play.PASS = Result.GAIN = Result.GAIN, 4 | 3 and 5 on 60 | 5 | 395, 750 | home
-Play.RUN = Result.GAIN = Result.GAIN, 1 | 4 and 1 on 64 | 3 | 995, 2 | home
-Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 35 | 1 and 10 on 65 | 9 | 77, 77 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1131, 22 | home
-Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 20 | 1 and 10 on 35 | 9 | 743, 77 | home
-Play.PASS = Result.GAIN = Result.GAIN, 20 | 1 and 10 on 45 | 8 | 88, 1 | away
-Play.RUN = Result.GAIN = Result.GAIN, 0 | 1 and 10 on 65 | 2 | 1400, 500 | away
-Play.PASS = Result.GAIN = Result.GAIN, 12 | 2 and 10 on 65 | 7 | 642, 827 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 77 | 5 | 88, 650 | away
-Play.PASS = Result.GAIN = Result.GAIN, 4 | 2 and 10 on 77 | 5 | 5, 1150 | away
-Play.PASS = Result.GAIN = Result.GAIN, -5 | 3 and 6 on 81 | 5 | 40, 838 | away
-Play.FIELD_GOAL = Result.FIELD_GOAL = Result.FIELD_GOAL, None | 4 and 11 on 76 | 5 | 880, 1150 | away
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 25 | 1 and 10 on 35 | 9 | 99, 795 | away
-Play.PASS = Result.GAIN = Result.GAIN, 19 | 1 and 10 on 40 | 8 | 84, 1 | home
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 59 | 5 | 46, 570 | home
-Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 41 | 2 and 10 on 59 | 9 | 45, 50 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 281, 12 | home
-Play.KICKOFF_SQUIB = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 3 | 83, 16 | home
-Play.PASS = Result.GAIN = Result.GAIN, 11 | 1 and 10 on 30 | 7 | 632, 838 | away
-Play.PASS = Result.GAIN = Result.GAIN, 35 | 1 and 10 on 41 | 4 | 800, 751 | away
-Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 632, 837 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 25 | 5 | 675, 1200 | home
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 75 | 2 and 10 on 25 | 12 | 45, 21 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 431, 88 | home
-Play.KICKOFF_ONSIDE = Result.KICK = Result.KICK, 10 | 1 and 10 on 35 | 3 | 45, 862 | home
-Play.PASS = Result.GAIN = Result.GAIN, 8 | 1 and 10 on 55 | 6 | 881, 1150 | away
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 37 | 2 and 2 on 63 | 9 | 99, 141 | away
-Play.TWO_POINT = Result.TWO_POINT = Result.TWO_POINT, None | 1 and 10 on 97 | 0 | 1000, 838 | away
-Play.KICKOFF_ONSIDE = Result.KICK = Result.KICK, 10 | 1 and 10 on 35 | 3 | 452, 835 | away
-Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 45 | 1 and 10 on 55 | 10 | 125, 121 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 631, 1 | home
-Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 435, 81 | home
-Play.PASS = Result.GAIN = Result.GAIN, -1 | 1 and 10 on 25 | 4 | 891, 250 | away
-Play.PASS = Result.GAIN = Result.GAIN, 5 | 2 and 11 on 24 | 6 | 100, 1270 | away
-Play.PASS = Result.TURNOVER_TOUCHDOWN = Result.TURNOVER_TOUCHDOWN, 29 | 3 and 6 on 29 | 25 | 100, 849 | away
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1031, 11 | home
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 99, 1500 | home
-Play.PASS = Result.TURNOVER_TOUCHDOWN = Result.TURNOVER_TOUCHDOWN, 20 | 1 and 10 on 20 | 25 | 1500, 750 | away
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1031, 88 | home
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 7 | 1000, 77 | home
-Play.PASS = Result.GAIN = Result.GAIN, 5 | 1 and 10 on 30 | 6 | 1499, 1150 | away
-Play.PASS = Result.GAIN = Result.GAIN, 30 | 2 and 5 on 35 | 9 | 891, 827 | away
-Play.PASS = Result.GAIN = Result.GAIN, 10 | 1 and 10 on 65 | 7 | 981, 750 | away
-Play.PASS = Result.GAIN = Result.GAIN, 9 | 1 and 10 on 75 | 7 | 999, 750 | away
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 16 | 2 and 1 on 84 | 7 | 91, 149 | away
-Play.TWO_POINT = Result.KICKOFF = Result.KICKOFF, None | 1 and 10 on 97 | 0 | 991, 149 | away
-Play.KICKOFF_ONSIDE = Result.KICK = Result.KICK, 10 | 1 and 10 on 35 | 3 | 1, 735 | away
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 45 | 1 and 10 on 55 | 10 | 71, 99 | home
-Play.TWO_POINT = Result.TWO_POINT = Result.TWO_POINT, None | 1 and 10 on 97 | 0 | 298, 2 | home
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 25 | 1 and 10 on 35 | 9 | 999, 99 | home
-Play.PASS = Result.GAIN = Result.GAIN, 17 | 1 and 10 on 40 | 7 | 871, 750 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 57 | 5 | 1200, 131 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 10 on 57 | 5 | 881, 450 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 3 and 10 on 57 | 5 | 1400, 850 | away
-Play.PASS = Result.INCOMPLETE = Result.TURNOVER, None | 4 and 10 on 57 | 5 | 700, 250 | away
-Play.PASS = Result.GAIN = Result.GAIN, 30 | 1 and 10 on 43 | 9 | 45, 99 | home
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 73 | 5 | 65, 600 | home
-Play.PASS = Result.GAIN = Result.GAIN, 13 | 2 and 10 on 73 | 7 | 925, 781 | home
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 14 | 1 and 10 on 86 | 7 | 55, 2 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 231, 5 | home
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 99, 55 | home
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 20 | 5 | 55, 450 | away
-Play.RUN = Result.TURNOVER = Result.TURNOVER, None | 2 and 10 on 20 | 15 | 44, 805 | away
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 20 | 1 and 10 on 80 | 8 | 1475, 4 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1431, 886 | home
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 35 | 1 and 10 on 35 | 7 | 999, 52 | home
-Play.PASS = Result.GAIN = Result.GAIN, -3 | 1 and 10 on 30 | 4 | 1475, 805 | away
-Play.PASS = Result.GAIN = Result.GAIN, 11 | 2 and 13 on 27 | 7 | 1001, 1200 | away
-Play.PASS = Result.GAIN = Result.GAIN, 5 | 3 and 2 on 38 | 6 | 1411, 250 | away
-Play.PASS = Result.TOUCHDOWN = Result.TOUCHDOWN, 57 | 1 and 10 on 43 | 10 | 805, 805 | away
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 245, 55 | away
-Play.KICKOFF_NORMAL = Result.TOUCHBACK = Result.TOUCHBACK, None | 1 and 10 on 35 | 0 | 2, 254 | away
-Play.PASS = Result.GAIN = Result.GAIN, 4 | 1 and 10 on 25 | 5 | 80, 1221 | home
-Play.PASS = Result.GAIN = Result.GAIN, 25 | 2 and 6 on 29 | 8 | 1445, 5 | home
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 46 | 1 and 10 on 54 | 10 | 25, 5 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 1465, 1 | home
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 45 | 1 and 10 on 35 | 5 | 55, 13 | home
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 1 and 10 on 20 | 5 | 266, 666 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 10 on 20 | 5 | 1421, 1016 | away
-Play.PASS = Result.GAIN = Result.GAIN, 0 | 3 and 10 on 20 | 3 | 1368, 752 | away
-Play.PASS = Result.GAIN = Result.TURNOVER, None | 4 and 10 on 20 | 10 | 509, 225 | away
-Play.PASS = Result.GAIN = Result.TOUCHDOWN, 27 | 1 and 10 on 73 | 8 | 25, 2 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 931, 5 | home
-Play.KICKOFF_NORMAL = Result.TOUCHDOWN = Result.TOUCHDOWN, None | 1 and 10 on 35 | 15 | 1, 1 | home
-Play.PAT = Result.PAT = Result.PAT, None | 1 and 10 on 97 | 0 | 281, 578 | home
-Play.KICKOFF_NORMAL = Result.KICK = Result.KICK, 55 | 1 and 10 on 35 | 3 | 400, 367 | home
-Play.PASS = Result.GAIN = Result.GAIN, 9 | 1 and 10 on 10 | 7 | 899, 666 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 1 on 19 | 5 | 422, 1350 | away
-Play.RUN = Result.GAIN = Result.GAIN, 5 | 3 and 1 on 19 | 5 | 456, 735 | away
-Play.PASS = Result.GAIN = Result.GAIN, 2 | 1 and 10 on 24 | 4 | 532, 149 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 8 on 26 | 5 | 125, 1200 | away
-Play.RUN = Result.GAIN = Result.GAIN, 4 | 3 and 8 on 26 | 4 | 557, 249 | away
-Play.PASS = Result.GAIN = Result.GAIN, 13 | 4 and 4 on 30 | 7 | 921, 751 | away
-Play.PASS = Result.GAIN = Result.GAIN, 35 | 1 and 10 on 43 | 9 | 99, 149 | away
-Play.PASS = Result.GAIN = Result.GAIN, 5 | 1 and 10 on 78 | 6 | 875, 1212 | away
-Play.PASS = Result.INCOMPLETE = Result.GAIN, 0 | 2 and 5 on 83 | 5 | 501, 1450 | away
-Play.RUN = Result.GAIN = Result.GAIN, 4 | 3 and 5 on 83 | 4 | 996, 1302 | away
-Play.PASS = Result.GAIN = Result.TURNOVER, None | 4 and 1 on 87 | 10 | 1498, 600 | away
-Play.KNEEL = Result.KNEEL = Result.KNEEL, None | 1 and 10 on 13 | 1 | -1, None | home</textarea>
-	</div><div id="abrpm3"></div>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$(".close1").click(function(){return $("#float-box-1").hide(),createCookie("l2c_1",!0,90),!1});
-		$(".cookie_button").click(function(){return $("#float-box-1").hide(),createCookie("l2c_1",!0,90),!1});		
-		$(".close2").click(function(){return $("#float-box-2").hide(),createCookie("l2c_2",!0,14),!1});
-		$(".close3").click(function(){return $("#float-box-3").hide(),createCookie("l2c_2",!0,14),!1});
-		$(".close4").click(function(){return $("#float-box-4").hide(),createCookie("l2c_4",!0,7),!1});
-	});	
-	</script>
-	<div id="float-box-frame">		
-		<div id="float-box-1">
-			We use cookies for various purposes including analytics. By continuing to use Pastebin, you agree to our use of cookies as described in the <a href="/doc_cookies_policy">Cookies Policy</a>. <span class="cookie_button">OK, I Understand</span>
-		</div></div>						</div>
-					</div>
-				</div>
-			</div>
-			<div id="mid_footer">
-				<a href="/tools#chrome" title="Google Chrome Extension"><img src="/i/t.gif" alt="" class="icon24 chrome" /></a>
-				<a href="/tools#firefox" title="Firefox Extension"><img src="/i/t.gif" alt="" class="icon24 firefox" /></a>
-				<a href="/tools#iphone" title="iPhone/iPad Application"><img src="/i/t.gif" alt="" class="icon24 iphone" /></a>
-				<a href="/tools#windows" title="Windows Desktop Application"><img src="/i/t.gif" alt="" class="icon24 windows" /></a>
-				<a href="/tools#android" title="Android Application"><img src="/i/t.gif" alt="" class="icon24 android" /></a>
-				<a href="/tools#macos" title="MacOS X Widget"><img src="/i/t.gif" alt="" class="icon24 macos" /></a>
-				<a href="/tools#opera" title="Opera Extension"><img src="/i/t.gif" alt="" class="icon24 opera" /></a>
-				<a href="/tools#pastebincl" title="Linux Application"><img src="/i/t.gif" alt="" class="icon24 unix" /></a>
-			</div> 
-		</div>
-		<div id="footer">
-			<div id="footer_links">
-				<a href="/">create new paste</a> &nbsp;/&nbsp; 
-				<a href="https://deals.pastebin.com">deals</a><sup style="color:red">new!</sup> &nbsp;/&nbsp; 
-				<a href="/languages">syntax languages</a> &nbsp;/&nbsp; 
-				<a href="/archive">archive</a> &nbsp;/&nbsp; 
-				<a href="/faq">faq</a> &nbsp;/&nbsp; 
-				<a href="/tools">tools</a> &nbsp;/&nbsp; 
-				<a href="/night_mode">night mode</a> &nbsp;/&nbsp;
-                <a href="/api">api</a>&nbsp;/&nbsp;
-                <a href="/doc_scraping_api">scraping api</a>
-
-				<br />
-				<a href="/doc_privacy_statement">privacy statement</a> &nbsp;/&nbsp; 
-				<a href="/doc_cookies_policy">cookies policy</a> &nbsp;/&nbsp; 
-				<a href="/doc_terms_of_service">terms of service</a> &nbsp;/&nbsp; 
-				<a href="/doc_security_disclosure">security disclosure</a> &nbsp;/&nbsp; 
-				<a href="/dmca">dmca</a> &nbsp;/&nbsp; 
-				<a href="/contact">contact</a>
-				<br /><br />
-				<span class="h_800">
-					By using Pastebin.com you agree to our <a href="/doc_cookies_policy">cookies policy</a> to enhance your experience.
-					<br />
-					Site design &amp; logo &copy; 2020 Pastebin; user contributions (pastes) licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="nofollow">cc by-sa 3.0</a>
-				</span>
-				<a href="http://steadfast.net/services/dedicated-servers.php?utm_source=pastebin.com&amp;utm_medium=referral&amp;utm_content=footer_link_dedicated_server_hosting_by&amp;utm_campaign=referral_20140118_x_x_pastebin_partner&amp;source=referral_20140118_x_x_pastebin_partner" rel="nofollow" target="_blank">Dedicated Server Hosting</a> by <a href="http://steadfast.net/?utm_source=pastebin.com&amp;utm_medium=referral&amp;utm_content=footer_link_steadfast&amp;utm_campaign=referral_20140118_x_x_pastebin_partner&amp;source=referral_20140118_x_x_pastebin_partner" rel="nofollow" target="_blank">Steadfast</a>
-			</div>
-			<div id="footer_right" class="h_1024">
-			
-				<a href="https://facebook.com/pastebin" rel="nofollow" title="Like us on Facebook" target="_blank"><img src="/i/t.gif" alt="" class="icon40 facebook_circle" /></a>
-				<a href="https://twitter.com/pastebin" rel="nofollow" title="Follow us on Twitter" target="_blank"><img src="/i/t.gif" alt="" class="icon40 twitter_circle" /></a>
-							</div>
-		</div>
-		<script type="text/javascript">
-			function isIE(){var e=navigator.userAgent.toLowerCase();return-1!=e.indexOf("msie")?parseInt(e.split("msie")[1]):!1}if(isIE()&&isIE()<10){var div=document.getElementById("ie_msg");div.innerHTML=div.innerHTML+'<div id="old_browser">Your browser is outdated and insecure! Pastebin does not offer support for your browser. <a href="http://outdatedbrowser.com/" target="_blank" rel="nofollow">Click here to update your browser</a>!</div>'}
-		</script>
-		<div class="pub_300x250"></div><a href="#0" class="cd-top">Top</a>
-
-
-
-	</body>
-</html>
+0|0|1|420|35|home|1|10|1461|929|VikingFishBird|elifad18|KICKOFF_NORMAL|KICK|KICK|35|7|0
+0|0|1|413|30|away|1|10|917|874|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|45|10|0
+0|0|1|403|75|away|1|10|888|77|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|-5|5|10
+0|0|1|388|70|away|2|15|313|1183|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|0|3|10
+0|0|1|375|70|away|3|15|1235|535|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|-5|5|10
+0|0|1|360|65|away|4|20|1422|1365|whywebuildthewall|VikingFishBird|FIELD_GOAL|FIELD_GOAL|FIELD_GOAL|None|5|10
+0|3|1|345|35|away|1|10|1337|711|whywebuildthewall|VikingFishBird|KICKOFF_SQUIB|KICK|KICK|20|9|0
+0|3|1|336|45|home|1|10|1196|1282|VikingFishBird|elifad18|RUN|GAIN|GAIN|15|7|0
+0|3|1|329|60|home|1|10|1303|923|VikingFishBird|elifad18|RUN|GAIN|GAIN|3|4|30
+0|3|1|295|63|home|2|7|1414|101|VikingFishBird|elifad18|RUN|GAIN|GAIN|8|6|30
+0|3|1|259|71|home|1|10|360|697|VikingFishBird|elifad18|RUN|GAIN|GAIN|4|4|30
+0|3|1|225|75|home|2|6|161|846|VikingFishBird|elifad18|RUN|GAIN|GAIN|-3|5|30
+0|3|1|190|72|home|3|9|1303|1192|VikingFishBird|elifad18|PASS|GAIN|GAIN|15|7|30
+0|3|1|153|87|home|1|10|970|562|VikingFishBird|elifad18|RUN|GAIN|GAIN|3|4|30
+0|3|1|119|90|home|2|7|694|888|VikingFishBird|elifad18|RUN|GAIN|GAIN|8|6|30
+0|3|1|83|98|home|1|10|395|1364|VikingFishBird|elifad18|RUN|GAIN|GAIN|1|3|30
+0|3|1|50|99|home|2|9|1195|723|VikingFishBird|elifad18|RUN|GAIN|TOUCHDOWN|1|3|30
+6|3|1|17|97|home|1|10|1305|152|VikingFishBird|elifad18|PAT|PAT|PAT|None|0|0
+7|3|1|17|35|home|1|10|855|828|VikingFishBird|elifad18|KICKOFF_NORMAL|KICK|KICK|55|3|0
+7|3|1|14|10|away|1|10|626|1434|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|-5|5|0
+7|3|1|9|5|away|2|15|4|243|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|8|2|7
+7|3|2|420|13|away|3|7|303|725|whywebuildthewall|VikingFishBird|PASS|INCOMPLETE|GAIN|0|5|0
+7|3|2|415|13|away|4|7|777|111|whywebuildthewall|VikingFishBird|PUNT|PUNT|PUNT|10|15|0
+7|3|2|400|77|home|1|10|605|1295|VikingFishBird|elifad18|RUN|GAIN|GAIN|-3|5|0
+7|3|2|395|74|home|2|13|351|293|VikingFishBird|elifad18|PASS|GAIN|GAIN|25|8|30
+7|3|2|357|99|home|1|10|93|734|VikingFishBird|elifad18|RUN|GAIN|GAIN|0|2|30
+7|3|2|325|99|home|2|10|1275|912|VikingFishBird|elifad18|RUN|GAIN|TOUCHDOWN|1|3|30
+13|3|2|292|97|home|1|10|853|332|VikingFishBird|elifad18|PAT|PAT|PAT|None|0|0
+14|3|2|292|35|home|1|10|1294|1313|VikingFishBird|elifad18|KICKOFF_NORMAL|KICK|KICK|55|3|0
+14|3|2|289|10|away|1|10|817|933|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|15|7|0
+14|3|2|282|25|away|1|10|1001|482|whywebuildthewall|VikingFishBird|PASS|INCOMPLETE|GAIN|0|5|7
+14|3|2|270|25|away|2|10|457|634|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|11|7|0
+14|3|2|263|36|away|1|10|711|1035|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|5|6|7
+14|3|2|250|41|away|2|5|1111|1190|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|19|8|7
+14|3|2|235|60|away|1|10|1317|1111|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|10|7|7
+14|3|2|221|70|away|1|10|462|711|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|7|6|7
+14|3|2|208|77|away|2|3|808|24|whywebuildthewall|VikingFishBird|RUN|GAIN|GAIN|-5|10|7
+14|3|2|191|72|away|3|8|188|811|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|0|3|7
+14|3|2|181|72|away|4|8|161|558|whywebuildthewall|VikingFishBird|PASS|GAIN|TURNOVER|None|4|7
+14|3|2|170|26|home|1|10|750|462|VikingFishBird|elifad18|PASS|GAIN|GAIN|6|6|0
+14|3|2|164|32|home|2|4|222|1062|VikingFishBird|elifad18|RUN|GAIN|GAIN|-1|3|30
+14|3|2|131|31|home|3|5|1083|1212|VikingFishBird|elifad18|PASS|GAIN|GAIN|14|7|30
+14|3|2|94|45|home|1|10|1|399|VikingFishBird|elifad18|RUN|GAIN|GAIN|3|4|7
+14|3|2|83|48|home|2|7|1149|718|VikingFishBird|elifad18|RUN|GAIN|GAIN|2|3|7
+14|3|2|73|50|home|3|5|1212|299|VikingFishBird|elifad18|PASS|INCOMPLETE|GAIN|0|5|0
+14|3|2|68|50|home|4|5|138|562|VikingFishBird|elifad18|PASS|GAIN|TURNOVER|None|4|0
+14|3|2|64|49|away|1|10|929|322|whywebuildthewall|VikingFishBird|PASS|INCOMPLETE|GAIN|0|5|0
+14|3|2|59|49|away|2|10|333|1244|whywebuildthewall|VikingFishBird|PASS|INCOMPLETE|GAIN|0|5|0
+14|3|2|54|49|away|3|10|1309|23|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|9|7|0
+14|3|2|47|58|away|4|1|163|816|whywebuildthewall|VikingFishBird|RUN|GAIN|TURNOVER|None|2|7
+14|3|2|38|42|home|1|10|462|518|VikingFishBird|elifad18|RUN|GAIN|GAIN|20|9|0
+14|3|2|29|62|home|1|10|603|400|VikingFishBird|elifad18|PASS|GAIN|GAIN|10|7|0
+14|3|2|22|72|home|1|10|453|1000|VikingFishBird|elifad18|PASS|INCOMPLETE|GAIN|0|5|0
+14|3|2|17|72|home|2|10|874|1279|VikingFishBird|elifad18|PASS|GAIN|GAIN|2|4|0
+14|3|2|13|74|home|3|8|1416|1437|VikingFishBird|elifad18|PASS|GAIN|TOUCHDOWN|26|8|7
+20|3|2|-2|97|home|1|10|22|516|VikingFishBird|elifad18|PAT|PAT|PAT|None|-2|0
+21|3|3|420|35|away|1|10|412|333|whywebuildthewall|VikingFishBird|KICKOFF_SQUIB|KICK|KICK|35|3|0
+21|3|3|417|30|home|1|10|1416|121|VikingFishBird|elifad18|RUN|GAIN|GAIN|7|5|0
+21|3|3|412|37|home|2|3|605|919|VikingFishBird|elifad18|RUN|GAIN|GAIN|4|4|30
+21|3|3|378|41|home|1|10|783|1222|VikingFishBird|elifad18|RUN|GAIN|GAIN|2|3|30
+21|3|3|345|43|home|2|8|250|102|VikingFishBird|elifad18|RUN|GAIN|GAIN|9|6|30
+21|3|3|309|52|home|1|10|1194|616|VikingFishBird|elifad18|RUN|GAIN|GAIN|0|2|30
+21|3|3|277|52|home|2|10|160|1316|VikingFishBird|elifad18|RUN|GAIN|GAIN|4|4|30
+21|3|3|243|56|home|3|6|360|1213|VikingFishBird|elifad18|PASS|GAIN|GAIN|0|3|30
+21|3|3|210|56|home|4|6|42|1416|VikingFishBird|elifad18|PUNT|PUNT|PUNT|25|15|10
+21|3|3|185|19|away|1|10|940|933|whywebuildthewall|VikingFishBird|PASS|TOUCHDOWN|TOUCHDOWN|81|12|0
+21|9|3|173|97|away|1|10|1023|1433|whywebuildthewall|VikingFishBird|PAT|PAT|PAT|None|0|0
+21|10|3|173|35|away|1|10|19|1366|whywebuildthewall|VikingFishBird|KICKOFF_SQUIB|KICK|KICK|35|3|0
+21|10|3|170|30|home|1|10|416|271|VikingFishBird|elifad18|RUN|GAIN|GAIN|10|6|0
+21|10|3|164|40|home|1|10|852|999|VikingFishBird|elifad18|RUN|GAIN|GAIN|10|6|30
+21|10|3|128|50|home|1|10|687|34|VikingFishBird|elifad18|RUN|GAIN|GAIN|0|2|30
+21|10|3|96|50|home|2|10|416|1275|VikingFishBird|elifad18|RUN|GAIN|GAIN|0|2|30
+21|10|3|64|50|home|3|10|850|1275|VikingFishBird|elifad18|PASS|GAIN|GAIN|1|4|30
+21|10|3|30|51|home|4|9|1328|666|VikingFishBird|elifad18|PUNT|PUNT|PUNT|10|15|30
+21|10|4|405|39|away|1|10|369|481|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|16|7|0
+21|10|4|398|55|away|1|10|505|525|whywebuildthewall|VikingFishBird|PASS|GAIN|TOUCHDOWN|45|10|7
+21|16|4|381|97|away|1|10|420|812|whywebuildthewall|VikingFishBird|TWO_POINT|KICKOFF|KICKOFF|None|0|0
+21|16|4|381|35|away|1|10|911|218|whywebuildthewall|VikingFishBird|KICKOFF_SQUIB|KICK|KICK|20|9|0
+21|16|4|372|45|home|1|10|1095|823|VikingFishBird|elifad18|RUN|GAIN|GAIN|5|5|0
+21|16|4|367|50|home|2|5|1212|666|VikingFishBird|elifad18|RUN|GAIN|GAIN|0|2|30
+21|16|4|335|50|home|3|5|138|1212|VikingFishBird|elifad18|RUN|GAIN|GAIN|2|3|30
+21|16|4|302|52|home|4|3|1366|511|VikingFishBird|elifad18|RUN|GAIN|TURNOVER|None|2|30
+21|16|4|270|48|away|1|10|1430|133|whywebuildthewall|VikingFishBird|PASS|GAIN|GAIN|10|7|0
+21|16|4|263|58|away|1|10|999|117|elifad18|VikingFishBird|PASS|GAIN|GAIN|0|3|7
+21|16|4|253|58|away|2|10|692|725|elifad18|VikingFishBird|PASS|GAIN|TOUCHDOWN|42|9|7
+21|22|4|237|97|away|1|10|232|1245|elifad18|VikingFishBird|TWO_POINT|KICKOFF|KICKOFF|None|0|0
+21|22|4|237|35|away|1|10|242|874|elifad18|VikingFishBird|KICKOFF_SQUIB|KICK|KICK|20|9|0
+21|22|4|228|45|home|1|10|464|1138|VikingFishBird|elifad18|PASS|GAIN|GAIN|-1|4|0
+21|22|4|224|44|home|2|11|1366|789|VikingFishBird|elifad18|PASS|INCOMPLETE|GAIN|0|5|30
+21|22|4|189|44|home|3|11|850|932|VikingFishBird|elifad18|PASS|GAIN|GAIN|19|8|0
+21|22|4|181|63|home|1|10|250|1204|VikingFishBird|elifad18|RUN|GAIN|GAIN|0|2|30
+21|22|4|149|63|home|2|10|1150|1444|VikingFishBird|elifad18|RUN|GAIN|GAIN|5|5|10
+21|22|4|134|68|home|3|5|350|111|VikingFishBird|elifad18|PASS|GAIN|GAIN|8|6|30
+21|22|4|98|76|home|1|10|161|650|VikingFishBird|elifad18|RUN|GAIN|GAIN|1|3|30
+21|22|4|65|77|home|2|9|424|733|VikingFishBird|elifad18|RUN|GAIN|GAIN|4|4|30
+21|22|4|31|81|home|3|5|694|899|VikingFishBird|elifad18|RUN|GAIN|GAIN|7|5|0
+21|22|4|26|88|home|1|10|None|-1|VikingFishBird|elifad18|KNEEL|KNEEL|KNEEL|-2|1|0
+21|22|4|25|86|home|2|12|625|349|VikingFishBird|elifad18|FIELD_GOAL|FIELD_GOAL|FIELD_GOAL|None|1|24
