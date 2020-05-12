@@ -1007,6 +1007,8 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request):
                or submission.link_flair_text == "Week 10 Game Thread"):
                 away = parseAwayTeam(submission.selftext).lower()
                 home = parseHomeTeam(submission.selftext).lower()
+                print(submission.title)
+                print(submission.link_flair_text)
                 print(away)
                 print(home)
                 print(awayTeam)
