@@ -390,20 +390,15 @@ def loginDiscord(r):
                         month = int(submissionTime.split("-")[1])
                         day = int(submissionTime.split("-")[2].split(" ")[0])
                         if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
-                            #If there is a GitHub URL as plays have been called
-                            if(url != "NO PLAYS"):
-                                await message.channel.send("Iterating through old thread to generate plots...")
-                                threadCrawler(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor, season, submission)
-                                # Send score plot
-                                with open('output.png', 'rb') as fp:
-                                    await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                            await message.channel.send("Iterating through old thread to generate plots...")
+                            threadCrawler(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor, season, submission)
+                            # Send score plot
+                            with open('output.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_filename.png'))
                                     
-                                # Send the win probability plot
-                                with open('outputWinProbability.png', 'rb') as fp:
-                                    await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                            
-                            else:
-                                await message.channel.send("No plays for the game found.")
+                            # Send the win probability plot
+                            with open('outputWinProbability.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
                         else:
                             await message.channel.send("This game is too old to plot the data. Week 11 in Season I is as far as I can go back.")
             else: 
