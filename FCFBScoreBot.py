@@ -97,7 +97,7 @@ def loginDiscord(r):
                 if(awayteam == 'Miami' or awayteam == 'miami'):
                     awayteam = 'miami (fl)'
                 
-                submission = searchForGameThread(r, hometeam, awayteam, season, "$plot")
+                submission = searchForGameThread(r, hometeam, awayteam, season, "$score")
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
                 else:
@@ -996,6 +996,10 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request):
                or submission.link_flair_text == "Week 10 Game Thread"):
                 away = parseAwayTeam(submission.selftext).lower()
                 home = parseHomeTeam(submission.selftext).lower()
+                print(away)
+                print(home)
+                print(awayTeam)
+                print(homeTeam)
             # If looking for season 4...
             if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
             and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
