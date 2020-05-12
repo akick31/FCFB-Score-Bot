@@ -404,7 +404,8 @@ def loginDiscord(r):
                             
                             else:
                                 await message.channel.send("No plays for the game found.")
-                        await message.channel.send("This game is too old to plot the data. Week 11 in Season I is as far as I can go back.")
+                        else:
+                            await message.channel.send("This game is too old to plot the data. Week 11 in Season I is as far as I can go back.")
             else: 
                 await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
                 
@@ -1064,6 +1065,7 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
     playCount = 1
     submission.comments.replace_more(limit=0)
     for comment in submission.comments:
+        print(comment.body)
         if(OTFlag == 1):
             break
         if(comment.author == 'NFCAAOfficialRefBot' and 'you\'re home' in comment.body):
