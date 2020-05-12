@@ -432,6 +432,7 @@ def getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds):
                 expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                 
                 # Parse the win probability
+                
                 if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
                     or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
                     curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
@@ -956,6 +957,14 @@ def parseAwayTeam(submissionbody):
 def searchForGameThread(r, homeTeam, awayTeam, season, request):
     searchItem = "\"Game Thread\" \"" + homeTeam + "\" \"" + awayTeam + "\""
     print(searchItem)
+    if(season == "s1"):
+        season = "S1"
+    if(season == "s2"):
+        season = "S2"
+    if(season == "s3"):
+        season = "S3"
+    if(season == "s4"):
+        season = "S4"
     for submission in r.subreddit("FakeCollegeFootball").search(searchItem, sort='new'):
         # Get game thread submission day
         submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
@@ -975,6 +984,7 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request):
                 print(home)
                 print(awayTeam)
                 print(homeTeam)
+                print("\n")
             # If looking for season 4...
             if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
             and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
@@ -1000,6 +1010,7 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request):
                 print(home)
                 print(awayTeam)
                 print(homeTeam)
+                print("\n")
             # If looking for season 4...
             if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
             and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
