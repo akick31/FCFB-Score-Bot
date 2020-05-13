@@ -1129,6 +1129,10 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
         print(str(month) + " " + str(day) + " " + str(year))
         print(season)
         print(postseason)
+        print((submission.link_flair_text == "Post Game Thread") and season == "S3")
+        print(year == 2020 and month <= 2 and day <= 15)
+        print(((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away)))
+        
         print()
     # If looking for season 4...
     if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" 
@@ -1136,7 +1140,7 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
         return submission
     # If looking for season 3...
-    if ((submission.link_flair_text == "Post Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S3" 
+    if ((submission.link_flair_text == "Post Game Thread") and season == "S3" 
         and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) 
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
         print("WENT IN HERE")
@@ -1145,7 +1149,7 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
         elif (postseason == 0 and ((year == 2020 and month == 1 and day <= 7) or (year == 2019))):
             return submission
     # If looking for season 2...
-    if ((submission.link_flair_text == "Post Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S2" 
+    if ((submission.link_flair_text == "Post Game Thread") and season == "S2" 
         and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6) or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) 
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
         if (postseason == 1 and ((year == 2019 and month == 5 and day > 24) or (year == 2019 and month == 6 and day <= 23))):
