@@ -1202,15 +1202,15 @@ def parseDataFromGithub(githubURL):
 def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission):
     submission.comment_sort = "old"
 
-    if(homeTeam == "Massachusetts"):
-        homeTeam = "UMass"
-    elif(awayTeam == "Massachusetts"):
-        awayTeam = "UMass"
-        
     if(homeTeam.find('-') >= 0):
         homeTeam = homeTeam.replace('-', '–')
     if(awayTeam.find('-') >= 0):
         awayTeam = awayTeam.replace('-', '–')
+    
+    if(homeTeam == "Massachusetts"):
+        homeTeam = "UMass"
+    elif(awayTeam == "Massachusetts"):
+        awayTeam = "Notre Dame"
     
     homeUser = ""
     awayUser = ""
@@ -1239,7 +1239,8 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
             homeUser = comment.body.split("The game has started!")[1].split(",")[0].strip()
             awayUser = comment.body.split("The game has started!")[1].split(",")[1].split("home. ")[1].strip()
         #Handle delay of game
-        if(comment.author == 'NFCAAOfficialRefBot' and 'not sent their number in over 24 hours' in comment.body):
+        if(comment.author == 'NFCAAOfficialRefBot' and 'not sent their number in over 24 hours' in comment.body
+           and "touchdown" in comment.body):
             if(homeUser in comment.body):
                 awayScore = awayScore + 8
                 playType = "PAT"
@@ -1266,11 +1267,64 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                 data = (str(homeScore) + " | " + str(awayScore) + " | " + str(quarter) + " | " + clock + " | " 
                                   + str(yardLine) + " | " + possession + " | " + str(down) + " | " + str(distance) + " | "
                                   + playType)
-                print(data)
                 
             if(awayUser in comment.body):
                 homeScore = homeScore + 8
                 playType = "PAT"
+               
+                homeScoreList.append(homeScore)
+                awayScoreList.append(awayScore)
+                playNumber.append(int(playCount))
+                playCount = playCount + 1
+                            
+                m, s = clock.split(':')
+                time = int(m) * 60 + int(s)
+                            
+                expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
+                if(possession == "home"):
+                    curHomeWinProbability = calculateWinProbabilityOld(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
+                    curAwayWinProbability = 100 - curHomeWinProbability
+                    homeWinProbability.append(curHomeWinProbability)
+                    awayWinProbability.append(curAwayWinProbability)
+                elif(possession == "away"):
+                    curAwayWinProbability = calculateWinProbabilityOld(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
+                    curHomeWinProbability = 100 - curAwayWinProbability
+                    awayWinProbability.append(curAwayWinProbability)
+                    homeWinProbability.append(curHomeWinProbability)
+                data = (str(homeScore) + " | " + str(awayScore) + " | " + str(quarter) + " | " + clock + " | " 
+                                  + str(yardLine) + " | " + possession + " | " + str(down) + " | " + str(distance) + " | "
+                                  + playType)
+                
+        if(comment.author == 'NFCAAOfficialRefBot' and 'not sent their number in over 24 hours' in comment.body
+           and "touchdown" in comment.body):
+            if(homeUser in comment.body):
+                awayScore = awayScore
+                   
+                homeScoreList.append(homeScore)
+                awayScoreList.append(awayScore)
+                playNumber.append(int(playCount))
+                playCount = playCount + 1
+                                
+                m, s = clock.split(':')
+                time = int(m) * 60 + int(s)
+                                
+                expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
+                if(possession == "home"):
+                    curHomeWinProbability = calculateWinProbabilityOld(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
+                    curAwayWinProbability = 100 - curHomeWinProbability
+                    homeWinProbability.append(curHomeWinProbability)
+                    awayWinProbability.append(curAwayWinProbability)
+                elif(possession == "away"):
+                    curAwayWinProbability = calculateWinProbabilityOld(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
+                    curHomeWinProbability = 100 - curAwayWinProbability
+                    awayWinProbability.append(curAwayWinProbability)
+                    homeWinProbability.append(curHomeWinProbability) 
+                data = (str(homeScore) + " | " + str(awayScore) + " | " + str(quarter) + " | " + clock + " | " 
+                                  + str(yardLine) + " | " + possession + " | " + str(down) + " | " + str(distance) + " | "
+                                  + playType)
+                
+            if(awayUser in comment.body):
+                homeScore = homeScore
                
                 homeScoreList.append(homeScore)
                 awayScoreList.append(awayScore)
