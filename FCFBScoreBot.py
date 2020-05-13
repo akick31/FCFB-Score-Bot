@@ -613,7 +613,6 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
         currentRow = 1
         for row in reader:
             if(len(row) > 2):
-                currentRow = currentRow + 1
                 homeScore.append(int(row[0])) 
                 awayScore.append(int(row[1]))
                 curHomeScore = int(row[0])
@@ -662,6 +661,7 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                     curHomeWinProbability = 100 - curAwayWinProbability
                     awayWinProbability.append(curAwayWinProbability)
                     homeWinProbability.append(curHomeWinProbability)  
+                currentRow = currentRow + 1
             # Handle OT so that winner is at 100%
             if(rowCount == currentRow and OTFlag == 1):
                 if(curHomeScore > curAwayScore):
