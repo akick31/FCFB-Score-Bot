@@ -680,6 +680,17 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                     awayScore.append(curAwayScore)
                     playNumber.append(int(playCount))
             currentRow = currentRow + 1
+            
+    if(curHomeScore > curAwayScore):
+        homeWinProbability.append(100)
+        curHomeWinProbability = 100
+        awayWinProbability.append(0)
+        curAwayWinProbability = 0
+    elif(curHomeScore < curAwayScore):
+        awayWinProbability.append(100)
+        curAwayWinProbability = 100
+        homeWinProbability.append(0)
+        curHomeWinProbability = 0
     
     #Plot score plot
     plotScorePlot(xList, hometeam, awayteam, homeScore, awayScore, playNumber, homecolor, awaycolor, OTFlag)
