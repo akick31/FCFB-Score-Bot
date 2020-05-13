@@ -507,81 +507,79 @@ def getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds):
     with open('data.txt', 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
         for row in reader:
-            if(row[0] != '--------------------------------------------------------------------------------'):
-                quarter = int(row[2])
-                if(row[16] != ""):
-                    time = int(row[3]) - int(row[17]) - int(row[16])
-                else:
-                    time = int(row[3]) 
-                down = int(row[6])
-                distance = int(row[7])
-                if(row[15] != "" and int(row[15]) >= int(distance)):
-                    down = 1
-                    distance = 10
-                elif(row[15] != "" and int(row[15]) < int(distance) and int(down) != 4):
-                    down = int(down) + 1
-                    distance = int(distance) - int(row[15])
-                if(row[15] != ""):
-                    yardLine = int(row[4]) + int(row[15])  
-                else:
-                    yardLine = int(row[4])
-                playType = row[12]
+            quarter = int(row[2])
+            if(row[16] != ""):
+                time = int(row[3]) - int(row[17]) - int(row[16])
+            else:
+                time = int(row[3]) 
+            down = int(row[6])
+            distance = int(row[7])
+            if(row[15] != "" and int(row[15]) >= int(distance)):
+                down = 1
+                distance = 10
+            elif(row[15] != "" and int(row[15]) < int(distance) and int(down) != 4):
+                down = int(down) + 1
+                distance = int(distance) - int(row[15])
+            if(row[15] != ""):
+                yardLine = int(row[4]) + int(row[15])  
+            else:
+                yardLine = int(row[4])
+            playType = row[12]
                 
-                # Parse the win probability
+            # Parse the win probability
+            if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
+               or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
+               or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            # Handle if points were scored
+            if(row[5] == "home" and row[14] == "TOUCHDOWN"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 6, int(row[1]), down, distance, yardLine, "PAT", homeVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if(row[5] == "away" and row[14] == "TOUCHDOWN"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 6, int(row[0]), down, distance, yardLine, "PAT", awayVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if(row[5] == "home" and row[14] == "FIELD GOAL"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 3, int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if(row[5] == "away" and row[14] == "FIELD GOAL"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 3, int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if(row[5] == "home" and row[14] == "PAT"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 1, int(row[1]), down, distance, yardLine, "KICKOFF", homeVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if(row[5] == "away" and row[14] == "PAT"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 1, int(row[0]), down, distance, yardLine, "KICKOFF", awayVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if(row[5] == "home" and row[14] == "TWO POINT"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 2, int(row[1]), down, distance, yardLine, "KICKOFF", homeVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if(row[5] == "away" and row[14] == "TWO POINT"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 2, int(row[0]), down, distance, yardLine, "KICKOFF", awayVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if(row[5] == "home" and row[14] == "SAFETY"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]) + 2, down, distance, yardLine, playType, homeVegasOdds) * 100
+                winProbability.append(curWinProbability)
+            if(row[5] == "away" and row[14] == "SAFETY"):
+                expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
+                curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]) + 2, down, distance, yardLine, playType, awayVegasOdds) * 100
+                winProbability.append(curWinProbability)
                 
-                if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
-                    or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
-                    or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                # Handle if points were scored
-                if(row[5] == "home" and row[14] == "TOUCHDOWN"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 6, int(row[1]), down, distance, yardLine, "PAT", homeVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if(row[5] == "away" and row[14] == "TOUCHDOWN"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 6, int(row[0]), down, distance, yardLine, "PAT", awayVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if(row[5] == "home" and row[14] == "FIELD GOAL"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 3, int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if(row[5] == "away" and row[14] == "FIELD GOAL"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 3, int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if(row[5] == "home" and row[14] == "PAT"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 1, int(row[1]), down, distance, yardLine, "KICKOFF", homeVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if(row[5] == "away" and row[14] == "PAT"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 1, int(row[0]), down, distance, yardLine, "KICKOFF", awayVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if(row[5] == "home" and row[14] == "TWO POINT"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]) + 2, int(row[1]), down, distance, yardLine, "KICKOFF", homeVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if(row[5] == "away" and row[14] == "TWO POINT"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]) + 2, int(row[0]), down, distance, yardLine, "KICKOFF", awayVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if(row[5] == "home" and row[14] == "SAFETY"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]) + 2, down, distance, yardLine, playType, homeVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                if(row[5] == "away" and row[14] == "SAFETY"):
-                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
-                    curWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]) + 2, down, distance, yardLine, playType, awayVegasOdds) * 100
-                    winProbability.append(curWinProbability)
-                
-        return winProbability[-1]
+    return winProbability[-1]
     
 # Iterate through the data for the plots
 def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor):
@@ -598,8 +596,9 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
     
     #Iterate through playlist file
     with open('data.txt', 'r+') as csvfile:
-        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')  
-        rowCount = sum(1 for row in reader)
+        counter = csv.reader(csvfile, delimiter= '|', lineterminator='\n')  
+        rowCount = sum(1 for row in counter)
+        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n') 
         currentRow = 1
         for row in reader:
             currentRow = currentRow + 1
