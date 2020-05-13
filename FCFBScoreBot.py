@@ -1196,12 +1196,12 @@ def parseDataFromGithub(githubURL):
     data = ""
     flag = 0
     for character in req.text:
-        print(character)
         if(flag == 0 and character == "0"):
             data = data + "0"
             flag = 1
         elif(flag == 1 and character != "-"):
-            data = data + character    
+            data = data + character 
+    print(data)
     return data
 
 # Crawl through old season threads and plot the win probability and score
