@@ -507,7 +507,7 @@ def getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds):
     with open('data.txt', 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
         for row in reader:
-            if(row[0] != ""):
+            if(len(row) > 2):
                 print(row)
                 quarter = int(row[2])
                 if(row[16] != ""):
@@ -605,7 +605,7 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n') 
         currentRow = 1
         for row in reader:
-            if(row[0] == ""):
+            if(len(row) > 2):
                 currentRow = currentRow + 1
                 homeScore.append(int(row[0])) 
                 awayScore.append(int(row[1]))
