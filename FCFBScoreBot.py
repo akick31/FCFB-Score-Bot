@@ -603,6 +603,8 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
     curHomeScore = 0
     curAwayScore = 0
     rowCount = 1
+    runoff = 0
+    playTime = 0
     
     #Iterate through playlist file
     with open('data.txt', 'r+') as csvfile:
@@ -630,6 +632,9 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                 distance = int(row[7])
                 yardLine = int(row[4])       
                 playType = row[12]
+                if(row[16] is not None and row[17] is not None):
+                    playTime = int(row[16])
+                    runoff = int(row[17])
                     
                 expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
                 
@@ -680,19 +685,20 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                     awayScore.append(curAwayScore)
                     playNumber.append(int(playCount))
             currentRow = currentRow + 1
-            
-    if(curHomeScore > curAwayScore):
-        homeWinProbability.append(100)
-        curHomeWinProbability = 100
-        awayWinProbability.append(0)
-        curAwayWinProbability = 0
-        playNumber.append(int(playCount) + 1)
-    elif(curHomeScore < curAwayScore):
-        awayWinProbability.append(100)
-        curAwayWinProbability = 100
-        homeWinProbability.append(0)
-        curHomeWinProbability = 0 
-        playNumber.append(int(playCount) + 1)
+    if(runoff is not None and playTime is not None and quarter is not None and time is not None and quarter == 4):
+        if(rowCount == currentRow and (time-playTime-runoff) <= 0 and quarter == 4):        
+            if(curHomeScore > curAwayScore):
+                homeWinProbability.append(100)
+                curHomeWinProbability = 100
+                awayWinProbability.append(0)
+                curAwayWinProbability = 0
+                playNumber.append(int(playCount) + 1)
+            elif(curHomeScore < curAwayScore):
+                awayWinProbability.append(100)
+                curAwayWinProbability = 100
+                homeWinProbability.append(0)
+                curHomeWinProbability = 0 
+                playNumber.append(int(playCount) + 1)
     
     #Plot score plot
     plotScorePlot(xList, hometeam, awayteam, homeScore, awayScore, playNumber, homecolor, awaycolor, OTFlag)
