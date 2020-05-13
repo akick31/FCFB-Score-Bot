@@ -122,6 +122,10 @@ def loginDiscord(r):
                         hometeam = hometeam.replace('amp;', '')
                     if(awayteam.find('amp;') >= 0):
                         awayteam = awayteam.replace('amp;', '')
+                    if(hometeam.find('–') >= 0):
+                        hometeam = hometeam.replace('–', '-')
+                    if(awayteam.find('–') >= 0):
+                        awayteam = awayteam.replace('–', '-')
                         
                     # Hardcode to fix inconsistencies in stat sheets
                     if(hometeam == "UMass"):
@@ -340,6 +344,10 @@ def loginDiscord(r):
                         hometeam = hometeam.replace('amp;', '')
                     if(awayteam.find('amp;') >= 0):
                         awayteam = awayteam.replace('amp;', '')
+                    if(hometeam.find('–') >= 0):
+                        hometeam = hometeam.replace('–', '-')
+                    if(awayteam.find('–') >= 0):
+                        awayteam = awayteam.replace('–', '-')
                         
                     # Hardcode to fix inconsistencies in stat sheets
                     if(hometeam == "UMass"):
@@ -396,22 +404,22 @@ def loginDiscord(r):
                             await message.channel.send("No plays for the game found.")
                     else:
                         # Get game thread submission day
-                        # submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
-                        # year = int(submissionTime.split("-")[0])
-                        # month = int(submissionTime.split("-")[1])
-                        #day = int(submissionTime.split("-")[2].split(" ")[0])
-                        #if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
-                        #    await message.channel.send("Iterating through old thread to generate plots...")
-                        #    threadCrawler(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor, season, submission)
+                        submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
+                        year = int(submissionTime.split("-")[0])
+                        month = int(submissionTime.split("-")[1])
+                        day = int(submissionTime.split("-")[2].split(" ")[0])
+                        if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
+                            await message.channel.send("Iterating through old thread to generate plots...")
+                            threadCrawler(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor, season, submission)
                             # Send score plot
-                        #    with open('output.png', 'rb') as fp:
-                        #        await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                            with open('output.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_filename.png'))
                                     
-                        #    # Send the win probability plot
-                        #    with open('outputWinProbability.png', 'rb') as fp:
-                        #        await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                        #else:
-                        await message.channel.send("This game is too old to plot the data. I can only plot Season IV games onward")
+                            # Send the win probability plot
+                            with open('outputWinProbability.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                        else:
+                            await message.channel.send("This game is too old to plot the data. I can only plot Season I, Week 11 games onward")
             else: 
                 await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
                 
@@ -627,7 +635,7 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                 expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
                 
                 #Handle end of game
-                if(row[16] != "" and row[17] != ""):
+                if(row[16] != "" and row[17] != "" and quarter != ""):
                     if(rowCount == currentRow and (time-int(row[16])-int(row[17])) <= 0 and quarter == 4):
                         if(curHomeScore > curAwayScore):
                             homeWinProbability.append(100)
@@ -1198,6 +1206,11 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
         homeTeam = "UMass"
     elif(awayTeam == "Massachusetts"):
         awayTeam = "UMass"
+        
+    if(homeTeam.find('-') >= 0):
+        homeTeam = homeTeam.replace('-', '–')
+    if(awayTeam.find('-') >= 0):
+        awayTeam = awayTeam.replace('-', '–')
     
     homeUser = ""
     awayUser = ""
@@ -1225,9 +1238,67 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
         if(comment.author == 'NFCAAOfficialRefBot' and 'you\'re home' in comment.body):
             homeUser = comment.body.split("The game has started!")[1].split(",")[0].strip()
             awayUser = comment.body.split("The game has started!")[1].split(",")[1].split("home. ")[1].strip()
+        #Handle delay of game
+        if(comment.author == 'NFCAAOfficialRefBot' and 'not sent their number in over 24 hours' in comment.body):
+            if(homeUser in comment.body):
+                awayScore = awayScore + 8
+                playType = "PAT"
+                   
+                homeScoreList.append(homeScore)
+                awayScoreList.append(awayScore)
+                playNumber.append(int(playCount))
+                playCount = playCount + 1
+                                
+                m, s = clock.split(':')
+                time = int(m) * 60 + int(s)
+                                
+                expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
+                if(possession == "home"):
+                    curHomeWinProbability = calculateWinProbabilityOld(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
+                    curAwayWinProbability = 100 - curHomeWinProbability
+                    homeWinProbability.append(curHomeWinProbability)
+                    awayWinProbability.append(curAwayWinProbability)
+                elif(possession == "away"):
+                    curAwayWinProbability = calculateWinProbabilityOld(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
+                    curHomeWinProbability = 100 - curAwayWinProbability
+                    awayWinProbability.append(curAwayWinProbability)
+                    homeWinProbability.append(curHomeWinProbability) 
+                data = (str(homeScore) + " | " + str(awayScore) + " | " + str(quarter) + " | " + clock + " | " 
+                                  + str(yardLine) + " | " + possession + " | " + str(down) + " | " + str(distance) + " | "
+                                  + playType)
+                print(data)
+                
+            if(awayUser in comment.body):
+                homeScore = homeScore + 8
+                playType = "PAT"
+               
+                homeScoreList.append(homeScore)
+                awayScoreList.append(awayScore)
+                playNumber.append(int(playCount))
+                playCount = playCount + 1
+                            
+                m, s = clock.split(':')
+                time = int(m) * 60 + int(s)
+                            
+                expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
+                if(possession == "home"):
+                    curHomeWinProbability = calculateWinProbabilityOld(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
+                    curAwayWinProbability = 100 - curHomeWinProbability
+                    homeWinProbability.append(curHomeWinProbability)
+                    awayWinProbability.append(curAwayWinProbability)
+                elif(possession == "away"):
+                    curAwayWinProbability = calculateWinProbabilityOld(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
+                    curHomeWinProbability = 100 - curAwayWinProbability
+                    awayWinProbability.append(curAwayWinProbability)
+                    homeWinProbability.append(curHomeWinProbability)
+                data = (str(homeScore) + " | " + str(awayScore) + " | " + str(quarter) + " | " + clock + " | " 
+                                  + str(yardLine) + " | " + possession + " | " + str(down) + " | " + str(distance) + " | "
+                                  + playType)
+                   
         # Look through top level comment
-        print(comment.author)
         if(comment.author == 'NFCAAOfficialRefBot' and 'has submitted their' in comment.body and OTFlag != 1):
+            if(OTFlag == 1):
+                break
             # Get the clock and quarter
             clock = comment.body.split("left in the")[0].split("on the")[-1].split(". ")[-1]
             quarter = comment.body.split("left in the ")[1].split(".")[0]
@@ -1297,13 +1368,12 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                 elif(possessionUser == awayUser):
                     possession = "away"
             for secondLevelComment in comment.replies:
-                print(secondLevelComment.author)
+                if(OTFlag == 1):
+                    break
                 # Look through second level comment  
                 if(" and " in homeUser):
                     homeUser1 = homeUser.split(" and ")[0]
                     homeUser2 = homeUser.split(" and ")[1]
-                    print(homeUser1)
-                    print(homeUser2)
                 else:
                     homeUser1 = homeUser
                     homeUser2 = "BLANK USER"
@@ -1406,9 +1476,9 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                         # Add data
                         if(thirdLevelComment.author == 'NFCAAOfficialRefBot' and "I'm not waiting on a message from you" not in thirdLevelComment.body):
                             #Fill plot data
-                            data = (data + str(homeScore) + " | " + str(awayScore) + " | " + str(quarter) + " | " + clock + " | " 
+                            data = (str(homeScore) + " | " + str(awayScore) + " | " + str(quarter) + " | " + clock + " | " 
                                   + str(yardLine) + " | " + possession + " | " + str(down) + " | " + str(distance) + " | "
-                                  + playType + "\n")
+                                  + playType)
                             homeScoreList.append(homeScore)
                             awayScoreList.append(awayScore)
                             playNumber.append(int(playCount))
@@ -1439,6 +1509,7 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                             m, s = clock.split(':')
                             time = 0.1
                             quarter = 4
+                            OTFlag = 1
                             
                             expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
                             if(possession == "home"):
@@ -1451,6 +1522,7 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                                 curHomeWinProbability = 100 - curAwayWinProbability
                                 awayWinProbability.append(curAwayWinProbability)
                                 homeWinProbability.append(curHomeWinProbability)
+                            break
                             
     plotScorePlotOld(homeTeam, awayTeam, homeScoreList, awayScoreList, playNumber, homeColor, awayColor)
     plotWinProbabilityOld(homeTeam, awayTeam, homeWinProbability, awayWinProbability, playNumber, homeColor, awayColor)
