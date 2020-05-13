@@ -388,22 +388,22 @@ def loginDiscord(r):
                             await message.channel.send("No plays for the game found.")
                     else:
                         # Get game thread submission day
-                        submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
-                        year = int(submissionTime.split("-")[0])
-                        month = int(submissionTime.split("-")[1])
-                        day = int(submissionTime.split("-")[2].split(" ")[0])
-                        if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
-                            await message.channel.send("Iterating through old thread to generate plots...")
-                            threadCrawler(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor, season, submission)
+                        # submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
+                        # year = int(submissionTime.split("-")[0])
+                        # month = int(submissionTime.split("-")[1])
+                        #day = int(submissionTime.split("-")[2].split(" ")[0])
+                        #if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
+                        #    await message.channel.send("Iterating through old thread to generate plots...")
+                        #    threadCrawler(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor, season, submission)
                             # Send score plot
-                            with open('output.png', 'rb') as fp:
-                                await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                        #    with open('output.png', 'rb') as fp:
+                        #        await message.channel.send(file=discord.File(fp, 'new_filename.png'))
                                     
-                            # Send the win probability plot
-                            with open('outputWinProbability.png', 'rb') as fp:
-                                await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                        else:
-                            await message.channel.send("This game is too old to plot the data. Week 11 in Season I is as far as I can go back.")
+                        #    # Send the win probability plot
+                        #    with open('outputWinProbability.png', 'rb') as fp:
+                        #        await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                        #else:
+                        await message.channel.send("This game is too old to plot the data. I can only plot Season IV games onward")
             else: 
                 await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
                 
