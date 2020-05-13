@@ -634,7 +634,7 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                 playType = row[12]
                 print(row[16])
                 print(row[16] is not None)
-                if(quarter <= 4 and row[16] is not "" and row[17] is not "" and row[16] is not None and row[17] is not None):
+                if(quarter <= 4 and row[16] != "" and row[17] != "" and row[16] is not None and row[17] is not None):
                     playTime = int(row[16])
                     runoff = int(row[17])
                     
