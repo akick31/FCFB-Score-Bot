@@ -508,6 +508,7 @@ def getCurrentWinProbabilityNew(homeVegasOdds, awayVegasOdds):
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
         for row in reader:
             if(row[0] != ""):
+                print(row)
                 quarter = int(row[2])
                 if(row[16] != ""):
                     time = int(row[3]) - int(row[17]) - int(row[16])
