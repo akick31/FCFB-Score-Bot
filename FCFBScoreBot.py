@@ -593,11 +593,13 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
     OTFlag = 0
     curHomeScore = 0
     curAwayScore = 0
+    rowCount = 1
     
     #Iterate through playlist file
     with open('data.txt', 'r+') as csvfile:
         counter = csv.reader(csvfile, delimiter= '|', lineterminator='\n')  
         rowCount = sum(1 for row in counter)
+    with open('data.txt', 'r+') as csvfile:
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n') 
         currentRow = 1
         for row in reader:
