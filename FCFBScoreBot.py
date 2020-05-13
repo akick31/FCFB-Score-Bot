@@ -1126,7 +1126,7 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
         print(away)
         print(homeTeam)
         print(awayTeam)
-        print(month + " " + day + " " + year)
+        print(str(month) + " " + str(day) + " " + str(year))
         print()
     # If looking for season 4...
     if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" 
