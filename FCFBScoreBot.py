@@ -105,8 +105,6 @@ def loginDiscord(r):
                 submission = searchForGameThread(r, hometeam, awayteam, season, "$score", postseason)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
-                elif(submission == "NOT POSTSEASON"):
-                    await message.channel.send("No game thread found in the Postseason.") 
                 else:
                     print("GAME THREAD FOUND")
                     
@@ -319,8 +317,6 @@ def loginDiscord(r):
                 submission = searchForGameThread(r, hometeam, awayteam, season, "$plot", postseason)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
-                elif(submission == "NOT POSTSEASON"):
-                    await message.channel.send("No game thread found in the Postseason.") 
                 else:
                     print("GAME THREAD FOUND")
                     
@@ -1053,15 +1049,16 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request, postseason):
         year = int(submissionTime.split("-")[0])
         month = int(submissionTime.split("-")[1])
         day = int(submissionTime.split("-")[2].split(" ")[0])
-        away = "blank"
-        home = "blank"
         homeTeam = homeTeam.lower()
         awayTeam = awayTeam.lower()
         if(request == "$score"):
-            return searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year)
-            
+            gameThread = searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year)
+            if(gameThread != "NONE"):
+                return gameThread
         elif(request == "$plot"):
-            return searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year)
+            gameThread = searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year)
+            if(gameThread != "NONE"):
+                return gameThread
     return "NONE"
     
 # Parse the URL from the post game thread
@@ -1079,6 +1076,8 @@ def parseURLFromGameThread(submissionbody, season):
 
 # Seach for gamethread for the $plot command    
 def searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year):
+    away = "blank"
+    home = "blank"
     if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
        or submission.link_flair_text == "Week 10 Game Thread"):
         away = parseAwayTeam(submission.selftext).lower()
@@ -1130,9 +1129,12 @@ def searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, pos
             return submission
         elif (postseason == 0 and (year == 2018 and month <= 9 and day <= 20) or (year == 2018 and month < 9)):
             return submission
+    return "NONE"
     
 # Seach for gamethread for the $score command
 def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year):
+    away = "blank"
+    home = "blank"
     if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
        or submission.link_flair_text == "Week 10 Game Thread"):
         away = parseAwayTeam(submission.selftext).lower()
@@ -1176,6 +1178,7 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
             return submission
         elif (postseason == 0 and (year == 2018 and month <= 9 and day <= 20) or (year == 2018 and month < 9)):
             return submission
+    return "NONE"
     
 # Parse the data from the Pastebin play list
 def parseDataFromPastebin(pastebinURL):
