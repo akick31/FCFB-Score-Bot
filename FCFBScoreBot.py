@@ -1199,8 +1199,10 @@ def parseDataFromGithub(githubURL):
         if(flag == 0 and character == "0"):
             data = data + "0"
             flag = 1
-        elif(flag == 1 and character != "-"):
+        elif(flag == 1):
             data = data + character 
+    if(data.find('--------------------------------------------------------------------------------\n') >= 0):
+        data = data.replace('--------------------------------------------------------------------------------\n', '')
     print(data)
     return data
 
