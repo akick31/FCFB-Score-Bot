@@ -1083,7 +1083,7 @@ def searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, pos
     away = "blank"
     home = "blank"
     if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
-       or submission.link_flair_text == "Week 10 Game Thread"):
+       or submission.link_flair_text == "Week 10 Game Thread" or submission.link_flair_text == "Week 9 Game Thread"):
         away = parseAwayTeam(submission.selftext).lower()
         home = parseHomeTeam(submission.selftext).lower()
         if("–" in away):
