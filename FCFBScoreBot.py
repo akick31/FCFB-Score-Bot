@@ -1196,11 +1196,11 @@ def parseDataFromGithub(githubURL):
     data = ""
     flag = 0
     for character in req.text:
+        print(character)
         if(flag == 0 and character == "0"):
             data = data + "0"
             flag = 1
-        print(character)
-        if(flag == 1 and character != "-"):
+        elif(flag == 1 and character != "-"):
             data = data + character    
     return data
 
