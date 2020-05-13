@@ -105,6 +105,8 @@ def loginDiscord(r):
                 submission = searchForGameThread(r, hometeam, awayteam, season, "$score", postseason)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
+                elif(submission == "NOT POSTSEASON"):
+                    await message.channel.send("No game thread found in the Postseason.") 
                 else:
                     print("GAME THREAD FOUND")
                     
@@ -317,6 +319,8 @@ def loginDiscord(r):
                 submission = searchForGameThread(r, hometeam, awayteam, season, "$plot", postseason)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
+                elif(submission == "NOT POSTSEASON"):
+                    await message.channel.send("No game thread found in the Postseason.") 
                 else:
                     print("GAME THREAD FOUND")
                     
@@ -1054,10 +1058,10 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request, postseason):
         homeTeam = homeTeam.lower()
         awayTeam = awayTeam.lower()
         if(request == "$score"):
-            return searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, postseason)
+            return searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year)
             
         elif(request == "$plot"):
-            return searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, postseason)
+            return searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year)
     return "NONE"
     
 # Parse the URL from the post game thread
@@ -1098,21 +1102,48 @@ def searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, pos
         print(year)
         print("\n")
     # If looking for season 4...
-    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
+    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" 
+        and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        if (postseason == 1):
+            return "NONE"
         return submission
     # If looking for season 3...
-    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S3" and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) 
-        or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-        return submission
+    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S3" 
+        and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) 
+        and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        if (postseason == 1 and (year == 2020 and month == 1 and day > 7) or (year == 2020 and month == 2 and day <= 16)):
+            return submission
+        elif (postseason == 1):
+            return "NOT POSTSEASON"
+        elif (postseason == 0 and (year == 2020 and month == 1 and day <= 7) or (year == 2019)):
+            return submission
+        else:
+            return "NONE"
     # If looking for season 2...
-    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S2" and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6)
-        or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-        return submission
+    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S2" 
+        and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6) or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) 
+        and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        if (postseason == 1 and (year == 2019 and month == 5 and day > 24) or (year == 2019 and month == 6 and day <= 23)):
+            return submission
+        elif (postseason == 1):
+            return "NOT POSTSEASON"
+        elif (postseason == 0 and (year == 2019 and month <= 5 and day <= 24) or (year == 2018)):
+            return submission
+        else:
+            return "NONE"
     # If looking for season 1...
-    if (submission.link_flair_text == "Game Thread" and season == "S1" and ((year == 2018 and month <= 11 and day <= 5) or (year == 2018 and month < 11)
-        or (year == 2018 and month >= 1 and month < 11)) and (homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away)):
-        return submission
+    if (submission.link_flair_text == "Game Thread" and season == "S1" 
+        and ((year == 2018 and month <= 11 and day <= 5) or (year == 2018 and month < 11) or (year == 2018 and month >= 1 and month < 11))
+        and (homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away)):
+        if (postseason == 1 and (year == 2018 and month == 9 and day > 20) or (year == 2018 and month == 10) or (year == 2018 and month == 11 and day <= 5)):
+            return submission
+        elif (postseason == 1):
+            return "NOT POSTSEASON"
+        elif (postseason == 0 and (year == 2018 and month <= 9 and day <= 20) or (year == 2018 and month < 9)):
+            return submission
+        else:
+            return "NONE"
     
 # Seach for gamethread for the $score command
 def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year):
@@ -1145,8 +1176,10 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
             return submission
         elif (postseason == 1):
             return "NOT POSTSEASON"
-        else:
+        elif (postseason == 0 and (year == 2020 and month == 1 and day <= 7) or (year == 2019)):
             return submission
+        else:
+            return "NONE"
     # If looking for season 2...
     if ((submission.link_flair_text == "Post Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S2" 
         and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6) or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) 
@@ -1155,8 +1188,10 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
             return submission
         elif (postseason == 1):
             return "NOT POSTSEASON"
-        else:
+        elif (postseason == 0 and (year == 2019 and month <= 5 and day <= 24) or (year == 2018)):
             return submission
+        else:
+            return "NONE"
     # If looking for season 1...
     if (submission.link_flair_text == "Post Game Thread" and season == "S1" 
         and ((year == 2018 and month <= 11 and day <= 5) or (year == 2018 and month < 11) or (year == 2018 and month >= 1 and month < 11))
@@ -1165,8 +1200,10 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
             return submission
         elif (postseason == 1):
             return "NOT POSTSEASON"
-        else:
+        elif (postseason == 0 and (year == 2018 and month <= 9 and day <= 20) or (year == 2018 and month < 9)):
             return submission
+        else:
+            return "NONE"
     
 # Parse the data from the Pastebin play list
 def parseDataFromPastebin(pastebinURL):
