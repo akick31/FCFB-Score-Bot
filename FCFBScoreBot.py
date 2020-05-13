@@ -1130,25 +1130,25 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
     if ((submission.link_flair_text == "Post Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S3" 
         and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) 
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-        if (postseason == 1 and (year == 2020 and month == 1 and day > 7) or (year == 2020 and month == 2 and day <= 16)):
+        if (postseason == 1 and ((year == 2020 and month == 1 and day > 7) or (year == 2020 and month == 2 and day <= 16))):
             return submission
-        elif (postseason == 0 and (year == 2020 and month == 1 and day <= 7) or (year == 2019)):
+        elif (postseason == 0 and ((year == 2020 and month == 1 and day <= 7) or (year == 2019))):
             return submission
     # If looking for season 2...
     if ((submission.link_flair_text == "Post Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S2" 
         and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6) or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) 
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-        if (postseason == 1 and (year == 2019 and month == 5 and day > 24) or (year == 2019 and month == 6 and day <= 23)):
+        if (postseason == 1 and ((year == 2019 and month == 5 and day > 24) or (year == 2019 and month == 6 and day <= 23))):
             return submission
-        elif (postseason == 0 and (year == 2019 and month <= 5 and day <= 24) or (year == 2018)):
+        elif (postseason == 0 and ((year == 2019 and month <= 5 and day <= 24) or (year == 2018))):
             return submission
     # If looking for season 1...
     if (submission.link_flair_text == "Post Game Thread" and season == "S1" 
         and ((year == 2018 and month <= 11 and day <= 5) or (year == 2018 and month < 11) or (year == 2018 and month >= 1 and month < 11))
         and (homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away)):
-        if (postseason == 1 and (year == 2018 and month == 9 and day > 20) or (year == 2018 and month == 10) or (year == 2018 and month == 11 and day <= 5)):
+        if (postseason == 1 and ((year == 2018 and month == 9 and day > 20) or (year == 2018 and month == 10) or (year == 2018 and month == 11 and day <= 5))):
             return submission
-        elif (postseason == 0 and (year == 2018 and month <= 9 and day <= 20) or (year == 2018 and month < 9)):
+        elif (postseason == 0 and ((year == 2018 and month <= 9 and day <= 20) or (year == 2018 and month < 9))):
             return submission
     return "NONE"
     
