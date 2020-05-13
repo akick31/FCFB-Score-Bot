@@ -1127,6 +1127,7 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
         print(homeTeam)
         print(awayTeam)
         print(str(month) + " " + str(day) + " " + str(year))
+        print(season)
         print(postseason)
         print()
     # If looking for season 4...
