@@ -604,7 +604,6 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
         currentRow = 1
         for row in reader:
             currentRow = currentRow + 1
-            print(row)
             homeScore.append(int(row[0])) 
             awayScore.append(int(row[1]))
             curHomeScore = int(row[0])
