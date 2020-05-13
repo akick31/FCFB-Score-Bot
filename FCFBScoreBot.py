@@ -635,7 +635,7 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                 expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
                 
                 #Handle end of game
-                if(row[16] != "" and row[17] != "" and quarter != ""):
+                if(row[16] != None and row[17] != None and quarter != None and time != None):
                     if(rowCount == currentRow and (time-int(row[16])-int(row[17])) <= 0 and quarter == 4):
                         if(curHomeScore > curAwayScore):
                             homeWinProbability.append(100)
