@@ -1080,20 +1080,6 @@ def searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, pos
             away = away.replace('–', '-')
         elif("–" in home):
             home = home.replace('–', '-')
-        print(submission.title)
-        print(submission.link_flair_text)
-        print(away == homeTeam)
-        print(away == awayTeam)
-        print(home == homeTeam)
-        print(home == awayTeam)
-        print(away)
-        print(home)
-        print(awayTeam)
-        print(homeTeam)
-        print(day)
-        print(month)
-        print(year)
-        print("\n")
     # If looking for season 4...
     if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" 
         and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
@@ -1133,16 +1119,6 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
        or submission.link_flair_text == "Week 10 Game Thread"):
         away = parseAwayTeam(submission.selftext).lower()
         home = parseHomeTeam(submission.selftext).lower()
-        print(submission.title)
-        print(submission.link_flair_text)
-        print(away)
-        print(home)
-        print(awayTeam)
-        print(homeTeam)
-        print(day)
-        print(month)
-        print(year)
-        print("\n")
     # If looking for season 4...
     if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" 
         and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
