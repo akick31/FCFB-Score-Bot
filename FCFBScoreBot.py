@@ -604,71 +604,71 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
         for row in reader:
             currentRow = currentRow + 1
             print(row)
-            if(row[0] != '--------------------------------------------------------------------------------'):
-                homeScore.append(int(row[0])) 
-                awayScore.append(int(row[1]))
-                curHomeScore = int(row[0])
-                curAwayScore = int(row[1])
-                playNumber.append(int(playCount))
-                playCount = playCount + 1
-                quarter = int(row[2])
-                time = int(row[3])
-                timemod = 4 - quarter 
-                x = 1680 - (time + 420 * timemod)
-                xList.append(x)
-                if(quarter > 4):
-                    OTFlag = 1
-                down = int(row[6])
-                distance = int(row[7])
-                yardLine = int(row[4])       
-                playType = row[12]
+            homeScore.append(int(row[0])) 
+            awayScore.append(int(row[1]))
+            curHomeScore = int(row[0])
+            curAwayScore = int(row[1])
+            playNumber.append(int(playCount))
+            playCount = playCount + 1
+            quarter = int(row[2])
+            time = int(row[3])
+            timemod = 4 - quarter 
+            x = 1680 - (time + 420 * timemod)
+            xList.append(x)
+            if(quarter > 4):
+                OTFlag = 1
+            down = int(row[6])
+            distance = int(row[7])
+            yardLine = int(row[4])       
+            playType = row[12]
                 
-                expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
+            expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
             
-                if(rowCount == currentRow):
-                    if(curHomeScore > curAwayScore):
-                        homeWinProbability.append(100)
-                        curHomeWinProbability = 100
-                        awayWinProbability.append(0)
-                        curAwayWinProbability = 0
-                        break
-                    elif(curHomeScore < curAwayScore):
-                        awayWinProbability.append(100)
-                        curAwayWinProbability = 100
-                        homeWinProbability.append(0)
-                        curHomeWinProbability = 0
-                        break   
-                # Parse the win probability
-                if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
-                    or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
-                    curHomeWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
-                    curAwayWinProbability = 100 - curHomeWinProbability
-                    homeWinProbability.append(curHomeWinProbability)
-                    awayWinProbability.append(curAwayWinProbability)
-                if((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
-                    or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
-                    curAwayWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
-                    curHomeWinProbability = 100 - curAwayWinProbability
-                    awayWinProbability.append(curAwayWinProbability)
-                    homeWinProbability.append(curHomeWinProbability)  
-            # Handle OT so that winner is at 100%
-            if(rowCount == currentRow and OTFlag == 1):
+            #Handle end of game
+            if(rowCount == currentRow):
                 if(curHomeScore > curAwayScore):
                     homeWinProbability.append(100)
                     curHomeWinProbability = 100
                     awayWinProbability.append(0)
                     curAwayWinProbability = 0
-                    homeScore.append(curHomeScore)
-                    awayScore.append(curAwayScore)
-                    playNumber.append(int(playCount))
+                    break
                 elif(curHomeScore < curAwayScore):
                     awayWinProbability.append(100)
                     curAwayWinProbability = 100
                     homeWinProbability.append(0)
                     curHomeWinProbability = 0
-                    homeScore.append(curHomeScore)
-                    awayScore.append(curAwayScore)
-                    playNumber.append(int(playCount))
+                    break   
+            # Parse the win probability
+            if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
+               or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
+                curHomeWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                curAwayWinProbability = 100 - curHomeWinProbability
+                homeWinProbability.append(curHomeWinProbability)
+                awayWinProbability.append(curAwayWinProbability)
+            if((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
+               or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
+                curAwayWinProbability = calculateWinProbability(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
+                curHomeWinProbability = 100 - curAwayWinProbability
+                awayWinProbability.append(curAwayWinProbability)
+                homeWinProbability.append(curHomeWinProbability)  
+        # Handle OT so that winner is at 100%
+        if(rowCount == currentRow and OTFlag == 1):
+            if(curHomeScore > curAwayScore):
+                homeWinProbability.append(100)
+                curHomeWinProbability = 100
+                awayWinProbability.append(0)
+                curAwayWinProbability = 0
+                homeScore.append(curHomeScore)
+                awayScore.append(curAwayScore)
+                playNumber.append(int(playCount))
+            elif(curHomeScore < curAwayScore):
+                awayWinProbability.append(100)
+                curAwayWinProbability = 100
+                homeWinProbability.append(0)
+                curHomeWinProbability = 0
+                homeScore.append(curHomeScore)
+                awayScore.append(curAwayScore)
+                playNumber.append(int(playCount))
     
     #Plot score plot
     plotScorePlot(xList, hometeam, awayteam, homeScore, awayScore, playNumber, homecolor, awaycolor, OTFlag)
@@ -1203,7 +1203,6 @@ def parseDataFromGithub(githubURL):
             data = data + character 
     if(data.find('--------------------------------------------------------------------------------\n') >= 0):
         data = data.replace('--------------------------------------------------------------------------------\n', '')
-    print(data)
     return data
 
 # Crawl through old season threads and plot the win probability and score
