@@ -634,15 +634,15 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                 playType = row[12]
                 print(row[16])
                 print(row[16] is not None)
-                if(quarter <= 4 and row[16] != "" and row[16] is not None):
+                if(quarter <= 4 and (row[16] != "" or row[16] is not "None")):
                     playTime = int(row[16])
-                if(quarter <= 4 and row[17] != "" and row[17] is not None):
+                if(quarter <= 4 and (row[17] != "" or row[17] is not "None")):
                     runoff = int(row[17])
                     
                 expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
                 
                 #Handle end of game
-                if(row[16] is not None and row[17] is not None and quarter is not None and time is not None and quarter == 4):
+                if(row[16] is not "None" and row[17] is not "None" and quarter is not "None" and time is not "None" and quarter == 4):
                     if(rowCount == currentRow and (time-int(row[16])-int(row[17])) <= 0 and quarter == 4):
                         if(curHomeScore > curAwayScore):
                             homeWinProbability.append(100)
