@@ -1540,7 +1540,18 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                             
                             m, s = clock.split(':')
                             time = int(m) * 60 + int(s)
-                            
+                            if(time == 0 and int(quarter) == 4):
+                                if(homeScore > awayScore):
+                                    curHomeWinProbability = 100
+                                    urAwayWinProbability = 100 - curHomeWinProbability
+                                    homeWinProbability.append(curHomeWinProbability)
+                                    awayWinProbability.append(curAwayWinProbability)
+                                elif(homeScore < awayScore):
+                                    curAwayWinProbability = 100
+                                    curHomeWinProbability = 100 - curAwayWinProbability
+                                    awayWinProbability.append(curAwayWinProbability)
+                                    homeWinProbability.append(curHomeWinProbability)
+                                break
                             expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
                             if(possession == "home"):
                                 curHomeWinProbability = calculateWinProbabilityOld(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
