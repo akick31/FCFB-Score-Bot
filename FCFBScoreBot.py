@@ -1138,6 +1138,7 @@ def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, po
     if ((submission.link_flair_text == "Post Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S3" 
         and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) 
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        print("WENT IN HERE")
         if (postseason == 1 and ((year == 2020 and month == 1 and day > 7) or (year == 2020 and month == 2 and day <= 16))):
             return submission
         elif (postseason == 0 and ((year == 2020 and month == 1 and day <= 7) or (year == 2019))):
