@@ -1090,6 +1090,10 @@ def searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, pos
             away = away.replace('–', '-')
         elif("–" in home):
             home = home.replace('–', '-')
+        print(home)
+        print(away)
+        print(homeTeam)
+        print(awayTeam)
     # If looking for season 4...
     if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" 
         and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
@@ -1109,7 +1113,7 @@ def searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, pos
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
         if (postseason == 1 and ((year == 2019 and month == 5 and day > 24) or (year == 2019 and month == 6 and day <= 23))):
             return submission
-        elif (postseason == 0 and ((year == 2019 and month <= 5 and day <= 24) or (year == 2018))):
+        elif (postseason == 0 and ((year == 2019 and month <= 5 and day <= 24) or (year == 2019 and month < 5) or (year == 2018))):
             return submission
     # If looking for season 1...
     if (submission.link_flair_text == "Game Thread" and season == "S1" 
