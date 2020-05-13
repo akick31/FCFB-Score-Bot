@@ -685,6 +685,10 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                     awayScore.append(curAwayScore)
                     playNumber.append(int(playCount))
             currentRow = currentRow + 1
+    if(playTime is None):
+        playTime = 0
+    if(runoff is None):
+        runoff = 0
     if(runoff is not None and playTime is not None and quarter is not None and time is not None and quarter == 4):
         if(rowCount == currentRow and (time-playTime-runoff) <= 0 and quarter == 4):        
             if(curHomeScore > curAwayScore):
