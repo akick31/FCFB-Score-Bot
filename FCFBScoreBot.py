@@ -635,7 +635,7 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
                 expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
                 
                 #Handle end of game
-                if(row[16] != None and row[17] != None and quarter is not None and time != None):
+                if(row[16] is not None and row[17] is not None and quarter is not None and time is not None):
                     print(rowCount)
                     print(currentRow)
                     print(time)
