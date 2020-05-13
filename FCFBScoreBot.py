@@ -598,18 +598,12 @@ def iterateThroughNewData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, home
     
     #Iterate through playlist file
     with open('data.txt', 'r+') as csvfile:
-        lines = csvfile.readlines()
-        csvfile.seek(0)
-        rowCount = 1
-        for line in lines:
-            if line == '--------------------------------------------------------------------------------':
-                csvfile.remove(line)
-            else:
-                rowCount = rowCount + 1
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')  
+        rowCount = sum(1 for row in reader)
         currentRow = 1
         for row in reader:
             currentRow = currentRow + 1
+            print(row)
             if(row[0] != '--------------------------------------------------------------------------------'):
                 homeScore.append(int(row[0])) 
                 awayScore.append(int(row[1]))
@@ -1204,8 +1198,8 @@ def parseDataFromGithub(githubURL):
     for character in req.text:
         if(flag == 0 and character == "0"):
             data = data + "0"
-            flag = 1
-        elif(flag == 1):
+            flag = 1          
+        elif(flag == 1 and character != "-"):
             data = data + character
     return data
 
