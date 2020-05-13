@@ -73,6 +73,8 @@ def loginDiscord(r):
                 
                 # Parse the season number from string
                 season = "S4"
+                postseason = 0
+                    
                 if(("S1" in awayteam or "S2" in awayteam or "S3" in awayteam or "S4" in awayteam)
                    or ("s1" in awayteam or "s2" in awayteam or "s3" in awayteam or "s4" in awayteam)):
                     teamsplit = awayteam.split(" ")
@@ -81,9 +83,12 @@ def loginDiscord(r):
                         if(("S1" in split or "S2" in split or "S3" in split or "S4" in split)
                            or ("s1" in split or "s2" in split or "s3" in split or "s4" in split)):
                             season = teamsplit[i]
+                        if("postseason" in split or "Postseason" in split):
+                            postseason = 1
                         i = i + 1
                     awayteam = awayteam.split(season)[0] 
                     awayteam = awayteam.strip()
+                    
                 
                 await message.channel.send("Looking for the game thread...")
                 print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + hometeam + " vs " + awayteam)
@@ -97,7 +102,7 @@ def loginDiscord(r):
                 if(awayteam == 'Miami' or awayteam == 'miami'):
                     awayteam = 'miami (fl)'
                 
-                submission = searchForGameThread(r, hometeam, awayteam, season, "$score")
+                submission = searchForGameThread(r, hometeam, awayteam, season, "$score", postseason)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
                 else:
@@ -280,6 +285,7 @@ def loginDiscord(r):
                 
                 # Parse the season number from string
                 season = "S4"
+                postseason = 0
                 if(("S1" in awayteam or "S2" in awayteam or "S3" in awayteam or "S4" in awayteam)
                    or ("s1" in awayteam or "s2" in awayteam or "s3" in awayteam or "s4" in awayteam)):
                     teamsplit = awayteam.split(" ")
@@ -288,6 +294,8 @@ def loginDiscord(r):
                         if(("S1" in split or "S2" in split or "S3" in split or "S4" in split)
                            or ("s1" in split or "s2" in split or "s3" in split or "s4" in split)):
                             season = teamsplit[i]
+                        if("postseason" in split or "Postseason" in split):
+                            postseason = 1
                         i = i + 1
                     awayteam = awayteam.split(season)[0] 
                     awayteam = awayteam.strip()
@@ -306,7 +314,7 @@ def loginDiscord(r):
                     awayteam = 'miami (fl)'
                 
                 # Look for game thread
-                submission = searchForGameThread(r, hometeam, awayteam, season, "$plot")
+                submission = searchForGameThread(r, hometeam, awayteam, season, "$plot", postseason)
                 if(submission == "NONE"):
                     await message.channel.send("No game thread found.")
                 else:
@@ -1024,7 +1032,7 @@ def parseAwayTeam(submissionbody):
     return awayTeam
       
 # Iterate through Reddit to find the post game threads
-def searchForGameThread(r, homeTeam, awayTeam, season, request):
+def searchForGameThread(r, homeTeam, awayTeam, season, request, postseason):
     searchItem = "\"Game Thread\" \"" + homeTeam + "\" \"" + awayTeam + "\""
     print(searchItem)
     if(season == "s1"):
@@ -1046,75 +1054,10 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request):
         homeTeam = homeTeam.lower()
         awayTeam = awayTeam.lower()
         if(request == "$score"):
-            if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
-               or submission.link_flair_text == "Week 10 Game Thread"):
-                away = parseAwayTeam(submission.selftext).lower()
-                home = parseHomeTeam(submission.selftext).lower()
-                print(submission.title)
-                print(submission.link_flair_text)
-                print(away)
-                print(home)
-                print(awayTeam)
-                print(homeTeam)
-                print(day)
-                print(month)
-                print(year)
-                print("\n")
-            # If looking for season 4...
-            if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
-            and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-                return submission
-            # If looking for season 3...
-            if (submission.link_flair_text == "Post Game Thread" and season == "S3" and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) 
-            or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-                return submission
-            # If looking for season 2...
-            if (submission.link_flair_text == "Post Game Thread" and season == "S2" and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6)
-            or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-                return submission
-            # If looking for season 1...
-            if (submission.link_flair_text == "Post Game Thread" and season == "S1" and ((year == 2018 and month <= 11 and day <= 5) or (year == 2018 and month < 11)
-            or (year == 2018 and month >= 1 and month < 11)) and (homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away)):
-                return submission
+            return searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, postseason)
+            
         elif(request == "$plot"):
-            if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
-               or submission.link_flair_text == "Week 10 Game Thread"):
-                away = parseAwayTeam(submission.selftext).lower()
-                home = parseHomeTeam(submission.selftext).lower()
-                if("–" in away):
-                    away = away.replace('–', '-')
-                elif("–" in home):
-                    home = home.replace('–', '-')
-                print(submission.title)
-                print(submission.link_flair_text)
-                print(away == homeTeam)
-                print(away == awayTeam)
-                print(home == homeTeam)
-                print(home == awayTeam)
-                print(away)
-                print(home)
-                print(awayTeam)
-                print(homeTeam)
-                print(day)
-                print(month)
-                print(year)
-                print("\n")
-            # If looking for season 4...
-            if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
-            and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-                return submission
-            # If looking for season 3...
-            if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S3" and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) 
-            or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-                return submission
-            # If looking for season 2...
-            if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S2" and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6)
-            or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
-                return submission
-            # If looking for season 1...
-            if (submission.link_flair_text == "Game Thread" and season == "S1" and ((year == 2018 and month <= 11 and day <= 5) or (year == 2018 and month < 11)
-            or (year == 2018 and month >= 1 and month < 11)) and (homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away)):
-                return submission
+            return searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, postseason)
     return "NONE"
     
 # Parse the URL from the post game thread
@@ -1129,6 +1072,101 @@ def parseURLFromGameThread(submissionbody, season):
         splitlist = submissionbody.split("#Game complete")[0].split("[Plays](")
         numItems = len(splitlist) - 1
         return splitlist[numItems].split(")")[0]
+
+# Seach for gamethread for the $plot command    
+def searchForPlotGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year):
+    if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
+       or submission.link_flair_text == "Week 10 Game Thread"):
+        away = parseAwayTeam(submission.selftext).lower()
+        home = parseHomeTeam(submission.selftext).lower()
+        if("–" in away):
+            away = away.replace('–', '-')
+        elif("–" in home):
+            home = home.replace('–', '-')
+        print(submission.title)
+        print(submission.link_flair_text)
+        print(away == homeTeam)
+        print(away == awayTeam)
+        print(home == homeTeam)
+        print(home == awayTeam)
+        print(away)
+        print(home)
+        print(awayTeam)
+        print(homeTeam)
+        print(day)
+        print(month)
+        print(year)
+        print("\n")
+    # If looking for season 4...
+    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
+        and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        return submission
+    # If looking for season 3...
+    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S3" and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) 
+        or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        return submission
+    # If looking for season 2...
+    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S2" and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6)
+        or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        return submission
+    # If looking for season 1...
+    if (submission.link_flair_text == "Game Thread" and season == "S1" and ((year == 2018 and month <= 11 and day <= 5) or (year == 2018 and month < 11)
+        or (year == 2018 and month >= 1 and month < 11)) and (homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away)):
+        return submission
+    
+# Seach for gamethread for the $score command
+def searchForScoreGamethread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year):
+    if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
+       or submission.link_flair_text == "Week 10 Game Thread"):
+        away = parseAwayTeam(submission.selftext).lower()
+        home = parseHomeTeam(submission.selftext).lower()
+        print(submission.title)
+        print(submission.link_flair_text)
+        print(away)
+        print(home)
+        print(awayTeam)
+        print(homeTeam)
+        print(day)
+        print(month)
+        print(year)
+        print("\n")
+    # If looking for season 4...
+    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" 
+        and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
+        and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        if (postseason == 1):
+            return "NONE"
+        return submission
+    # If looking for season 3...
+    if ((submission.link_flair_text == "Post Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S3" 
+        and ((year == 2020 and month <= 2 and day <= 15) or (year == 2020 and month < 2) or (year == 2019 and month == 7 and day >= 20) or (year == 2019 and month > 7)) 
+        and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        if (postseason == 1 and (year == 2020 and month == 1 and day > 7) or (year == 2020 and month == 2 and day <= 16)):
+            return submission
+        elif (postseason == 1):
+            return "NOT POSTSEASON"
+        else:
+            return submission
+    # If looking for season 2...
+    if ((submission.link_flair_text == "Post Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S2" 
+        and ((year == 2019 and month <= 6 and day <= 22) or (year == 2019 and month < 6) or (year == 2018 and month >= 11 and day >= 20) or (year == 2018 and month > 11)) 
+        and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        if (postseason == 1 and (year == 2019 and month == 5 and day > 24) or (year == 2019 and month == 6 and day <= 23)):
+            return submission
+        elif (postseason == 1):
+            return "NOT POSTSEASON"
+        else:
+            return submission
+    # If looking for season 1...
+    if (submission.link_flair_text == "Post Game Thread" and season == "S1" 
+        and ((year == 2018 and month <= 11 and day <= 5) or (year == 2018 and month < 11) or (year == 2018 and month >= 1 and month < 11))
+        and (homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away)):
+        if (postseason == 1 and (year == 2018 and month == 9 and day > 20) or (year == 2018 and month == 10) or (year == 2018 and month == 11 and day <= 5)):
+            return submission
+        elif (postseason == 1):
+            return "NOT POSTSEASON"
+        else:
+            return submission
     
 # Parse the data from the Pastebin play list
 def parseDataFromPastebin(pastebinURL):
