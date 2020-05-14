@@ -352,7 +352,6 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                             data = (str(homeScore) + " | " + str(awayScore) + " | " + str(quarter) + " | " + clock + " | " 
                                   + str(yardLine) + " | " + possession + " | " + str(down) + " | " + str(distance) + " | "
                                   + playType)
-                            print(data)
                             homeScoreList.append(homeScore)
                             awayScoreList.append(awayScore)
                             playNumber.append(int(playCount))
