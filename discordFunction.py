@@ -15,7 +15,8 @@ from gameData import parseHomeTeam
 from gameData import parseAwayTeam
 from gameThreadData import searchForGameThread
 from gameThreadData import saveGithubData
-from gistData import iterateThroughGistData
+from gistData import iterateThroughGistDataGameOver
+from gistData import iterateThroughGistDataOngoingGame
 from threadCrawler import threadCrawler
 from winProbability import getCurrentWinProbability
 
@@ -282,20 +283,36 @@ async def handlePlotMessage(r, message):
 
             #Work with new gist
             if(season == "S4"):
-                #If there is a GitHub URL as plays have been called
-                if(url != "NO PLAYS"):
-                    # Iterate through the data and plot the graphs
-                    iterateThroughGistData(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
-                    
-                    # Send score plot
-                    with open('output.png', 'rb') as fp:
-                        await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                if("Game complete" in submission.selftext):
+                    #If there is a GitHub URL as plays have been called
+                    if(url != "NO PLAYS"):
+                        # Iterate through the data and plot the graphs
+                        iterateThroughGistDataGameOver(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
                         
-                    # Send the win probability plot
-                    with open('outputWinProbability.png', 'rb') as fp:
-                        await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                        # Send score plot
+                        with open('output.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                            
+                        # Send the win probability plot
+                        with open('outputWinProbability.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                    else:
+                        await message.channel.send("No plays for the game found.")
                 else:
-                    await message.channel.send("No plays for the game found.")
+                    #If there is a GitHub URL as plays have been called
+                    if(url != "NO PLAYS"):
+                        # Iterate through the data and plot the graphs
+                        iterateThroughGistDataOngoingGame(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
+                        
+                        # Send score plot
+                        with open('output.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                            
+                        # Send the win probability plot
+                        with open('outputWinProbability.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                    else:
+                        await message.channel.send("No plays for the game found.")
             else:
                 # Get game thread submission day
                 submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
@@ -312,10 +329,10 @@ async def handlePlotMessage(r, message):
                     # Send the win probability plot
                     with open('outputWinProbability.png', 'rb') as fp:
                         await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                    await message.channel.delete(oldThread, delay = None)
+                    await message.channel.delete(oldThread)
                 else:
                     await message.channel.send("This game is too old to plot the data. I can only plot Season I, Week 11 games onward")
-            await message.channel.delete(lookingForThread, delay = None)
+        await message.channel.delete(lookingForThread)
     else: 
         await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
 
