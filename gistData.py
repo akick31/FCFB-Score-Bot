@@ -243,7 +243,10 @@ def iterateThroughGistDataGameOver(hometeam, awayteam, homeVegasOdds, awayVegasO
                     curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
                     curHomeWinProbability = 100 - curAwayWinProbability
                     awayWinProbability.append(curAwayWinProbability)
-                    homeWinProbability.append(curHomeWinProbability)  
+                    homeWinProbability.append(curHomeWinProbability) 
+                print(curHomeWinProbability)
+                print(curAwayWinProbability)
+                print()
             # Handle OT so that winner is at 100%
             if(rowCount == currentRow and OTFlag == 1):
                 if(curHomeScore > curAwayScore):
