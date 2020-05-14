@@ -61,35 +61,70 @@ def iterateThroughGistDataOngoingGame(hometeam, awayteam, homeVegasOdds, awayVeg
                     runoff = int(row[17])
                     
                 expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
-                
-                #Handle end of game
-                if(row[16] != "None" and row[17] != "None" and quarter != "None" and time != "None" and quarter == 4):
-                    if(rowCount == currentRow and (time-int(row[16])-int(row[17])) <= 0 and quarter == 4):
-                        if(curHomeScore > curAwayScore):
-                            homeWinProbability.append(100)
-                            curHomeWinProbability = 100
-                            awayWinProbability.append(0)
-                            curAwayWinProbability = 0
-                            break
-                        elif(curHomeScore < curAwayScore):
-                            awayWinProbability.append(100)
-                            curAwayWinProbability = 100
-                            homeWinProbability.append(0)
-                            curHomeWinProbability = 0
-                            break   
                 # Parse the win probability
                 if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
                    or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curHomeWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
-                    curAwayWinProbability = 100 - curHomeWinProbability
                     homeWinProbability.append(curHomeWinProbability)
-                    awayWinProbability.append(curAwayWinProbability)
+                    awayWinProbability.append(100-curHomeWinProbability)
                 if((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
                    or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
-                    curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
-                    curHomeWinProbability = 100 - curAwayWinProbability
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
+                    curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
                     awayWinProbability.append(curAwayWinProbability)
-                    homeWinProbability.append(curHomeWinProbability)  
+                    homeWinProbability.append(100-curAwayWinProbability)
+                # Handle if points were scored
+                if(row[5] == "home" and row[14] == "TOUCHDOWN"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
+                    curHomeWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    homeWinProbability.append(curHomeWinProbability)
+                    awayWinProbability.append(100-curHomeWinProbability)
+                if(row[5] == "away" and row[14] == "TOUCHDOWN"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
+                    curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    awayWinProbability.append(curAwayWinProbability)
+                    homeWinProbability.append(100-curAwayWinProbability)
+                if(row[5] == "home" and row[14] == "FIELD GOAL"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curHomeWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    homeWinProbability.append(curHomeWinProbability)
+                    awayWinProbability.append(100-curHomeWinProbability)
+                if(row[5] == "away" and row[14] == "FIELD GOAL"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    awayWinProbability.append(curAwayWinProbability)
+                    homeWinProbability.append(100-curAwayWinProbability)
+                if(row[5] == "home" and row[14] == "PAT"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curHomeWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    homeWinProbability.append(curHomeWinProbability)
+                    awayWinProbability.append(100-curHomeWinProbability)
+                if(row[5] == "away" and row[14] == "PAT"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    awayWinProbability.append(curAwayWinProbability)
+                    homeWinProbability.append(100-curAwayWinProbability)
+                if(row[5] == "home" and row[14] == "TWO POINT"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curHomeWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    homeWinProbability.append(curHomeWinProbability)
+                    awayWinProbability.append(100-curHomeWinProbability)
+                if(row[5] == "away" and row[14] == "TWO POINT"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    awayWinProbability.append(curAwayWinProbability)
+                    homeWinProbability.append(100-curAwayWinProbability)
+                if(row[5] == "home" and row[14] == "SAFETY"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curHomeWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    homeWinProbability.append(curHomeWinProbability)
+                    awayWinProbability.append(100-curHomeWinProbability)
+                if(row[5] == "away" and row[14] == "SAFETY"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
+                    curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    awayWinProbability.append(curAwayWinProbability)
+                    homeWinProbability.append(100-curAwayWinProbability)
             # Handle OT so that winner is at 100%
             if(rowCount == currentRow and OTFlag == 1):
                 if(curHomeScore > curAwayScore):
