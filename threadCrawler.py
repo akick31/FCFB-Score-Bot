@@ -4,13 +4,16 @@ from plotGraphs import plotScorePlotThreadCrawler
 from plotGraphs import plotWinProbabilityThreadCrawler
 
 """
-Created on Wed May 13 21:36:29 2020
+Crawl through an old Game Thread (pre-Season 4) and gather game data and plot it
 
 @author: apkick
 """
 
 
-# Crawl through old season threads and plot the win probability and score
+"""
+Crawl through old season threads and plot the win probability and score
+
+"""
 def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission):
     submission.comment_sort = "old"
 

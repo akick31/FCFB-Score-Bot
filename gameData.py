@@ -7,7 +7,10 @@ Created on Wed May 13 20:24:10 2020
 """
 
 
-# Parse the quarter
+"""
+Parse the quarter from the game thread
+
+"""
 def parseQuarter(submissionbody):
     if(len(submissionbody.split("___")) == 7):
         quarter = submissionbody.split("___")[4].split("\n")[4].split("|")[1].split(" ")[0]
@@ -24,7 +27,10 @@ def parseQuarter(submissionbody):
     else:
         return "OT"
  
-# Parse the current yard line
+"""
+Parse the yard line from the game thread
+
+"""
 def parseYardLine(submissionbody):
     if(len(submissionbody.split("___")) == 7):
         # Get the time
@@ -43,7 +49,10 @@ def parseYardLine(submissionbody):
             return "50"
     return sideOfField + " " + yardLine  
  
-# Parse the current down and distance
+"""
+Parse the down from the game thread
+
+"""
 def parseDown(submissionbody):
     if(len(submissionbody.split("___")) == 7):
         # Get the time
@@ -52,7 +61,10 @@ def parseDown(submissionbody):
         down = submissionbody.split("___")[3].split("\n")[4].split("|")[2]
     return down
 
-# Parse who has the ball    
+"""
+Parse what team has the ball from the game thread
+
+"""  
 def parsePossession(submissionbody):
     possession = "home"
     possession = submissionbody.split("___")[4].split("\n")[4].split("|")[4].split("]")[0].split("[")[-1]
@@ -64,7 +76,10 @@ def parsePossession(submissionbody):
     #            possession = row[5]
     return possession
     
-# Parse the time
+"""
+Parse the time from the game thread
+
+"""
 def parseTime(submissionbody):
     if(len(submissionbody.split("___")) == 7):
         # Get the time
@@ -73,7 +88,10 @@ def parseTime(submissionbody):
         time = submissionbody.split("___")[4].split("\n")[3].split("|")[0]
     return time 
     
-# Parse the home score
+"""
+Parse the home score from the game thread
+
+"""
 def parseHomeScore(submissionbody):
     # Handle various different thread formats
     if(len(submissionbody.split("___")) == 7):
@@ -102,7 +120,10 @@ def parseHomeScore(submissionbody):
         
     return homeTeamScore
 
-# Parse the away score
+"""
+Parse the away score from the game thread
+
+"""
 def parseAwayScore(submissionbody):
     # Handle various different thread formats
     if(len(submissionbody.split("___")) == 7):
@@ -131,7 +152,10 @@ def parseAwayScore(submissionbody):
     return awayTeamScore
     
 
-# Parse the home team
+"""
+Parse the home team from the game thread
+
+"""
 def parseHomeTeam(submissionbody):
     homeTeam = "blank"
     # Handle various different thread formats
@@ -166,7 +190,10 @@ def parseHomeTeam(submissionbody):
         homeTeam = homeTeam.replace('[', '')
     return homeTeam
 
-# Parse the away team
+"""
+Parse the away team from the game thread
+
+"""
 def parseAwayTeam(submissionbody):
     awayTeam = "blank"
     # Handle various different thread formats

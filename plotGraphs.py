@@ -2,12 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 """
-Created on Wed May 13 21:46:59 2020
+Plot graphs using MatPlotLib
 
 @author: apkick
 """
 
-# Plot the win probability for the game
+"""
+Plot the win probability for the game using Gist data
+
+"""
 def plotWinProbabilityGist(homeTeam, awayTeam, homeWinProbability, awayWinProbability, playNumber, homeColor, awayColor):
     playNumber = np.array(playNumber)
     homeWinProbability = np.array(homeWinProbability)
@@ -25,7 +28,10 @@ def plotWinProbabilityGist(homeTeam, awayTeam, homeWinProbability, awayWinProbab
     plt.savefig("outputWinProbability.png")
     plt.close()
     
-# Iterate through the file and plot the score plot
+"""
+Plot the score progression for the game using Gist data
+
+"""
 def plotScorePlotGist(x, homeTeam, awayTeam, homeScore, awayScore, playNumber, homeColor, awayColor, OTFlag):      
     playNumber = np.array(playNumber)
     homeScore = np.array(homeScore)
@@ -49,7 +55,10 @@ def plotScorePlotGist(x, homeTeam, awayTeam, homeScore, awayScore, playNumber, h
     plt.savefig("output.png")
     plt.close()
 
-# Plot the win probability for the game
+"""
+Plot the win probability for the game using Thread Crawler data
+
+"""
 def plotWinProbabilityThreadCrawler(homeTeam, awayTeam, homeWinProbability, awayWinProbability, playNumber, homeColor, awayColor):
     playNumber = np.array(playNumber)
     homeWinProbability = np.array(homeWinProbability)
@@ -67,7 +76,10 @@ def plotWinProbabilityThreadCrawler(homeTeam, awayTeam, homeWinProbability, away
     plt.savefig("outputWinProbability.png")
     plt.close()
     
-# Iterate through the file and plot the score plot
+"""
+Plot the score progression for the game using Thread Crawler data
+
+"""
 def plotScorePlotThreadCrawler(homeTeam, awayTeam, homeScore, awayScore, playNumber, homeColor, awayColor):      
     playNumber = np.array(playNumber)
     homeScore = np.array(homeScore)

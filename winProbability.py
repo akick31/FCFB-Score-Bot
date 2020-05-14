@@ -3,12 +3,15 @@ import csv
 from scipy.stats import norm
 
 """
-Created on Wed May 13 21:24:33 2020
+Calculate the win probability for various scenarios
 
 @author: apkick
 """
 
-# Get the current win probability for the current play
+"""
+Get the current win probability for the current play for an ongoing game
+
+"""
 def getCurrentWinProbability(homeVegasOdds, awayVegasOdds):
     winProbability = []
     
@@ -91,7 +94,10 @@ def getCurrentWinProbability(homeVegasOdds, awayVegasOdds):
                     
         return winProbability[-1]
     
-# Calculate the current win probability                        
+"""
+Calculate the win probability for the thread crawler
+
+"""                     
 def calculateWinProbabilityThreadCrawler(expectedPoints, quarter, time, teamScore, opponentScore, down, distance, yardLine, playType, vegasLine):    
     if(time == 0):
         time = 0.00001
@@ -122,7 +128,10 @@ def calculateWinProbabilityThreadCrawler(expectedPoints, quarter, time, teamScor
     
     return winProbability
 
-# Calculate win probability
+"""
+Calculate the win probability for the Gist data
+
+""" 
 def calculateWinProbabilityGist(expectedPoints, quarter, time, teamScore, opponentScore, down, distance, yardLine, playType, vegasLine):  
     if(time == 0):
         time = 0.00001
@@ -153,7 +162,11 @@ def calculateWinProbabilityGist(expectedPoints, quarter, time, teamScore, oppone
     
     return winProbability
     
-# Calculate the expected points
+"""
+Calculate the expected points, used to tell the formula information so it can calculate
+based on current scenarios
+
+""" 
 def calculateExpectedPoints(down, distance, yardLine, playType):
     if ((playType == 'PAT') or (playType == 'TWO_POINT')):
         return 0.952

@@ -1,12 +1,15 @@
 from sheetsFunctions import getEloData
 
 """
-Created on Wed May 13 19:58:18 2020
+Handle calculating vegas odds for games
 
 @author: apkick
 """
 
-# Get the team's elo
+"""
+Get the team Elo for the team requested
+
+"""
 def getElo(team, teamEloColumn, eloDataColumn):
     teamColumn = teamEloColumn
     eloColumn = eloDataColumn
@@ -24,13 +27,19 @@ def getElo(team, teamEloColumn, eloDataColumn):
         return -500
     return elo
 
-# Calculate the Vegas Odds
+"""
+Calculate Vegas odds using a constant and team and their opponent Elo
+
+"""
 def calculateVegasOdds(teamElo, opponentElo):
     constant = 18.14010981807
     odds = (float(opponentElo) - float(teamElo))/constant
     return odds
 
-# Return a dictionary containing the Vegas Odds for the game
+"""
+Return a dictionary containing the Vegas Odds for the game
+
+"""
 def getVegasOdds(homeTeam, awayTeam):
     eloDictionary = getEloData()
     teamEloColumn = eloDictionary[1]

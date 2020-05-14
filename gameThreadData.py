@@ -6,12 +6,16 @@ from gameData import parseAwayTeam
 
 
 """
-Created on Wed May 13 20:24:10 2020
+Gather the game thread information
 
 @author: apkick
 """
     
-# Seach for gamethread for the $score command
+"""
+Search for a game thread based on what the user requests, searches for two teams in a time span range
+based on what season the user wants to search. Season 4 is the default if they do not specify a season
+
+"""
 def searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year):
     if(request == "$score"):
         linkFlair = "Post Game Thread"
@@ -65,7 +69,10 @@ def searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, 
             return submission
     return "NONE"
 
-# Parse the data from the Github play list
+"""
+Parse the data from the Github Gist into data.txt
+
+"""
 def parseDataFromGithub(githubURL):
     #Parse data from the github url
     url = githubURL + "/raw"
@@ -84,7 +91,10 @@ def parseDataFromGithub(githubURL):
         data = data.replace('--------------------------------------------------------------------------------\n', '')
     return data
 
-# Iterate through Reddit to find the post game threads
+"""
+Iterate through Reddit to find the game threads
+
+"""
 def searchForGameThread(r, homeTeam, awayTeam, season, request, postseason):
     searchItem = "\"Game Thread\" \"" + homeTeam + "\" \"" + awayTeam + "\""
     print(searchItem)
@@ -114,7 +124,10 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request, postseason):
                 return gameThread
     return "NONE"
     
-# Parse the URL from the post game thread
+"""
+Parse the Gist url from the game thread
+
+"""
 def parseURLFromGameThread(submissionbody, season):
     if("github" not in submissionbody and "pastebin" not in submissionbody):
         return "NO PLAYS"
@@ -127,6 +140,10 @@ def parseURLFromGameThread(submissionbody, season):
         numItems = len(splitlist) - 1
         return splitlist[numItems].split(")")[0]
     
+"""
+Save the Github Gist data into data.txt
+
+"""
 def saveGithubData(submissionbody, season):
     url = parseURLFromGameThread(submissionbody, season)
     if(url != "NO PLAYS"):

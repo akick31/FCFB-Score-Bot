@@ -1,11 +1,15 @@
 from sheetsFunctions import getColorData
 
 """
-Created on Wed May 13 20:15:46 2020
+Handle the colors aspect of the bot
 
 @author: apkick
 """
 
+"""
+Get the colors for both teams playing
+
+"""
 def getTeamColors(homeTeam, awayTeam):
     colorDict = getColorData()
     teamColorColumn = colorDict[1]
@@ -13,7 +17,11 @@ def getTeamColors(homeTeam, awayTeam):
     homeColor = getColor(homeTeam, teamColorColumn, colorDataColumn)
     awayColor = getColor(awayTeam, teamColorColumn, colorDataColumn)
     return {1: homeColor, 2: awayColor}
-    
+
+"""
+Return the color for the team requested
+
+"""    
 def getColor(team, teamColorColumn, colorDataColumn):
     teamColumn = teamColorColumn
     colorColumn = colorDataColumn

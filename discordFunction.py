@@ -225,6 +225,11 @@ async def handleScoreMessage(r, message):
     else: 
         await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
         
+"""
+Handle everything that happens when a user commands $plot, will post the current plot of an
+ongoing game or post a past game
+
+"""    
 async def handlePlotMessage(r, message):
     if("vs" in message.content):
         if(message.content.startswith('$plot')):
@@ -310,7 +315,10 @@ async def handlePlotMessage(r, message):
     else: 
         await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
 
-# Login to Discord and run the bot
+"""
+Login to Discord and run the bot
+
+"""
 def loginDiscord(r):
     token = 'NzA4ODIzNzc3NDI0NzAzNTE5.Xrc9tA.vcsJTLYrVqomAFSnLwY09BlXzYE'
 

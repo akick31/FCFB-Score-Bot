@@ -5,12 +5,15 @@ from plotGraphs import plotScorePlotGist
 from plotGraphs import plotWinProbabilityGist
 
 """
-Created on Wed May 13 21:22:10 2020
+Iterate through Gist data and post plots for that data
 
 @author: apkick
 """
 
-# Iterate through the data for the plots
+"""
+Iterate through Gist data and post plots for that data
+
+"""
 def iterateThroughGistData(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor):
     homeScore = []
     awayScore = []

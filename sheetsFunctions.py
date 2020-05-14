@@ -2,7 +2,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 """
-Created on Wed May 13 19:55:43 2020
+Handle contacting Google Sheets and getting information from the document
 
 @author: apkick
 """
@@ -21,7 +21,10 @@ sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-1Fte7S8kXy8E-GY7c
 colorworksheet = sh3.worksheet("Sheet1")
 
 
-# Get Elo Data
+"""
+Get Elo data from both FBS and FCS sheets
+
+"""
 def getEloData():
     teamelocolumn = []
     elodatacolumn = []
@@ -41,7 +44,10 @@ def getEloData():
     
     return {1: teamelocolumn, 2: elodatacolumn}
  
-# Get color data
+"""
+Get Hex Color data for both FBS and FCS teams
+
+"""
 def getColorData():
     teamcolorcolumn = []
     colordatacolumn = []
