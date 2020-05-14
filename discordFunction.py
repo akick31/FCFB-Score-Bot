@@ -57,6 +57,8 @@ def changeUserInputTeams(team):
         team = team.replace('&', '&amp;')
     if(team == 'Miami' or team == 'miami'):
         team = 'miami (fl)'
+    if(team == 'Southern Miss' or team == 'southern miss'):
+        team = 'southern mississippi'
     return team
  
 """
