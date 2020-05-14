@@ -25,7 +25,7 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
     if(homeTeam == "Massachusetts"):
         homeTeam = "UMass"
     elif(awayTeam == "Massachusetts"):
-        awayTeam = "Notre Dame"
+        awayTeam = "UMass"
     
     homeUser = ""
     awayUser = ""
