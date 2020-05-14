@@ -170,7 +170,7 @@ async def handleScoreMessage(r, message):
         season = parseSeasonDict[2]
         postseason = parseSeasonDict[3]
             
-        await message.channel.send("Looking for the game thread...")
+        lookingForThread = await message.channel.send("Looking for the game thread...")
         print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + homeTeam + " vs " + awayTeam)
         
         homeTeam = changeUserInputTeams(homeTeam)
@@ -222,7 +222,8 @@ async def handleScoreMessage(r, message):
                         post = "**FINAL | " + homeTeam + " defeated " + awayTeam + " " + homeScore + "-" + awayScore + "**\n"
                     else:
                         post = "**FINAL | " + awayTeam + " defeated " + homeTeam + " " + awayScore + "-" + homeScore + "**\n"
-                    await message.channel.send(post)        
+                    await message.channel.send(post)      
+        await message.channel.delete(lookingForThread)
     else: 
         await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
         
@@ -247,7 +248,7 @@ async def handlePlotMessage(r, message):
         season = parseSeasonDict[2]
         postseason = parseSeasonDict[3]
         
-        await message.channel.send("Looking for the game thread...")
+        lookingForThread = await message.channel.send("Looking for the game thread...")
         print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + homeTeam + " vs " + awayTeam)
         
         homeTeam = changeUserInputTeams(homeTeam)
@@ -302,7 +303,7 @@ async def handlePlotMessage(r, message):
                 month = int(submissionTime.split("-")[1])
                 day = int(submissionTime.split("-")[2].split(" ")[0])
                 if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
-                    await message.channel.send("Iterating through old thread to generate plots...")
+                    oldThread = await message.channel.send("Iterating through old thread to generate plots...")
                     threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission)
                     # Send score plot
                     with open('output.png', 'rb') as fp:
@@ -311,8 +312,10 @@ async def handlePlotMessage(r, message):
                     # Send the win probability plot
                     with open('outputWinProbability.png', 'rb') as fp:
                         await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                    await message.channel.delete(oldThread)
                 else:
                     await message.channel.send("This game is too old to plot the data. I can only plot Season I, Week 11 games onward")
+            await message.channel.delete(lookingForThread)
     else: 
         await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
 
