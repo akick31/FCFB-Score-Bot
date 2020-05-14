@@ -1,1 +1,1 @@
-bot: python FCFBScoreBot.py
+bot: python main.py
