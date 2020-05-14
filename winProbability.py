@@ -40,13 +40,13 @@ def getCurrentWinProbability(homeVegasOdds, awayVegasOdds):
                 playType = row[12]
                     
                 # Parse the win probability
-                if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
-                   or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
+                if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT" and row[14] != "MISS" and row[14] != "TOUCHBACK")) 
+                   or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT" or row[14] == "MISS" or row[14] == "TOUCHBACK"))):
                     expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
                     winProbability.append(curWinProbability)
-                if((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT")) 
-                   or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT"))):
+                if((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT" and row[14] != "MISS" and row[14] != "TOUCHBACK")) 
+                   or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT" or row[14] == "MISS" or row[14] == "TOUCHBACK"))):
                     expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
