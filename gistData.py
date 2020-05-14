@@ -238,17 +238,22 @@ def iterateThroughGistDataGameOver(hometeam, awayteam, homeVegasOdds, awayVegasO
                    or (row[5] == "away" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT" or row[14] == "TOUCHBACK"))):
                     expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curHomeWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    curAwayWinProbability = 100-curHomeWinProbability
                     homeWinProbability.append(curHomeWinProbability)
-                    awayWinProbability.append(100-curHomeWinProbability)
+                    awayWinProbability.append(curAwayWinProbability)
+                    print(curHomeWinProbability)
+                    print(curAwayWinProbability)
+                    print()
                 elif((row[5] == "away" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT" and row[14] != "TOUCHBACK")) 
                    or (row[5] == "home" and (row[14] == "TURNOVER" or row[14] == "KICK" or row[14] == "PUNT" or row[14] == "TOUCHBACK"))):
                     expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, homeVegasOdds) * 100
+                    curHomeWinProbability = 100-curAwayWinProbability
                     awayWinProbability.append(curAwayWinProbability)
-                    homeWinProbability.append(100-curAwayWinProbability)
-                print(curHomeWinProbability)
-                print(curAwayWinProbability)
-                print()
+                    homeWinProbability.append(curHomeWinProbability)
+                    print(curHomeWinProbability)
+                    print(curAwayWinProbability)
+                    print()
             # Handle OT so that winner is at 100%
             if(rowCount == currentRow and OTFlag == 1):
                 if(curHomeScore > curAwayScore):
