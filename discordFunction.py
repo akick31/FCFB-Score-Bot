@@ -2,6 +2,8 @@ import praw
 import discord
 import datetime
 from discord.ext import commands
+from nameFix import handleNamingInconsistincies
+from nameFix import changeUserInputTeams
 from vegasOdds import getVegasOdds
 from color import getTeamColors
 from gameData import parseQuarter
@@ -28,38 +30,6 @@ Handle the Discord side of the bot. Look for messages and post responses
 
 @author: apkick
 """
-
-"""
-Fix naming inconsistencies between spreadsheets and Reddit Game Threads
-
-"""
-def handleNamingInconsistincies(team):
-    if(team.find('amp;') >= 0):
-        team = team.replace('amp;', '')
-    if(team.find('–') >= 0):
-        team = team.replace('–', '-')
-    if(team == "UMass"):
-        team = "Massachusetts"
-    if(team == "Southern Mississippi"):
-        team = "Southern Miss"
-    if(team == "Miami (FL)"):
-        team = "Miami"
-    if(team == "Miami (OH)"):
-        team = "Miami, OH"
-    return team
-
-"""
-Change the user input team so that it can match for Reddit Game Threads
-
-"""
-def changeUserInputTeams(team):
-    if(team.find('A&M') >= 0 or team.find('a&m') >= 0):
-        team = team.replace('&', '&amp;')
-    if(team == 'Miami' or team == 'miami'):
-        team = 'miami (fl)'
-    if(team == 'Southern Miss' or team == 'southern miss'):
-        team = 'southern mississippi'
-    return team
  
 """
 Parse what season the user is looking for, so that the bot knows which date 
