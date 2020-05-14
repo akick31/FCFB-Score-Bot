@@ -205,6 +205,9 @@ def iterateThroughGistDataGameOver(hometeam, awayteam, homeVegasOdds, awayVegasO
     runoff = 0
     playTime = 0
     
+    print(homeVegasOdds)
+    print(awayVegasOdds)
+    
     #Iterate through playlist file
     with open('data.txt', 'r+') as csvfile:
         counter = csv.reader(csvfile, delimiter= '|', lineterminator='\n')  
@@ -214,7 +217,6 @@ def iterateThroughGistDataGameOver(hometeam, awayteam, homeVegasOdds, awayVegasO
         currentRow = 1
         for row in reader:
             if(len(row) > 2):
-                print(row)
                 homeScore.append(int(row[0])) 
                 awayScore.append(int(row[1]))
                 curHomeScore = int(row[0])
