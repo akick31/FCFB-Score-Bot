@@ -47,7 +47,7 @@ def getVegasOdds(homeTeam, awayTeam):
     homeElo = getElo(homeTeam, teamEloColumn, eloDataColumn)
     awayElo = getElo(awayTeam, teamEloColumn, eloDataColumn)
     homeOdds = calculateVegasOdds(homeElo, awayElo)
-    awayOdds = calculateVegasOdds(homeElo, awayElo)
+    awayOdds = calculateVegasOdds(awayElo, homeElo)
     return{1: homeOdds, 2: awayOdds}
     
     
