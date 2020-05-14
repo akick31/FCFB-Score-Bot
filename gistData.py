@@ -194,6 +194,8 @@ def iterateThroughGistDataGameOver(hometeam, awayteam, homeVegasOdds, awayVegasO
     playNumber = []
     homeWinProbability = []
     awayWinProbability = []
+    curHomeWinProbability = 0
+    curAwayWinProbability = 0
     xList = []
     playCount = 1
     OTFlag = 0
@@ -230,8 +232,6 @@ def iterateThroughGistDataGameOver(hometeam, awayteam, homeVegasOdds, awayVegasO
                 distance = int(row[7])
                 yardLine = int(row[4])       
                 playType = row[12]
-                    
-                expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)   
                 
                 # Parse the win probability
                 if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT" and row[14] != "TOUCHBACK")) 
