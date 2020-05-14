@@ -6,6 +6,36 @@ Created on Wed May 13 20:24:10 2020
 @author: apkick
 """
 
+"""
+Parse the team that the game is waiting 
+
+"""
+def parseWaitingOn(submissionbody, homeUser, awayUser, homeTeam, awayTeam):
+    if("Waiting on a response from" in submissionbody):
+        user = submissionbody.split("Waiting on a response from")[1].split["to this"][0].strip()
+        if(user == homeUser):
+            return homeTeam
+        elif(user == awayUser):
+            return awayTeam
+    
+"""
+Parse the home team user from the game thread
+
+"""    
+def parseHomeUser(submissionbody):
+    print(submissionbody.split("___")[0].split("\n"))
+    homeUser = submissionbody.split("___")[0].split("\n")[7].split("|")[1].strip()
+    return homeUser
+    
+"""
+Parse the away team user from the game thread
+
+"""    
+def parseAwayUser(submissionbody):
+    print(submissionbody.split("___")[0].split("\n"))
+    awayUser = submissionbody.split("___")[0].split("\n")[8].split("|")[1].strip()
+    return awayUser
+
 
 """
 Parse the quarter from the game thread

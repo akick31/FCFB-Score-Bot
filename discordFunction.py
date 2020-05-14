@@ -13,6 +13,9 @@ from gameData import parseHomeScore
 from gameData import parseAwayScore
 from gameData import parseHomeTeam
 from gameData import parseAwayTeam
+from gameData import parseHomeUser
+from gameData import parseAwayUser
+from gameData import parseWaitingOn
 from gameThreadData import searchForGameThread
 from gameThreadData import saveGithubData
 from gistData import iterateThroughGistDataGameOver
@@ -83,7 +86,7 @@ def parseSeason(awayTeam):
 Make posts for ongoing games on Reddit
 
 """
-async def makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, vegasOdds, team, opponentTeam, score, opponentScore, curWinProbability):
+async def makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, vegasOdds, team, opponentTeam, score, opponentScore, curWinProbability, waitingOn):
     odds = round(vegasOdds * 2) / 2
     if(odds == 0):
         odds = "Push"
@@ -96,7 +99,8 @@ async def makeOngoingGamePost(message, submission, curClock, curDown, curPossess
         winPost = team + " has a " + str(int(curWinProbability)) + "% chance to win\n"
     elif(int(curWinProbability) < 50):
         winPost = opponentTeam + " has a " + str(100-int(curWinProbability)) + "% chance to win\n"
-    await message.channel.send(post + yardPost + winPost + submission.url + "\n")
+    waitingOnPost = "Waiting on " + waitingOn + " for a number\n"
+    await message.channel.send(post + yardPost + winPost + waitingOnPost + submission.url + "\n")
 
 """
 Get information to make a post for ongoing games on Reddit
@@ -116,6 +120,9 @@ async def getOngoingGameInformation(message, submission, homeVegasOdds, awayVega
     curQuarter = parseQuarter(submission.selftext)
     curDown = parseDown(submission.selftext)
     curTime = parseTime(submission.selftext)
+    homeUser = parseHomeUser(submission.selftext)
+    awayUser = parseAwayUser(submission.selftext)
+    waitingOn = parseWaitingOn(submission.selftext, homeUser, awayUser, homeTeam, awayTeam)
     # If game is final, display that
     if(curQuarter == "OT"):
         curClock = "OT"
@@ -123,10 +130,10 @@ async def getOngoingGameInformation(message, submission, homeVegasOdds, awayVega
         curClock = str(curTime) + " " + str(curQuarter) 
     # If home team is winning or the score is tied
     if(int(homeScore) > int(awayScore) or int(homeScore) == int(awayScore)):
-        await makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, homeVegasOdds, homeTeam, awayTeam, homeScore, awayScore, curHomeWinProbability)
+        await makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, homeVegasOdds, homeTeam, awayTeam, homeScore, awayScore, curHomeWinProbability, waitingOn)
     #If the home team is losing
     elif(int(homeScore) < int(awayScore)):
-        await makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, awayVegasOdds, awayTeam, homeTeam, awayScore, homeScore, curAwayWinProbability)
+        await makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, awayVegasOdds, awayTeam, homeTeam, awayScore, homeScore, curAwayWinProbability, waitingOn)
 
 """
 Make posts for games that went final on Reddit
