@@ -20,11 +20,15 @@ from threadCrawler import threadCrawler
 from winProbability import getCurrentWinProbability
 
 """
-Created on Wed May 13 19:45:28 2020
+Handle the Discord side of the bot. Look for messages and post responses
 
 @author: apkick
 """
 
+"""
+Fix naming inconsistencies between spreadsheets and Reddit Game Threads
+
+"""
 def handleNamingInconsistincies(team):
     if(team.find('amp;') >= 0):
         team = team.replace('amp;', '')
@@ -40,14 +44,22 @@ def handleNamingInconsistincies(team):
         team = "Miami, OH"
     return team
 
-# Change the user input team to match what the Reddit game threads expect
+"""
+Change the user input team so that it can match for Reddit Game Threads
+
+"""
 def changeUserInputTeams(team):
     if(team.find('A&M') >= 0 or team.find('a&m') >= 0):
         team = team.replace('&', '&amp;')
     if(team == 'Miami' or team == 'miami'):
         team = 'miami (fl)'
     return team
-    
+ 
+"""
+Parse what season the user is looking for, so that the bot knows which date 
+range to look at. Also parse if the user is looking for a postseason game
+
+"""
 def parseSeason(awayTeam):
     postseason = 0
     season = "S4"
@@ -66,7 +78,10 @@ def parseSeason(awayTeam):
         awayTeam = awayTeam.strip()
     return {1: awayTeam, 2: season, 3: postseason}
 
-# Make a post for the ongoing game
+"""
+Make posts for ongoing games on Reddit
+
+"""
 async def makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, vegasOdds, team, opponentTeam, score, opponentScore, curWinProbability):
     odds = round(vegasOdds * 2) / 2
     if(odds == 0):
@@ -82,7 +97,10 @@ async def makeOngoingGamePost(message, submission, curClock, curDown, curPossess
         winPost = opponentTeam + " has a " + str(100-int(curWinProbability)) + "% chance to win\n"
     await message.channel.send(post + yardPost + winPost)
 
-# Get information for the ongoing game the user requested
+"""
+Get information to make a post for ongoing games on Reddit
+
+"""
 async def getOngoingGameInformation(message, submission, homeVegasOdds, awayVegasOdds, homeTeam, awayTeam, homeScore, awayScore):
     # Get win probability
     curPossession = parsePossession(submission.selftext)
@@ -109,6 +127,10 @@ async def getOngoingGameInformation(message, submission, homeVegasOdds, awayVega
     elif(int(homeScore) < int(awayScore)):
         await makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, awayVegasOdds, awayTeam, homeTeam, awayScore, homeScore, curAwayWinProbability)
 
+"""
+Make posts for games that went final on Reddit
+
+"""
 async def makeGameFinalScorePost(message, submission, team, opponentTeam, vegasOdds, score, opponentScore):
     odds = round(vegasOdds * 2) / 2
     numberOdds = odds
@@ -126,7 +148,12 @@ async def makeGameFinalScorePost(message, submission, team, opponentTeam, vegasO
         await message.channel.send(post + team + " covered the spread listed at " + str(odds))
     if(int(numberOdds) == 0 or ((int(opponentScore) - int(score)) == numberOdds)):
         await message.channel.send(post + "This game was a push!")
+        
+"""
+Handle everything that happens when a user commands $score, will post the current score of an
+ongoing game or post a past game
 
+"""
 async def handleScoreMessage(r, message):
     if("vs" in message.content):
         if(message.content.startswith('$score')):
@@ -147,7 +174,7 @@ async def handleScoreMessage(r, message):
         print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + homeTeam + " vs " + awayTeam)
         
         homeTeam = changeUserInputTeams(homeTeam)
-        awayTeam = changeUserInputTeams(homeTeam)
+        awayTeam = changeUserInputTeams(awayTeam)
         
         submission = searchForGameThread(r, homeTeam, awayTeam, season, "$score", postseason)
         if(submission == "NONE"):
@@ -218,7 +245,7 @@ async def handlePlotMessage(r, message):
         print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + homeTeam + " vs " + awayTeam)
         
         homeTeam = changeUserInputTeams(homeTeam)
-        awayTeam = changeUserInputTeams(homeTeam)
+        awayTeam = changeUserInputTeams(awayTeam)
         
         # Look for game thread
         submission = searchForGameThread(r, homeTeam, awayTeam, season, "$plot", postseason)
