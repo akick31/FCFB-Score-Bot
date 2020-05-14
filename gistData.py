@@ -11,7 +11,7 @@ Iterate through Gist data and post plots for that data
 """
 
 """
-Iterate through Gist data and post plots for that data
+Iterate through Gist data and post plots for that data for an ongoing game
 
 """
 def iterateThroughGistDataOngoingGame(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor):
@@ -184,7 +184,10 @@ def iterateThroughGistDataOngoingGame(hometeam, awayteam, homeVegasOdds, awayVeg
     plotWinProbabilityGist(hometeam, awayteam, homeWinProbability, awayWinProbability, playNumber, homecolor, awaycolor)
 
 
+"""
+Iterate through Gist data and post plots for a finished game
 
+"""
 def iterateThroughGistDataGameOver(hometeam, awayteam, homeVegasOdds, awayVegasOdds, homecolor, awaycolor):
     homeScore = []
     awayScore = []
@@ -209,6 +212,7 @@ def iterateThroughGistDataGameOver(hometeam, awayteam, homeVegasOdds, awayVegasO
         currentRow = 1
         for row in reader:
             if(len(row) > 2):
+                print(row)
                 homeScore.append(int(row[0])) 
                 awayScore.append(int(row[1]))
                 curHomeScore = int(row[0])
