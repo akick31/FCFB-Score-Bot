@@ -287,7 +287,7 @@ async def handlePlotMessage(r, message):
                     #If there is a GitHub URL as plays have been called
                     if(url != "NO PLAYS"):
                         # Iterate through the data and plot the graphs
-                        iterateThroughGistDataGameOver(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
+                        iterateThroughGistDataOngoingGame(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
                         
                         # Send score plot
                         with open('output.png', 'rb') as fp:
