@@ -95,7 +95,7 @@ async def makeOngoingGamePost(message, submission, curClock, curDown, curPossess
         winPost = team + " has a " + str(int(curWinProbability)) + "% chance to win\n"
     elif(int(curWinProbability) < 50):
         winPost = opponentTeam + " has a " + str(100-int(curWinProbability)) + "% chance to win\n"
-    await message.channel.send(post + yardPost + winPost)
+    await message.channel.send(post + yardPost + winPost + submission.url + "\n")
 
 """
 Get information to make a post for ongoing games on Reddit
@@ -215,6 +215,7 @@ async def handleScoreMessage(r, message):
             else:
                 if(season == "S4"):
                     await getOngoingGameInformation(message, submission, homeVegasOdds, awayVegasOdds, homeTeam, awayTeam, homeScore, awayScore)
+                
                 else:
                     post = "blank"
                     if(int(homeScore) > int(awayScore)):
