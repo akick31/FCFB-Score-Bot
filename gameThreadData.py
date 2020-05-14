@@ -117,10 +117,12 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request, postseason):
         if(request == "$score"):
             gameThread = searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year)
             if(gameThread != "NONE"):
+                print(gameThread.url)
                 return gameThread
         elif(request == "$plot"):
             gameThread = searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, postseason, day, month, year)
             if(gameThread != "NONE"):
+                print(gameThread.url)
                 return gameThread
     return "NONE"
     
