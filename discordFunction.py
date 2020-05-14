@@ -312,10 +312,10 @@ async def handlePlotMessage(r, message):
                     # Send the win probability plot
                     with open('outputWinProbability.png', 'rb') as fp:
                         await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                    await message.channel.delete(oldThread)
+                    await message.channel.delete(oldThread, delay = None)
                 else:
                     await message.channel.send("This game is too old to plot the data. I can only plot Season I, Week 11 games onward")
-            await message.channel.delete(lookingForThread)
+            await message.channel.delete(lookingForThread, delay = None)
     else: 
         await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
 
