@@ -313,11 +313,13 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                             elif(thirdLevelComment.author == 'NFCAAOfficialRefBot' and 'The PAT was successful' in thirdLevelComment.body
                                and awayTeam + " is kicking off" in thirdLevelComment.body):
                                 awayScore = awayScore + 1
-                            elif(thirdLevelComment.author == 'NFCAAOfficialRefBot' and 'The two point was successful' in thirdLevelComment.body
-                               and homeTeam + " is kicking off" in thirdLevelComment.body):
+                            elif(thirdLevelComment.author == 'NFCAAOfficialRefBot' and ('The two point was successful' in thirdLevelComment.body
+                                 or 'The two point conversion is successful' in thirdLevelComment.body)
+                                 and homeTeam + " is kicking off" in thirdLevelComment.body):
                                 homeScore = homeScore + 2
-                            elif(thirdLevelComment.author == 'NFCAAOfficialRefBot' and 'The two point was successful' in thirdLevelComment.body
-                               and awayTeam + " is kicking off" in thirdLevelComment.body):
+                            elif(thirdLevelComment.author == 'NFCAAOfficialRefBot' and ('The two point was successful' in thirdLevelComment.body
+                                 or 'The two point conversion is successful' in thirdLevelComment.body)
+                                 and homeTeam + " is kicking off" in thirdLevelComment.body):
                                 awayScore = awayScore + 2
                             elif(thirdLevelComment.author == 'NFCAAOfficialRefBot' and 'safety' in thirdLevelComment.body
                                and awayTeam + " is kicking off" in thirdLevelComment.body):
