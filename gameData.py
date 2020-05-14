@@ -24,7 +24,7 @@ Parse the home team user from the game thread
 """    
 def parseHomeUser(submissionbody):
     print(submissionbody.split("___")[0].split("\n"))
-    homeUser = submissionbody.split("___")[0].split("\n")[7].split("|")[1].strip()
+    homeUser = submissionbody.split("___")[0].split("\n")[13].split("|")[1].strip()
     return homeUser
     
 """
@@ -33,7 +33,7 @@ Parse the away team user from the game thread
 """    
 def parseAwayUser(submissionbody):
     print(submissionbody.split("___")[0].split("\n"))
-    awayUser = submissionbody.split("___")[0].split("\n")[8].split("|")[1].strip()
+    awayUser = submissionbody.split("___")[0].split("\n")[12].split("|")[1].strip()
     return awayUser
 
 
