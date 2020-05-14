@@ -113,7 +113,7 @@ def iterateThroughGistDataOngoingGame(hometeam, awayteam, homeVegasOdds, awayVeg
                     curAwayWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[1]), int(row[0]), down, distance, yardLine, playType, awayVegasOdds) * 100
                     awayWinProbability.append(curAwayWinProbability)
                     homeWinProbability.append(100-curAwayWinProbability)
-                if((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT" and row[14] != "TOUCHBACK" and row[14] != "MISS")) 
+                elif((row[5] == "home" and (row[14] != "TURNOVER" and row[14] != "KICK" and row[14] != "PUNT" and row[14] != "TOUCHBACK" and row[14] != "MISS")) 
                    or (row[5] == "away" and (row[14] == "KICK" or row[14] == "PUNT"))):
                     expectedPoints = calculateExpectedPoints(down, distance, yardLine, playType)
                     curHomeWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]), int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
