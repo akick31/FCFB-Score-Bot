@@ -1,5 +1,6 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from pollData import getCoachesPollData
 
 """
 Handle contacting Google Sheets and getting information from the document
@@ -22,6 +23,7 @@ colorworksheet = sh3.worksheet("Sheet1")
 
 sh4 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1m-_pHJK-40lc9v8tZf7IFIv3Ac7R2UTywMvvmQibsQI/edit?usp=sharing')
 standingsworksheet = sh4.worksheet("Standings")
+rankingsworksheet = sh4.worksheet("Rankings")
 
 sh5 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1IrBBMKApJVYlU10wCOKp_oW3wvQfFT-xTC_A6EHJlzU/edit?usp=sharing')
 fcsstandingsworksheet = sh5.worksheet("Sheet1")
@@ -439,7 +441,7 @@ Get the Carolina Football Conference standings from 1212.one
 
 """
 def parseCFC():
-    post = "----------------------\n**Carolina Football Conference**\n----------------------\n----------------------\nNorth\n----------------------\n"
+    post = "--------------------------------------------\n**Carolina Football Conference**\n--------------------------------------------\n----------------------\nNorth\n----------------------\n"
     teamColumn = fcsstandingsworksheet.col_values(2)
     teamConferenceColumn = fcsstandingsworksheet.col_values(3)
     teamOverallColumn = fcsstandingsworksheet.col_values(9)
@@ -491,7 +493,7 @@ Get the Delta Intercollegiate standings from 1212.one
 
 """
 def parseDelta():
-    post = "----------------------\n**Delta Intercollegiate**\n----------------------\n----------------------\nMississippi Valley\n----------------------\n"
+    post = "--------------------------------------------\n**Delta Intercollegiate**\n--------------------------------------------\n----------------------\nMississippi Valley\n----------------------\n"
     teamColumn = fcsstandingsworksheet.col_values(2)
     teamConferenceColumn = fcsstandingsworksheet.col_values(3)
     teamOverallColumn = fcsstandingsworksheet.col_values(9)
@@ -561,7 +563,7 @@ Get the Missouri Valley standings from 1212.one
 
 """
 def parseMVC():
-    post = "----------------------\n**Missouri Valley**\n----------------------\n----------------------\nPrairie\n----------------------\n"
+    post = "--------------------------------------------\n**Missouri Valley**\n-----------------------------------------\n----------------------\nPrairie\n----------------------\n"
     teamColumn = fcsstandingsworksheet.col_values(2)
     teamConferenceColumn = fcsstandingsworksheet.col_values(3)
     teamOverallColumn = fcsstandingsworksheet.col_values(9)
@@ -654,6 +656,72 @@ def getStandingsData(conference):
         return parseSouthland()
     else:
         return "Conference not found"
+ 
+def parseRankingsWorksheet(numCol, teamCol, valueCol, post):
+    ranks = rankingsworksheet.col_values(numCol)
+    teams = rankingsworksheet.col_values(teamCol)
+    values = rankingsworksheet.col_values(valueCol)
+    i = 4
+    for team in teams[4:-1]:
+        value = values[i]
+        rank = ranks[i]
+        if((int(rank)) > 25):
+            break
+        post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
+        i = i + 1
+    return post
+    
+"""
+Get the rankings data to post on Discord
+
+"""      
+def getRankingsData(r, request):
+    if(request.lower() == "fbs coaches" or request.lower() == "fbs coaches poll"):
+        return getCoachesPollData(r, "FBS")
+        
+    elif(request.lower() == "fcs coaches" or request.lower() == "fcs coaches poll"):
+        return getCoachesPollData(r, "FCS")
+    if(request.lower() == "coaches" or request.lower() == "coaches poll"):
+        return "Please specify whether you want FBS or FCS coaches poll data"
+    if(request.lower() == "fbs" or request.lower() == "fcs"):
+        return "Please be more specific"
+    if("committee" in request.lower() or "playoff" in request.lower()):
+        return "This request is not available right now"
+    if(request.lower() == "fbs elo"):
+        fbsColumn = fbsworksheet.col_values(2)
+        fbsEloColumn = fbsworksheet.col_values(3)
+        i = 1
+        post = ("-----------------------\n**FBS Elo Rankings**\n-----------------------\n")
+        for team in fbsColumn[1:26]:
+            elo = fbsEloColumn[i]
+            post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
+            i = i + 1
+        return post
+    if(request.lower() == "fcs elo"):
+        fcsColumn = fcsworksheet.col_values(4)
+        fcsEloColumn = fcsworksheet.col_values(1)
+        i = 1
+        post = ("-----------------------\n**FCS Elo Rankings**\n-----------------------\n")
+        for team in fcsColumn[1:26]:
+            if("(" in team):
+                team = team.split("(")[0]
+                team = team.strip()
+            elo = fcsEloColumn[i]
+            post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
+            i = i + 1
+        return post
+    if(request.lower() == "mov"):
+        post = ("-----------------------\n**FBS MoV Rankings**\n-----------------------\n")
+        return parseRankingsWorksheet(2, 3, 4, post)
+    if(request.lower() == "scoring offense" or request.lower() == "offense"):
+        post = ("--------------------------------------------\n**FBS Scoring Offense Rankings**\n--------------------------------------------\n")
+        return parseRankingsWorksheet(10, 11, 12, post)
+    if(request.lower() == "scoring defense" or request.lower() == "defense"):
+        post = ("--------------------------------------------\n**FBS Scoring Defense Rankings**\n--------------------------------------------\n")
+        return parseRankingsWorksheet(14, 15, 16, post)
+    return "Invalid command. Please try again."
+    
+        
     
     
             

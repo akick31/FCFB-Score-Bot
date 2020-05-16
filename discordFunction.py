@@ -25,6 +25,7 @@ from gistData import iterateThroughGistDataOngoingGame
 from threadCrawler import threadCrawler
 from winProbability import getCurrentWinProbability
 from sheetsFunctions import getStandingsData
+from sheetsFunctions import getRankingsData
 
 """
 Handle the Discord side of the bot. Look for messages and post responses
@@ -316,6 +317,10 @@ async def handlePlotMessage(r, message):
     else: 
         await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
 
+"""
+Handle when the user requests the conference standings
+
+"""
 async def handleStandingsMessage(r, message):
     if(message.content.startswith('$standings')):
         conference = message.content.split("$standings")[1].strip()
@@ -327,7 +332,23 @@ async def handleStandingsMessage(r, message):
         conference = message.content.split("$Standing")[1].strip()
     post = getStandingsData(conference)
     await message.channel.send(post)
+    
+"""
+Handle when the user requests a ranking
 
+"""    
+async def handleRankingsMessage(r, message):
+    if(message.content.startswith('$rankings')):
+        request = message.content.split("$rankings")[1].strip()
+    elif(message.content.startswith('$Rankings')):
+        request = message.content.split("$Rankings")[1].strip()
+    if(request == "" or request == " "):
+        await message.channel.send("The $rankings command currently supports the following ranks commands:\n" +
+                                   "- FBS Coaches Poll\n- FCS Coaches Poll\n- FBS Elo\n- FCS Elo\n- MOV (FBS Only)\n- Scoring Offense (FBS Only)\n- Scoring Defense (FBS Only)\n" + 
+                                   "**If you want a ranking added, please contact Dick**")
+    else:
+        post = getRankingsData(r, request)
+        await message.channel.send(post)
 
 """
 Login to Discord and run the bot
@@ -347,9 +368,13 @@ def loginDiscord(r):
         
         elif(message.content.startswith('$plot') or message.content.startswith('$Plot')):
             await handlePlotMessage(r, message)
+            
         elif(message.content.startswith('$Standings') or message.content.startswith('$standings') or 
              message.content.startswith('$Standing') or message.content.startswith('$standing')):
             await handleStandingsMessage(r, message)
+            
+        elif(message.content.startswith('$Rankings') or message.content.startswith('$rankings')):
+            await handleRankingsMessage(r, message)
                 
     @client.event
     async def on_ready():
