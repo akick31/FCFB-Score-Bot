@@ -48,6 +48,10 @@ def getVegasOdds(homeTeam, awayTeam):
     awayElo = getElo(awayTeam, teamEloColumn, eloDataColumn)
     homeOdds = calculateVegasOdds(homeElo, awayElo)
     awayOdds = calculateVegasOdds(awayElo, homeElo)
+    # Default to a push if can't find Elo
+    if(homeElo == -500 or awayElo == -500):
+        homeOdds = 0
+        awayOdds = 0
     return{1: homeOdds, 2: awayOdds}
     
     
