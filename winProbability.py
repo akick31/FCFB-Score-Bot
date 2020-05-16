@@ -49,7 +49,14 @@ def getCurrentWinProbability(homeVegasOdds, awayVegasOdds):
                     expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
                     curWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[1]) + 6, int(row[0]), down, distance, yardLine, "PAT", awayVegasOdds) * 100
                     winProbability.append(curWinProbability)
-                    
+                elif(row[5] == "home" and row[14] == "TURNOVER_TOUCHDOWN"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
+                    curWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[1]) + 6, int(row[0]), down, distance, yardLine, "PAT", awayVegasOdds) * 100
+                    winProbability.append(curWinProbability)
+                elif(row[5] == "away" and row[14] == "TURNOVER_TOUCHDOWN"):
+                    expectedPoints = calculateExpectedPoints(down, distance, yardLine, "PAT")
+                    curWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]) + 6, int(row[1]), down, distance, yardLine, "PAT", homeVegasOdds) * 100
+                    winProbability.append(curWinProbability)             
                 elif(row[5] == "home" and row[14] == "FIELD GOAL"):
                     expectedPoints = calculateExpectedPoints(down, distance, yardLine, "KICKOFF")
                     curWinProbability = calculateWinProbabilityGist(expectedPoints, quarter, time, int(row[0]) + 3, int(row[1]), down, distance, yardLine, playType, homeVegasOdds) * 100
