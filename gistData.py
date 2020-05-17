@@ -341,13 +341,13 @@ def iterateThroughGistDataGameOver(hometeam, awayteam, homeVegasOdds, awayVegasO
                     awayScore.append(curAwayScore)
                     playNumber.append(int(playCount))
             currentRow = currentRow + 1
-    if(curHomeScore > curAwayScore):
+    if(curHomeScore > curAwayScore and OTFlag == 0):
         homeWinProbability.append(100)
         curHomeWinProbability = 100
         awayWinProbability.append(0)
         curAwayWinProbability = 0
         playNumber.append(int(playCount) + 1)
-    elif(curHomeScore < curAwayScore):
+    elif(curHomeScore < curAwayScore and OTFlag == 0):
         awayWinProbability.append(100)
         curAwayWinProbability = 100
         homeWinProbability.append(0)
