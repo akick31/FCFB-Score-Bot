@@ -28,7 +28,8 @@ def searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, 
     away = "blank"
     home = "blank"
     if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
-       or submission.link_flair_text == "Week 10 Game Thread"):
+       or submission.link_flair_text == "Week 10 Game Thread" or submission.link_flair_text == "Week 9 Game Thread"
+       or submission.link_flair_text == "Scrimmage"):
         away = parseAwayTeam(submission.selftext).lower()
         home = parseHomeTeam(submission.selftext).lower()
         print(submission.title)
@@ -39,7 +40,7 @@ def searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, 
         print(str(month) + " " + str(day) + " " + str(year))     
         print()
     # If looking for season 4...
-    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread") and season == "S4" 
+    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread" or submission.link_flair_text == "Scrimmage") and season == "S4" 
         and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
         return submission
