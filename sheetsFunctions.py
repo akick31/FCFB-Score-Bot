@@ -28,6 +28,8 @@ rankingsworksheet = sh4.worksheet("Rankings")
 sh5 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1IrBBMKApJVYlU10wCOKp_oW3wvQfFT-xTC_A6EHJlzU/edit?usp=sharing')
 fcsstandingsworksheet = sh5.worksheet("Sheet1")
 
+sh6 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1GDDwQ2FpZIgGoDdZoRNbBg8IyQir2-WZriz8bHHXbSE/edit?usp=sharing')
+sosmovrworksheet = sh6.worksheet("SOSMOVR")
 
 """
 Get Elo data from both FBS and FCS sheets
@@ -657,12 +659,34 @@ def getStandingsData(conference):
     else:
         return "Conference not found"
  
+"""
+Parse the rankings worksheet post
+
+"""
 def parseRankingsWorksheet(numCol, teamCol, valueCol, post):
     ranks = rankingsworksheet.col_values(numCol)
     teams = rankingsworksheet.col_values(teamCol)
     values = rankingsworksheet.col_values(valueCol)
     i = 4
     for team in teams[4:-1]:
+        value = values[i]
+        rank = ranks[i]
+        if((int(rank)) > 25):
+            break
+        post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
+        i = i + 1
+    return post
+
+"""
+Parse the SOSMOVR worksheet from Zen Sunshine and output the post
+
+"""
+def parseSOSMOVRWorksheet(numCol, teamCol, valueCol, post):
+    ranks = sosmovrworksheet.col_values(numCol)
+    teams = sosmovrworksheet.col_values(teamCol)
+    values = sosmovrworksheet.col_values(valueCol)
+    i = 1
+    for team in teams[1:-1]:
         value = values[i]
         rank = ranks[i]
         if((int(rank)) > 25):
@@ -719,6 +743,12 @@ def getRankingsData(r, request):
     if(request.lower() == "scoring defense" or request.lower() == "defense"):
         post = ("--------------------------------------------\n**FBS Scoring Defense Rankings**\n--------------------------------------------\n")
         return parseRankingsWorksheet(14, 15, 16, post)
+    if(request.lower() == "sosmovr" or request.lower() == "smr" or request.lower() == "sauce mover"):
+        post = ("--------------------------------------------\n**FBS SOSMOVR**\n--------------------------------------------\n")
+        return parseSOSMOVRWorksheet(2, 3, 4, post)
+    if(request.lower() == "eqw"):
+        post = ("--------------------------------------------\n**FBS EQW**\n--------------------------------------------\n")
+        return parseSOSMOVRWorksheet(7, 8, 9, post)
     return "Invalid command. Please try again."
     
         
