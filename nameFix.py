@@ -31,7 +31,7 @@ Change the user input team so that it can match for Reddit Game Threads
 
 """
 def changeUserInputTeams(team):
-    if(team.find('A&M') >= 0 or team.find('a&m') >= 0):
+    if((team == "Texas A&M") and (team.find('A&M') >= 0 or team.find('a&m') >= 0)):
         team = team.replace('&', '&amp;')
     if(team == 'Miami' or team == 'miami'):
         team = 'miami (fl)'

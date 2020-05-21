@@ -36,45 +36,51 @@ Get Elo data from both FBS and FCS sheets
 
 """
 def getEloData():
-    teamelocolumn = []
-    elodatacolumn = []
-    fbscolumn = fbsworksheet.col_values(2)
-    fbscolumn.pop(0)
-    fcscolumn = fcsworksheet.col_values(4)
-    fcscolumn.pop(0)
-    teamelocolumn.extend(fbscolumn)
-    teamelocolumn.extend(fcscolumn)
+    try:
+        teamelocolumn = []
+        elodatacolumn = []
+        fbscolumn = fbsworksheet.col_values(2)
+        fbscolumn.pop(0)
+        fcscolumn = fcsworksheet.col_values(4)
+        fcscolumn.pop(0)
+        teamelocolumn.extend(fbscolumn)
+        teamelocolumn.extend(fcscolumn)
 
-    fbselocolumn = fbsworksheet.col_values(3)
-    fbselocolumn.pop(0)
-    fcselocolumn = fcsworksheet.col_values(1)
-    fcselocolumn.pop(0)
-    elodatacolumn.extend(fbselocolumn)
-    elodatacolumn.extend(fcselocolumn)
-    
-    return {1: teamelocolumn, 2: elodatacolumn}
+        fbselocolumn = fbsworksheet.col_values(3)
+        fbselocolumn.pop(0)
+        fcselocolumn = fcsworksheet.col_values(1)
+        fcselocolumn.pop(0)
+        elodatacolumn.extend(fbselocolumn)
+        elodatacolumn.extend(fcselocolumn)
+        
+        return {1: teamelocolumn, 2: elodatacolumn}
+    except:
+        return "There was an error in contacting Google Sheets, please try again."
  
 """
 Get Hex Color data for both FBS and FCS teams
 
 """
 def getColorData():
-    teamcolorcolumn = []
-    colordatacolumn = []
-    fbscolumn = colorworksheet.col_values(1)
-    fbscolumn.pop(0)
-    fcscolumn = colorworksheet.col_values(7)
-    fcscolumn.pop(0)
-    teamcolorcolumn.extend(fbscolumn)
-    teamcolorcolumn.extend(fcscolumn)
-    fbscolorcolumn = colorworksheet.col_values(4)
-    fbscolorcolumn.pop(0)
-    fcscolorcolumn = colorworksheet.col_values(10)
-    fcscolorcolumn.pop(0)
-    colordatacolumn.extend(fbscolorcolumn)
-    colordatacolumn.extend(fcscolorcolumn)
-    
-    return {1: teamcolorcolumn, 2: colordatacolumn}
+    try:
+        teamcolorcolumn = []
+        colordatacolumn = []
+        fbscolumn = colorworksheet.col_values(1)
+        fbscolumn.pop(0)
+        fcscolumn = colorworksheet.col_values(7)
+        fcscolumn.pop(0)
+        teamcolorcolumn.extend(fbscolumn)
+        teamcolorcolumn.extend(fcscolumn)
+        fbscolorcolumn = colorworksheet.col_values(4)
+        fbscolorcolumn.pop(0)
+        fcscolorcolumn = colorworksheet.col_values(10)
+        fcscolorcolumn.pop(0)
+        colordatacolumn.extend(fbscolorcolumn)
+        colordatacolumn.extend(fcscolorcolumn)
+        
+        return {1: teamcolorcolumn, 2: colordatacolumn}
+    except:
+        return "There was an error in contacting Google Sheets, please try again."
 
 """
 Get the ACC standings from CHEFF
@@ -700,56 +706,59 @@ Get the rankings data to post on Discord
 
 """      
 def getRankingsData(r, request):
-    if(request.lower() == "fbs coaches" or request.lower() == "fbs coaches poll"):
-        return getCoachesPollData(r, "FBS")
-        
-    elif(request.lower() == "fcs coaches" or request.lower() == "fcs coaches poll"):
-        return getCoachesPollData(r, "FCS")
-    if(request.lower() == "coaches" or request.lower() == "coaches poll"):
-        return "Please specify whether you want FBS or FCS coaches poll data"
-    if(request.lower() == "fbs" or request.lower() == "fcs"):
-        return "Please be more specific"
-    if("committee" in request.lower() or "playoff" in request.lower()):
-        return "This request is not available right now"
-    if(request.lower() == "fbs elo"):
-        fbsColumn = fbsworksheet.col_values(2)
-        fbsEloColumn = fbsworksheet.col_values(3)
-        i = 1
-        post = ("-----------------------\n**FBS Elo Rankings**\n-----------------------\n")
-        for team in fbsColumn[1:26]:
-            elo = fbsEloColumn[i]
-            post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
-            i = i + 1
-        return post
-    if(request.lower() == "fcs elo"):
-        fcsColumn = fcsworksheet.col_values(4)
-        fcsEloColumn = fcsworksheet.col_values(1)
-        i = 1
-        post = ("-----------------------\n**FCS Elo Rankings**\n-----------------------\n")
-        for team in fcsColumn[1:26]:
-            if("(" in team):
-                team = team.split("(")[0]
-                team = team.strip()
-            elo = fcsEloColumn[i]
-            post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
-            i = i + 1
-        return post
-    if(request.lower() == "mov"):
-        post = ("-----------------------\n**FBS MoV Rankings**\n-----------------------\n")
-        return parseRankingsWorksheet(2, 3, 4, post)
-    if(request.lower() == "scoring offense" or request.lower() == "offense"):
-        post = ("--------------------------------------------\n**FBS Scoring Offense Rankings**\n--------------------------------------------\n")
-        return parseRankingsWorksheet(10, 11, 12, post)
-    if(request.lower() == "scoring defense" or request.lower() == "defense"):
-        post = ("--------------------------------------------\n**FBS Scoring Defense Rankings**\n--------------------------------------------\n")
-        return parseRankingsWorksheet(14, 15, 16, post)
-    if(request.lower() == "sosmovr" or request.lower() == "smr" or request.lower() == "sauce mover"):
-        post = ("--------------------------------------------\n**FBS SOSMOVR**\n--------------------------------------------\n")
-        return parseSOSMOVRWorksheet(2, 3, 4, post)
-    if(request.lower() == "eqw"):
-        post = ("--------------------------------------------\n**FBS EQW**\n--------------------------------------------\n")
-        return parseSOSMOVRWorksheet(7, 8, 9, post)
-    return "Invalid command. Please try again."
+    try:
+        if(request.lower() == "fbs coaches" or request.lower() == "fbs coaches poll"):
+            return getCoachesPollData(r, "FBS")
+            
+        elif(request.lower() == "fcs coaches" or request.lower() == "fcs coaches poll"):
+            return getCoachesPollData(r, "FCS")
+        if(request.lower() == "coaches" or request.lower() == "coaches poll"):
+            return "Please specify whether you want FBS or FCS coaches poll data"
+        if(request.lower() == "fbs" or request.lower() == "fcs"):
+            return "Please be more specific"
+        if("committee" in request.lower() or "playoff" in request.lower()):
+            return "This request is not available right now"
+        if(request.lower() == "fbs elo"):
+            fbsColumn = fbsworksheet.col_values(2)
+            fbsEloColumn = fbsworksheet.col_values(3)
+            i = 1
+            post = ("-----------------------\n**FBS Elo Rankings**\n-----------------------\n")
+            for team in fbsColumn[1:26]:
+                elo = fbsEloColumn[i]
+                post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
+                i = i + 1
+            return post
+        if(request.lower() == "fcs elo"):
+            fcsColumn = fcsworksheet.col_values(4)
+            fcsEloColumn = fcsworksheet.col_values(1)
+            i = 1
+            post = ("-----------------------\n**FCS Elo Rankings**\n-----------------------\n")
+            for team in fcsColumn[1:26]:
+                if("(" in team):
+                    team = team.split("(")[0]
+                    team = team.strip()
+                elo = fcsEloColumn[i]
+                post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
+                i = i + 1
+            return post
+        if(request.lower() == "mov"):
+            post = ("-----------------------\n**FBS MoV Rankings**\n-----------------------\n")
+            return parseRankingsWorksheet(2, 3, 4, post)
+        if(request.lower() == "scoring offense" or request.lower() == "offense"):
+            post = ("--------------------------------------------\n**FBS Scoring Offense Rankings**\n--------------------------------------------\n")
+            return parseRankingsWorksheet(10, 11, 12, post)
+        if(request.lower() == "scoring defense" or request.lower() == "defense"):
+            post = ("--------------------------------------------\n**FBS Scoring Defense Rankings**\n--------------------------------------------\n")
+            return parseRankingsWorksheet(14, 15, 16, post)
+        if(request.lower() == "sosmovr" or request.lower() == "smr" or request.lower() == "sauce mover"):
+            post = ("--------------------------------------------\n**FBS SOSMOVR**\n--------------------------------------------\n")
+            return parseSOSMOVRWorksheet(2, 3, 4, post)
+        if(request.lower() == "eqw"):
+            post = ("--------------------------------------------\n**FBS EQW**\n--------------------------------------------\n")
+            return parseSOSMOVRWorksheet(7, 8, 9, post)
+        return "Invalid command. Please try again."
+    except:
+        return "There was an error in contacting Google Sheets, please try again."
     
         
     

@@ -12,11 +12,14 @@ Get the colors for both teams playing
 """
 def getTeamColors(homeTeam, awayTeam):
     colorDict = getColorData()
-    teamColorColumn = colorDict[1]
-    colorDataColumn = colorDict[2]
-    homeColor = getColor(homeTeam, teamColorColumn, colorDataColumn)
-    awayColor = getColor(awayTeam, teamColorColumn, colorDataColumn)
-    return {1: homeColor, 2: awayColor}
+    if colorDict != "There was an error in contacting Google Sheets, please try again.":
+        teamColorColumn = colorDict[1]
+        colorDataColumn = colorDict[2]
+        homeColor = getColor(homeTeam, teamColorColumn, colorDataColumn)
+        awayColor = getColor(awayTeam, teamColorColumn, colorDataColumn)
+        return {1: homeColor, 2: awayColor}
+    else:
+        return "There was an error in contacting Google Sheets, please try again."
 
 """
 Return the color for the team requested

@@ -174,37 +174,41 @@ async def handleScoreMessage(r, message):
               
             # Get the vegas odds
             vegasOddsDict = getVegasOdds(homeTeam, awayTeam)
-            homeVegasOdds = vegasOddsDict[1]
-            awayVegasOdds = vegasOddsDict[2]
-            
-            # Get the score
-            homeScore = parseHomeScore(submission.selftext)
-            awayScore = parseAwayScore(submission.selftext)
-                
-            if("Game complete" in submission.selftext):
-                if(season == "S4"):
-                    if(int(homeScore) > int(awayScore) or int(homeScore) == int(awayScore)):
-                        await makeGameFinalScorePost(message, submission, homeTeam, awayTeam, homeVegasOdds, homeScore, awayScore)
-                    elif(int(homeScore) < int(awayScore)):
-                        await makeGameFinalScorePost(message, submission, awayTeam, homeTeam, awayVegasOdds, awayScore, homeScore)  
-                else:
-                    post = "blank"
-                    if(int(homeScore) > int(awayScore)):
-                        post = "**FINAL | " + homeTeam + " defeated " + awayTeam + " " + homeScore + "-" + awayScore + "**\n"
+            if vegasOddsDict != "There was an error in contacting Google Sheets, please try again.":
+                homeVegasOdds = vegasOddsDict[1]
+                awayVegasOdds = vegasOddsDict[2]
+                # Get the score
+                homeScore = parseHomeScore(submission.selftext)
+                awayScore = parseAwayScore(submission.selftext)
+                    
+                if("Game complete" in submission.selftext):
+                    if(season == "S4"):
+                        if(int(homeScore) > int(awayScore) or int(homeScore) == int(awayScore)):
+                            await makeGameFinalScorePost(message, submission, homeTeam, awayTeam, homeVegasOdds, homeScore, awayScore)
+                        elif(int(homeScore) < int(awayScore)):
+                            await makeGameFinalScorePost(message, submission, awayTeam, homeTeam, awayVegasOdds, awayScore, homeScore)  
                     else:
-                        post = "**FINAL | " + awayTeam + " defeated " + homeTeam + " " + awayScore + "-" + homeScore + "**\n"
-                    await message.channel.send(post)
+                        post = "blank"
+                        if(int(homeScore) > int(awayScore)):
+                            post = "**FINAL | " + homeTeam + " defeated " + awayTeam + " " + homeScore + "-" + awayScore + "**\n"
+                        else:
+                            post = "**FINAL | " + awayTeam + " defeated " + homeTeam + " " + awayScore + "-" + homeScore + "**\n"
+                        await message.channel.send(post)
+                else:
+                    if(season == "S4"):
+                        await getOngoingGameInformation(message, submission, homeVegasOdds, awayVegasOdds, homeTeam, awayTeam, homeScore, awayScore)
+                    
+                    else:
+                        post = "blank"
+                        if(int(homeScore) > int(awayScore)):
+                            post = "**FINAL | " + homeTeam + " defeated " + awayTeam + " " + homeScore + "-" + awayScore + "**\n"
+                        else:
+                            post = "**FINAL | " + awayTeam + " defeated " + homeTeam + " " + awayScore + "-" + homeScore + "**\n"
+                        await message.channel.send(post) 
             else:
-                if(season == "S4"):
-                    await getOngoingGameInformation(message, submission, homeVegasOdds, awayVegasOdds, homeTeam, awayTeam, homeScore, awayScore)
-                
-                else:
-                    post = "blank"
-                    if(int(homeScore) > int(awayScore)):
-                        post = "**FINAL | " + homeTeam + " defeated " + awayTeam + " " + homeScore + "-" + awayScore + "**\n"
-                    else:
-                        post = "**FINAL | " + awayTeam + " defeated " + homeTeam + " " + awayScore + "-" + homeScore + "**\n"
-                    await message.channel.send(post)      
+                await message.channel.send("There was an error in contacting Google Sheets, please try again.")
+            
+                 
         await lookingForThread.delete()
     else: 
         await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
@@ -254,65 +258,71 @@ async def handlePlotMessage(r, message):
              
             #Get team colors for plots
             colorDict = getTeamColors(homeTeam, awayTeam)
-            homeColor = colorDict[1]
-            awayColor = colorDict[2]
-              
-            # Get the vegas odds
-            vegasOddsDict = getVegasOdds(homeTeam, awayTeam)
-            homeVegasOdds = vegasOddsDict[1]
-            awayVegasOdds = vegasOddsDict[2]
-
-            #Work with new gist
-            if(season == "S4"):
-                if("Game complete" in submission.selftext):
-                    #If there is a GitHub URL as plays have been called
-                    if(url != "NO PLAYS"):
-                        # Iterate through the data and plot the graphs
-                        iterateThroughGistDataGameOver(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
-                        
-                        # Send score plot
-                        with open('output.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, 'new_filename.png'))
-                            
-                        # Send the win probability plot
-                        with open('outputWinProbability.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+            if colorDict != "There was an error in contacting Google Sheets, please try again.":
+                homeColor = colorDict[1]
+                awayColor = colorDict[2]
+                vegasOddsDict = getVegasOdds(homeTeam, awayTeam)
+                # Get the vegas odds
+                if vegasOddsDict != "There was an error in contacting Google Sheets, please try again.":
+                    homeVegasOdds = vegasOddsDict[1]
+                    awayVegasOdds = vegasOddsDict[2]
+                    #Work with new gist
+                    if(season == "S4"):
+                        if("Game complete" in submission.selftext):
+                            #If there is a GitHub URL as plays have been called
+                            if(url != "NO PLAYS"):
+                                # Iterate through the data and plot the graphs
+                                iterateThroughGistDataGameOver(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
+                                
+                                # Send score plot
+                                with open('output.png', 'rb') as fp:
+                                    await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                                    
+                                # Send the win probability plot
+                                with open('outputWinProbability.png', 'rb') as fp:
+                                    await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                            else:
+                                await message.channel.send("No plays for the game found.")
+                        else:
+                            #If there is a GitHub URL as plays have been called
+                            if(url != "NO PLAYS"):
+                                # Iterate through the data and plot the graphs
+                                iterateThroughGistDataOngoingGame(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
+                                
+                                # Send score plot
+                                with open('output.png', 'rb') as fp:
+                                    await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                                    
+                                # Send the win probability plot
+                                with open('outputWinProbability.png', 'rb') as fp:
+                                    await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                            else:
+                                await message.channel.send("No plays for the game found.")
                     else:
-                        await message.channel.send("No plays for the game found.")
+                        # Get game thread submission day
+                        submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
+                        year = int(submissionTime.split("-")[0])
+                        month = int(submissionTime.split("-")[1])
+                        day = int(submissionTime.split("-")[2].split(" ")[0])
+                        if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
+                            oldThread = await message.channel.send("Iterating through old thread to generate plots...")
+                            threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission)
+                            # Send score plot
+                            with open('output.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+                                    
+                            # Send the win probability plot
+                            with open('outputWinProbability.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                            await oldThread.delete()
+                        else:
+                            await message.channel.send("This game is too old to plot the data. I can only plot Season I, Week 11 games onward")
                 else:
-                    #If there is a GitHub URL as plays have been called
-                    if(url != "NO PLAYS"):
-                        # Iterate through the data and plot the graphs
-                        iterateThroughGistDataOngoingGame(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
-                        
-                        # Send score plot
-                        with open('output.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, 'new_filename.png'))
-                            
-                        # Send the win probability plot
-                        with open('outputWinProbability.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                    else:
-                        await message.channel.send("No plays for the game found.")
+                    await message.channel.send("There was an error in contacting Google Sheets, please try again.")
             else:
-                # Get game thread submission day
-                submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
-                year = int(submissionTime.split("-")[0])
-                month = int(submissionTime.split("-")[1])
-                day = int(submissionTime.split("-")[2].split(" ")[0])
-                if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
-                    oldThread = await message.channel.send("Iterating through old thread to generate plots...")
-                    threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission)
-                    # Send score plot
-                    with open('output.png', 'rb') as fp:
-                        await message.channel.send(file=discord.File(fp, 'new_filename.png'))
-                            
-                    # Send the win probability plot
-                    with open('outputWinProbability.png', 'rb') as fp:
-                        await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                    await oldThread.delete()
-                else:
-                    await message.channel.send("This game is too old to plot the data. I can only plot Season I, Week 11 games onward")
+                await message.channel.send("There was an error in contacting Google Sheets, please try again.")
+
+            
         await lookingForThread.delete()
     else: 
         await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")

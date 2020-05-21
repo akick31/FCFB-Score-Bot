@@ -42,17 +42,20 @@ Return a dictionary containing the Vegas Odds for the game
 """
 def getVegasOdds(homeTeam, awayTeam):
     eloDictionary = getEloData()
-    teamEloColumn = eloDictionary[1]
-    eloDataColumn = eloDictionary[2]
-    homeElo = getElo(homeTeam, teamEloColumn, eloDataColumn)
-    awayElo = getElo(awayTeam, teamEloColumn, eloDataColumn)
-    homeOdds = calculateVegasOdds(homeElo, awayElo)
-    awayOdds = calculateVegasOdds(awayElo, homeElo)
-    # Default to a push if can't find Elo
-    if(homeElo == -500 or awayElo == -500):
-        homeOdds = 0
-        awayOdds = 0
-    return{1: homeOdds, 2: awayOdds}
+    if eloDictionary != "There was an error in contacting Google Sheets, please try again.":
+        teamEloColumn = eloDictionary[1]
+        eloDataColumn = eloDictionary[2]
+        homeElo = getElo(homeTeam, teamEloColumn, eloDataColumn)
+        awayElo = getElo(awayTeam, teamEloColumn, eloDataColumn)
+        homeOdds = calculateVegasOdds(homeElo, awayElo)
+        awayOdds = calculateVegasOdds(awayElo, homeElo)
+        # Default to a push if can't find Elo
+        if(homeElo == -500 or awayElo == -500):
+            homeOdds = 0
+            awayOdds = 0
+        return{1: homeOdds, 2: awayOdds}
+    else:
+        return eloDictionary
     
     
 

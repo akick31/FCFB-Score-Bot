@@ -41,7 +41,7 @@ def searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, 
         print()
     # If looking for season 4...
     if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread" or submission.link_flair_text == "Scrimmage") and season == "S4" 
-        and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3))
+        and ((year == 2020 and month == 3 and day >= 20) or (year == 2020 and month > 3)) and "MIAA" not in submission.title
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
         return submission
     # If looking for season 3...
