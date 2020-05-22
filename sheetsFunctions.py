@@ -24,6 +24,7 @@ colorworksheet = sh3.worksheet("Sheet1")
 sh4 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1m-_pHJK-40lc9v8tZf7IFIv3Ac7R2UTywMvvmQibsQI/edit?usp=sharing')
 standingsworksheet = sh4.worksheet("Standings")
 rankingsworksheet = sh4.worksheet("Rankings")
+compositeworksheet = sh4.worksheet("Composite")
 
 sh5 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1IrBBMKApJVYlU10wCOKp_oW3wvQfFT-xTC_A6EHJlzU/edit?usp=sharing')
 fcsstandingsworksheet = sh5.worksheet("Sheet1")
@@ -700,6 +701,20 @@ def parseSOSMOVRWorksheet(numCol, teamCol, valueCol, post):
         post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
         i = i + 1
     return post
+
+def parseCompositeData(numCol, teamCol, valueCol, post):
+    ranks = compositeworksheet.col_values(numCol)
+    teams = compositeworksheet.col_values(teamCol)
+    values = compositeworksheet.col_values(valueCol)
+    i = 4
+    for team in teams[4:-1]:
+        value = values[i]
+        rank = ranks[i]
+        if((int(rank)) > 25):
+            break
+        post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
+        i = i + 1
+    return post
     
 """
 Get the rankings data to post on Discord
@@ -756,6 +771,15 @@ def getRankingsData(r, request):
         if(request.lower() == "eqw"):
             post = ("--------------------------------------------\n**FBS EQW**\n--------------------------------------------\n")
             return parseSOSMOVRWorksheet(7, 8, 9, post)
+        if(request.lower() == "composite"):
+            post = ("--------------------------------------------\n**Composite**\n--------------------------------------------\n")
+            return parseCompositeData(2, 3, 4, post)
+        if(request.lower() == "colley" or request.lower() == "colley matrix"):
+            post = ("--------------------------------------------\n**Colley Matrix**\n--------------------------------------------\n")
+            return parseCompositeData(13, 14, 15, post)
+        if(request.lower() == "adjusted strength rating" or request.lower() == "adjusted strength" or request.lower() == "asr"):
+            post = ("--------------------------------------------\n**Adjusted Strength Rating**\n--------------------------------------------\n")
+            return parseCompositeData(17, 18, 19, post)
         return "Invalid command. Please try again."
     except:
         return "There was an error in contacting Google Sheets, please try again."
