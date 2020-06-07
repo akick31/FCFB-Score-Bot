@@ -32,6 +32,9 @@ fcsstandingsworksheet = sh5.worksheet("Sheet1")
 sh6 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1GDDwQ2FpZIgGoDdZoRNbBg8IyQir2-WZriz8bHHXbSE/edit?usp=sharing')
 sosmovrworksheet = sh6.worksheet("SOSMOVR")
 
+sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1QWakYxpH0bV0dJGgZ11kmOqsUxbD1GYlJd22TKUaP0k/edit?usp=sharing')
+speedworksheet = sh7.worksheet("Quickest Team Ranking")
+
 """
 Get Elo data from both FBS and FCS sheets
 
@@ -702,12 +705,34 @@ def parseSOSMOVRWorksheet(numCol, teamCol, valueCol, post):
         i = i + 1
     return post
 
+"""
+Parse the composite worksheet
+
+"""
 def parseCompositeData(numCol, teamCol, valueCol, post):
     ranks = compositeworksheet.col_values(numCol)
     teams = compositeworksheet.col_values(teamCol)
     values = compositeworksheet.col_values(valueCol)
     i = 4
     for team in teams[4:-1]:
+        value = values[i]
+        rank = ranks[i]
+        if((int(rank)) > 25):
+            break
+        post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
+        i = i + 1
+    return post
+
+"""
+Parse the speed worksheet 
+
+"""
+def parseSpeedData(numCol, teamCol, valueCol, post):
+    ranks = speedworksheet.col_values(numCol)
+    teams = speedworksheet.col_values(teamCol)
+    values = speedworksheet.col_values(valueCol)
+    i = 2
+    for team in teams[2:-1]:
         value = values[i]
         rank = ranks[i]
         if((int(rank)) > 25):
@@ -780,6 +805,12 @@ def getRankingsData(r, request):
         if(request.lower() == "adjusted strength rating" or request.lower() == "adjusted strength" or request.lower() == "asr"):
             post = ("--------------------------------------------\n**Adjusted Strength Rating**\n--------------------------------------------\n")
             return parseCompositeData(17, 18, 19, post)
+        if(request.lower() == "adjusted speed" or request.lower() == "speed"):
+            post = ("--------------------------------------------\n**Adjusted Speed**\n--------------------------------------------\n")
+            return parseSpeedData(2, 3, 4, post)
+        if(request.lower() == "raw speed"):
+            post = ("--------------------------------------------\n**Raw Speed**\n--------------------------------------------\n")
+            return parseSpeedData(10, 11, 12, post)
         return "Invalid command. Please try again."
     except:
         return "There was an error in contacting Google Sheets, please try again."

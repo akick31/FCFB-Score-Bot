@@ -356,7 +356,7 @@ async def handleRankingsMessage(r, message):
         await message.channel.send("The $rankings command currently supports the following ranks commands:\n" +
                                    "- FBS Coaches Poll\n- FCS Coaches Poll\n- FBS Elo\n- FCS Elo\n- MOV (FBS Only)\n- Scoring Offense (FBS Only)\n- Scoring Defense (FBS Only)\n" + 
                                    "- SOSMOV (FBS Only)\n- EQW (FBS Only)\n- Composite (FBS Only)\n- Adjusted Strength Rating (FBS Only)\n- Colley Matrix (FBS Only)\n" + 
-                                   "**If you want a ranking added, please contact Dick**")
+                                   "- Adjusted Speed (FBS Only)\n" + "- Raw Speed (FBS Only)\n" + "**If you want a ranking added, please contact Dick**")
     else:
         post = getRankingsData(r, request)
         await message.channel.send(post)
