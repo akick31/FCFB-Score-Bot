@@ -377,11 +377,12 @@ async def handleOpponentMessage(r, message):
     
     team = changeUserInputTeams(team)
     
-    opponent = searchForTeamGameThread(r, team)
-    if(opponent == "NONE"):
-        await message.channel.send("No game thread found. Make sure capitalization is correct, it matters for the $opponent command")
+    opponent = searchForTeamGameThread(r, team) 
+    # opponent[1] is team, opponent[2] is the opponent
+    if(opponent[1] == "NONE"):
+        await message.channel.send("No game thread found.")
     else:
-        await message.channel.send(team + " is playing " + opponent)
+        await message.channel.send(opponent[1] + " is playing " + opponent[2])
     await lookingForThread.delete()
 
 """

@@ -128,7 +128,8 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request, postseason):
     return "NONE"
 
 """
-Iterate through Reddit to find the game thread and return the opponent
+Iterate through Reddit to find the game thread and return a dictionary of the two teams in that game, with the 
+1 value being the team you're looking for, 2 value being their opponent
 
 """
 def searchForTeamGameThread(r, team):
@@ -136,12 +137,12 @@ def searchForTeamGameThread(r, team):
         if(submission.link_flair_text == "Game Thread"):
             away = parseAwayTeam(submission.selftext)
             home = parseHomeTeam(submission.selftext)
-        if (submission.link_flair_text == "Game Thread" and (team == home or team == away)):
-            if(team == home):
-                return away
-            else:
-                return home
-    return "NONE"
+        if (submission.link_flair_text == "Game Thread" and (team.lower() == home.lower() or team.lower() == away.lower())):
+            if(team.lower() == home.lower()):
+                return {1: home, 2: away}
+            elif(team.lower() == away.lower()):
+                return {1: away, 2: home}
+    return {1: "NONE", 2: "NONE"}
     
 """
 Parse the Gist url from the game thread
