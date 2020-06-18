@@ -126,6 +126,22 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request, postseason):
                 print(gameThread.url)
                 return gameThread
     return "NONE"
+
+"""
+Iterate through Reddit to find the game thread and return the opponent
+
+"""
+def searchForTeamGameThread(r, team):
+    for submission in r.subreddit("FakeCollegeFootball").search(team, sort='new'):
+        if(submission.link_flair_text == "Game Thread"):
+            away = parseAwayTeam(submission.selftext)
+            home = parseHomeTeam(submission.selftext)
+        if (submission.link_flair_text == "Game Thread" and (team == home or team == away)):
+            if(team == home):
+                return away
+            else:
+                return home
+    return "NONE"
     
 """
 Parse the Gist url from the game thread

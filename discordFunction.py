@@ -19,6 +19,7 @@ from gameData import parseHomeUser
 from gameData import parseAwayUser
 from gameData import parseWaitingOn
 from gameThreadData import searchForGameThread
+from gameThreadData import searchForTeamGameThread
 from gameThreadData import saveGithubData
 from gistData import iterateThroughGistDataGameOver
 from gistData import iterateThroughGistDataOngoingGame
@@ -362,6 +363,28 @@ async def handleRankingsMessage(r, message):
         await message.channel.send(post)
 
 """
+Handle when the user requests a team's opponent
+
+"""   
+async def handleOpponentMessage(r, message):
+    if(message.content.startswith('$opponent')):
+        team = message.content.split("$opponent")[1].strip()
+    elif(message.content.startswith('$Opponent')):
+        team = message.content.split("$Opponent")[1].strip()
+
+    lookingForThread = await message.channel.send("Looking for the most recent game thread with the following team: " + team)
+    print("LOOKING FOR THREAD WITH THE FOLLOWING TEAM: " + team)
+    
+    team = changeUserInputTeams(team)
+    
+    opponent = searchForTeamGameThread(r, team)
+    if(opponent == "NONE"):
+        await message.channel.send("No game thread found. Make sure capitalization is correct, it matters for the $opponent command")
+    else:
+        await message.channel.send(team + " is playing " + opponent)
+    await lookingForThread.delete()
+
+"""
 Login to Discord and run the bot
 
 """
@@ -386,6 +409,9 @@ def loginDiscord(r):
             
         elif(message.content.startswith('$Rankings') or message.content.startswith('$rankings')):
             await handleRankingsMessage(r, message)
+
+        elif(message.content.startswith('$Opponent') or message.content.startswith('$opponent')):
+            await handleOpponentMessage(r, message)
                 
     @client.event
     async def on_ready():
