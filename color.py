@@ -17,6 +17,9 @@ def getTeamColors(homeTeam, awayTeam):
         colorDataColumn = colorDict[2]
         homeColor = getColor(homeTeam, teamColorColumn, colorDataColumn)
         awayColor = getColor(awayTeam, teamColorColumn, colorDataColumn)
+        if awayColor == homeColor:
+            homeColor == "black"
+            awayColor == "red"
         return {1: homeColor, 2: awayColor}
     else:
         return "There was an error in contacting Google Sheets, please try again."
