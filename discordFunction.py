@@ -41,14 +41,14 @@ range to look at. Also parse if the user is looking for a postseason game
 """
 def parseSeason(awayTeam):
     postseason = 0
-    season = "S4"
-    if(("S1" in awayTeam or "S2" in awayTeam or "S3" in awayTeam or "S4" in awayTeam)
-           or ("s1" in awayTeam or "s2" in awayTeam or "s3" in awayTeam or "s4" in awayTeam)):
+    season = "S5"
+    if(("S1" in awayTeam or "S2" in awayTeam or "S3" in awayTeam or "S4" in awayTeam or "S5" in awayTeam)
+           or ("s1" in awayTeam or "s2" in awayTeam or "s3" in awayTeam or "s4" in awayTeam or "s5" in awayTeam)):
         teamSplit = awayTeam.split(" ")
         i = 0
         for split in teamSplit:
-            if(("S1" in split or "S2" in split or "S3" in split or "S4" in split)
-               or ("s1" in split or "s2" in split or "s3" in split or "s4" in split)):
+            if(("S1" in split or "S2" in split or "S3" in split or "S4" in split or "S5" in split)
+               or ("s1" in split or "s2" in split or "s3" in split or "s4" in split or "s5" in split)):
                 season = teamSplit[i]
             if("postseason" in split or "Postseason" in split):
                 postseason = 1
@@ -183,7 +183,7 @@ async def handleScoreMessage(r, message):
                 awayScore = parseAwayScore(submission.selftext)
                     
                 if("Game complete" in submission.selftext):
-                    if(season == "S4"):
+                    if(season == "S5"):
                         if(int(homeScore) > int(awayScore) or int(homeScore) == int(awayScore)):
                             await makeGameFinalScorePost(message, submission, homeTeam, awayTeam, homeVegasOdds, homeScore, awayScore)
                         elif(int(homeScore) < int(awayScore)):
@@ -196,7 +196,7 @@ async def handleScoreMessage(r, message):
                             post = "**FINAL | " + awayTeam + " defeated " + homeTeam + " " + awayScore + "-" + homeScore + "**\n"
                         await message.channel.send(post)
                 else:
-                    if(season == "S4"):
+                    if(season == "S5"):
                         await getOngoingGameInformation(message, submission, homeVegasOdds, awayVegasOdds, homeTeam, awayTeam, homeScore, awayScore)
                     
                     else:
@@ -268,7 +268,7 @@ async def handlePlotMessage(r, message):
                     homeVegasOdds = vegasOddsDict[1]
                     awayVegasOdds = vegasOddsDict[2]
                     #Work with new gist
-                    if(season == "S4"):
+                    if(season == "S5"):
                         if("Game complete" in submission.selftext):
                             #If there is a GitHub URL as plays have been called
                             if(url != "NO PLAYS"):
