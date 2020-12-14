@@ -21,10 +21,10 @@ from game_data import parseWaitingOn
 from game_thread_data import searchForGameThread
 from game_thread_data import searchForTeamGameThread
 from game_thread_data import saveGithubData
-from gist_data import iterateThroughgist_dataGameOver
-from gist_data import iterateThroughgist_dataOngoingGame
-from thread_crawler import thread_crawler
-from win_probability import getCurrentwin_probability
+from gist_data import iterateThroughGistDataGameOver
+from gist_data import iterateThroughGistDataOngoingGame
+from thread_crawler import threadCrawler
+from win_probability import getCurrentWinProbability
 from sheets_functions import getStandingsData
 from sheets_functions import getRankingsData
 
@@ -84,7 +84,7 @@ Get information to make a post for ongoing games on Reddit
 async def getOngoingGameInformation(message, submission, homeVegasOdds, awayVegasOdds, homeTeam, awayTeam, homeScore, awayScore):
     # Get win probability
     curPossession = parsePossession(submission.selftext)
-    possessingTeamProbability = getCurrentwin_probability(homeVegasOdds, awayVegasOdds)
+    possessingTeamProbability = getCurrentWinProbability(homeVegasOdds, awayVegasOdds)
     if(curPossession == homeTeam):
         curHomewin_probability = possessingTeamProbability
     else:
@@ -273,7 +273,7 @@ async def handlePlotMessage(r, message):
                             #If there is a GitHub URL as plays have been called
                             if(url != "NO PLAYS"):
                                 # Iterate through the data and plot the graphs
-                                iterateThroughgist_dataGameOver(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
+                                iterateThroughGistDataGameOver(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
                                 
                                 # Send score plot
                                 with open('output.png', 'rb') as fp:
@@ -288,7 +288,7 @@ async def handlePlotMessage(r, message):
                             #If there is a GitHub URL as plays have been called
                             if(url != "NO PLAYS"):
                                 # Iterate through the data and plot the graphs
-                                iterateThroughgist_dataOngoingGame(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
+                                iterateThroughGistDataOngoingGame(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
                                 
                                 # Send score plot
                                 with open('output.png', 'rb') as fp:
@@ -307,7 +307,7 @@ async def handlePlotMessage(r, message):
                         day = int(submissionTime.split("-")[2].split(" ")[0])
                         if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
                             oldThread = await message.channel.send("Iterating through old thread to generate plots...")
-                            thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission)
+                            threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission)
                             # Send score plot
                             with open('output.png', 'rb') as fp:
                                 await message.channel.send(file=discord.File(fp, 'new_filename.png'))
