@@ -1,8 +1,8 @@
 import praw
 import requests
 import datetime
-from gameData import parseHomeTeam
-from gameData import parseAwayTeam
+from game_data import parseHomeTeam
+from game_data import parseAwayTeam
 
 
 """

@@ -1,4 +1,4 @@
-from sheetsFunctions import getColorData
+from sheets_functions import getColorData
 
 """
 Handle the colors aspect of the bot

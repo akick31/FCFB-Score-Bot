@@ -2,31 +2,31 @@ import praw
 import discord
 import datetime
 from discord.ext import commands
-from nameFix import handleNamingInconsistincies
-from nameFix import changeUserInputTeams
-from vegasOdds import getVegasOdds
+from name_fix import handleNamingInconsistincies
+from name_fix import changeUserInputTeams
+from vegas_odds import getVegasOdds
 from color import getTeamColors
-from gameData import parseQuarter
-from gameData import parseYardLine
-from gameData import parseDown
-from gameData import parsePossession
-from gameData import parseTime
-from gameData import parseHomeScore
-from gameData import parseAwayScore
-from gameData import parseHomeTeam
-from gameData import parseAwayTeam
-from gameData import parseHomeUser
-from gameData import parseAwayUser
-from gameData import parseWaitingOn
-from gameThreadData import searchForGameThread
-from gameThreadData import searchForTeamGameThread
-from gameThreadData import saveGithubData
-from gistData import iterateThroughGistDataGameOver
-from gistData import iterateThroughGistDataOngoingGame
-from threadCrawler import threadCrawler
-from winProbability import getCurrentWinProbability
-from sheetsFunctions import getStandingsData
-from sheetsFunctions import getRankingsData
+from game_data import parseQuarter
+from game_data import parseYardLine
+from game_data import parseDown
+from game_data import parsePossession
+from game_data import parseTime
+from game_data import parseHomeScore
+from game_data import parseAwayScore
+from game_data import parseHomeTeam
+from game_data import parseAwayTeam
+from game_data import parseHomeUser
+from game_data import parseAwayUser
+from game_data import parseWaitingOn
+from game_thread_data import searchForGameThread
+from game_thread_data import searchForTeamGameThread
+from game_thread_data import saveGithubData
+from gist_data import iterateThroughgist_dataGameOver
+from gist_data import iterateThroughgist_dataOngoingGame
+from thread_crawler import thread_crawler
+from win_probability import getCurrentwin_probability
+from sheets_functions import getStandingsData
+from sheets_functions import getRankingsData
 
 """
 Handle the Discord side of the bot. Look for messages and post responses
@@ -61,7 +61,7 @@ def parseSeason(awayTeam):
 Make posts for ongoing games on Reddit
 
 """
-async def makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, vegasOdds, team, opponentTeam, score, opponentScore, curWinProbability, waitingOn):
+async def makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, vegasOdds, team, opponentTeam, score, opponentScore, curwin_probability, waitingOn):
     odds = round(vegasOdds * 2) / 2
     if(odds == 0):
         odds = "Push"
@@ -70,10 +70,10 @@ async def makeOngoingGamePost(message, submission, curClock, curDown, curPossess
     post = "**" + curClock +  " | " + opponentTeam + " " + opponentScore + " " + team + " " + score + " (" + str(odds) + ")** \n"
     yardPost = curDown + " | :football: " + curPossession + " | " + curYardLine + "\n"
     winPost = "Each team has a 50% chance to win\n"
-    if(int(curWinProbability) >= 50):
-        winPost = team + " has a " + str(int(curWinProbability)) + "% chance to win\n"
-    elif(int(curWinProbability) < 50):
-        winPost = opponentTeam + " has a " + str(100-int(curWinProbability)) + "% chance to win\n"
+    if(int(curwin_probability) >= 50):
+        winPost = team + " has a " + str(int(curwin_probability)) + "% chance to win\n"
+    elif(int(curwin_probability) < 50):
+        winPost = opponentTeam + " has a " + str(100-int(curwin_probability)) + "% chance to win\n"
     waitingOnPost = "Waiting on " + waitingOn + " for a number\n"
     await message.channel.send(post + yardPost + winPost + waitingOnPost + submission.url + "\n")
 
@@ -84,12 +84,12 @@ Get information to make a post for ongoing games on Reddit
 async def getOngoingGameInformation(message, submission, homeVegasOdds, awayVegasOdds, homeTeam, awayTeam, homeScore, awayScore):
     # Get win probability
     curPossession = parsePossession(submission.selftext)
-    possessingTeamProbability = getCurrentWinProbability(homeVegasOdds, awayVegasOdds)
+    possessingTeamProbability = getCurrentwin_probability(homeVegasOdds, awayVegasOdds)
     if(curPossession == homeTeam):
-        curHomeWinProbability = possessingTeamProbability
+        curHomewin_probability = possessingTeamProbability
     else:
-        curHomeWinProbability = 100-possessingTeamProbability
-    curAwayWinProbability = 100-curHomeWinProbability
+        curHomewin_probability = 100-possessingTeamProbability
+    curAwaywin_probability = 100-curHomewin_probability
     # Get other game data
     curYardLine = parseYardLine(submission.selftext)
     curQuarter = parseQuarter(submission.selftext)
@@ -105,10 +105,10 @@ async def getOngoingGameInformation(message, submission, homeVegasOdds, awayVega
         curClock = str(curTime) + " " + str(curQuarter) 
     # If home team is winning or the score is tied
     if(int(homeScore) > int(awayScore) or int(homeScore) == int(awayScore)):
-        await makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, homeVegasOdds, homeTeam, awayTeam, homeScore, awayScore, curHomeWinProbability, waitingOn)
+        await makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, homeVegasOdds, homeTeam, awayTeam, homeScore, awayScore, curHomewin_probability, waitingOn)
     #If the home team is losing
     elif(int(homeScore) < int(awayScore)):
-        await makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, awayVegasOdds, awayTeam, homeTeam, awayScore, homeScore, curAwayWinProbability, waitingOn)
+        await makeOngoingGamePost(message, submission, curClock, curDown, curPossession, curYardLine, awayVegasOdds, awayTeam, homeTeam, awayScore, homeScore, curAwaywin_probability, waitingOn)
 
 """
 Make posts for games that went final on Reddit
@@ -273,14 +273,14 @@ async def handlePlotMessage(r, message):
                             #If there is a GitHub URL as plays have been called
                             if(url != "NO PLAYS"):
                                 # Iterate through the data and plot the graphs
-                                iterateThroughGistDataGameOver(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
+                                iterateThroughgist_dataGameOver(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
                                 
                                 # Send score plot
                                 with open('output.png', 'rb') as fp:
                                     await message.channel.send(file=discord.File(fp, 'new_filename.png'))
                                     
                                 # Send the win probability plot
-                                with open('outputWinProbability.png', 'rb') as fp:
+                                with open('outputwin_probability.png', 'rb') as fp:
                                     await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
                             else:
                                 await message.channel.send("No plays for the game found.")
@@ -288,14 +288,14 @@ async def handlePlotMessage(r, message):
                             #If there is a GitHub URL as plays have been called
                             if(url != "NO PLAYS"):
                                 # Iterate through the data and plot the graphs
-                                iterateThroughGistDataOngoingGame(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
+                                iterateThroughgist_dataOngoingGame(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor)
                                 
                                 # Send score plot
                                 with open('output.png', 'rb') as fp:
                                     await message.channel.send(file=discord.File(fp, 'new_filename.png'))
                                     
                                 # Send the win probability plot
-                                with open('outputWinProbability.png', 'rb') as fp:
+                                with open('outputwin_probability.png', 'rb') as fp:
                                     await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
                             else:
                                 await message.channel.send("No plays for the game found.")
@@ -307,13 +307,13 @@ async def handlePlotMessage(r, message):
                         day = int(submissionTime.split("-")[2].split(" ")[0])
                         if(year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8)):
                             oldThread = await message.channel.send("Iterating through old thread to generate plots...")
-                            threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission)
+                            thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission)
                             # Send score plot
                             with open('output.png', 'rb') as fp:
                                 await message.channel.send(file=discord.File(fp, 'new_filename.png'))
                                     
                             # Send the win probability plot
-                            with open('outputWinProbability.png', 'rb') as fp:
+                            with open('outputwin_probability.png', 'rb') as fp:
                                 await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
                             await oldThread.delete()
                         else:

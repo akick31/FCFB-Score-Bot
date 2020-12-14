@@ -1,7 +1,7 @@
-from winProbability import calculateWinProbabilityThreadCrawler
-from winProbability import calculateExpectedPoints
-from plotGraphs import plotScorePlotThreadCrawler
-from plotGraphs import plotWinProbabilityThreadCrawler
+from win_probability import calculateWinProbabilityThreadCrawler
+from win_probability import calculateExpectedPoints
+from plot_graphs import plotScorePlotThreadCrawler
+from plot_graphs import plotWinProbabilityThreadCrawler
 
 """
 Crawl through an old Game Thread (pre-Season 4) and gather game data and plot it

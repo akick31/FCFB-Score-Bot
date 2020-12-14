@@ -6,8 +6,8 @@ Created on Wed May 13 19:38:06 2020
 @author: apkick
 """
 
-from redditLogin import loginReddit
-from discordFunction import loginDiscord
+from reddit_login import loginReddit
+from discord_function import loginDiscord
 
 
 # Main method

@@ -1,8 +1,8 @@
 import csv
-from winProbability import calculateExpectedPoints
-from winProbability import calculateWinProbabilityGist
-from plotGraphs import plotScorePlotGist
-from plotGraphs import plotWinProbabilityGist
+from win_probability import calculateExpectedPoints
+from win_probability import calculateWinProbabilityGist
+from plot_graphs import plotScorePlotGist
+from plot_graphs import plotWinProbabilityGist
 
 """
 Iterate through Gist data and post plots for that data

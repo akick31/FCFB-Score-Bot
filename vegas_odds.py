@@ -1,4 +1,4 @@
-from sheetsFunctions import getEloData
+from sheets_functions import getEloData
 
 """
 Handle calculating vegas odds for games
