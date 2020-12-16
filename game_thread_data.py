@@ -33,12 +33,6 @@ def searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, 
         away = parseAwayTeam(submission.selftext).lower()
         home = parseHomeTeam(submission.selftext).lower()
         print(submission.title)
-        print(home)
-        print(away)
-        print(homeTeam)
-        print(awayTeam)
-        print(str(month) + " " + str(day) + " " + str(year))     
-        print()
     # If looking for season 5...
     if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread" or submission.link_flair_text == "Scrimmage") and season == "S5"
         and ((year == 2020 and month == 12 and day >= 2) or (year == 2021)) and "MIAA" not in submission.title

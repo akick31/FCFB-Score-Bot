@@ -25,7 +25,7 @@ def plotWinProbabilityGist(homeTeam, awayTeam, homeWinProbability, awayWinProbab
     plt.ylim(-10, 110)
     plt.xticks([])
     plt.legend(loc="upper left")
-    plt.savefig("outputWinProbability.png")
+    plt.savefig("outputwin_probability.png")
     plt.close()
     
 """
@@ -73,7 +73,7 @@ def plotWinProbabilityThreadCrawler(homeTeam, awayTeam, homeWinProbability, away
     plt.ylim(-10, 110)
     plt.xticks([])
     plt.legend(loc="upper left")
-    plt.savefig("outputWinProbability.png")
+    plt.savefig("outputwin_probability.png")
     plt.close()
     
 """
