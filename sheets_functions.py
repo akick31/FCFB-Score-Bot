@@ -32,7 +32,7 @@ fcsStandingsWorksheet = sh5.worksheet("Sheet1")
 sh6 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1GDDwQ2FpZIgGoDdZoRNbBg8IyQir2-WZriz8bHHXbSE/edit?usp=sharing')
 sosmovrWorksheet = sh6.worksheet("SOSMOVR")
 
-sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1QWakYxpH0bV0dJGgZ11kmOqsUxbD1GYlJd22TKUaP0k/edit?usp=sharing')
+sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZAt2PjbwHCoWaQZY6jsQRHUK9t6xHZCxa1wn1W9Kt9E/edit?usp=sharing')
 speedWorksheet = sh7.worksheet("Quickest Team Ranking")
 
 """
