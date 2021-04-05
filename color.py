@@ -17,10 +17,11 @@ def getTeamColors(homeTeam, awayTeam):
         colorDataColumn = colorDict[2]
         homeColor = getColor(homeTeam, teamColorColumn, colorDataColumn)
         awayColor = getColor(awayTeam, teamColorColumn, colorDataColumn)
-        if awayColor == homeColor:
+        colorComparison = compareColor(homeColor, awayColor)
+        if colorComparison[1] == colorComparison[2]:
             homeColor = "black"
             awayColor = "red"
-        return {1: homeColor, 2: awayColor}
+        return {1: colorComparison[1], 2: colorComparison[2]}
     else:
         return "There was an error in contacting Google Sheets, please try again."
 
@@ -40,3 +41,17 @@ def getColor(team, teamColorColumn, colorDataColumn):
             i = i + 1  
     return color
 
+def compareColor(homeColor, awayColor):
+    homeHex = homeColor.split("#")[1]
+    awayHex = awayColor.split("#")[1]
+    homeDecimal = int(homeHex, 16) 
+    awayDecimal = int(awayHex, 16)
+    # If difference is greater than 330000 they are far enough apart
+    if(abs(homeDecimal-awayDecimal) < 330000):
+        homeColor = "black"
+        awayColor = "red"
+        return {1: homeColor, 2: awayColor}
+    else:
+        return {1: homeColor, 2: awayColor}
+        
+        
