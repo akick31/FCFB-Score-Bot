@@ -1,4 +1,5 @@
 import gspread
+import xlrd
 from oauth2client.service_account import ServiceAccountCredentials
 from poll_data import getCoachesPollData
 
@@ -13,10 +14,11 @@ scope = ['https://spreadsheets.google.com/feeds',
 credentials = ServiceAccountCredentials.from_json_keyfile_name('FCFBRollCallBot-2d263a255851.json', scope)
 gc = gspread.authorize(credentials)
 sh = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZFi4MqxWX84-VdIiWjJmuvB8f80lfKNkffeKcdJKtAU/edit#gid=1733685321')
-fbsWorksheet = sh.worksheet("Season 5 Rankings (All-Time)")
+fbsWorksheet = sh.worksheet("Season 6 Rankings (All-Time)")
 
-sh2 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1Us7nH-Xh1maDyRoVzwEh2twJ47UroXdCNZWSFG28cmg/edit#gid=0')
-fcsWorksheet = sh2.worksheet("FCSElo")
+file_location = "FCSElo.xlsx"
+fcsexcel = xlrd.open_workbook(file_location)
+sheet = fcsexcel.sheet_by_name('sheet')
 
 sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-1Fte7S8kXy8E-GY7c3w00vrVcvbY87MWHJln8Ev4S0/edit?usp=sharing')
 colorWorksheet = sh3.worksheet("Main FCFB")
@@ -45,21 +47,22 @@ def getEloData():
         eloDataColumn = []
         fbsColumn = fbsWorksheet.col_values(2)
         fbsColumn.pop(0)
-        fcsColumn = fcsWorksheet.col_values(4)
+        fcsColumn = getExcelData(3)
         fcsColumn.pop(0)
         teamEloColumn.extend(fbsColumn)
         teamEloColumn.extend(fcsColumn)
 
         fbsEloColumn = fbsWorksheet.col_values(3)
         fbsEloColumn.pop(0)
-        fcsEloColumn = fcsWorksheet.col_values(1)
+        fcsEloColumn = getExcelData(0)
         fcsEloColumn.pop(0)
         eloDataColumn.extend(fbsEloColumn)
         eloDataColumn.extend(fcsEloColumn)
         
         return {1: teamEloColumn, 2: eloDataColumn}
-    except:
-        return "There was an error in contacting Google Sheets, please try again."
+    except Exception as e:
+        returnStatement = "The following error occured: " + str(e)
+        return returnStatement
  
 """
 Get Hex Color data for both FBS and FCS teams
@@ -83,9 +86,10 @@ def getColorData():
         colorDataColumn.extend(fcsColorColumn)
         
         return {1: teamColorColumn, 2: colorDataColumn}
-    except:
-        return "There was an error in contacting Google Sheets, please try again."
-
+    except Exception as e:
+        returnStatement = "The following error occured: " + str(e)
+        return returnStatement
+    
 """
 Get the ACC standings from CHEFF
 
@@ -669,8 +673,9 @@ def getStandingsData(conference):
             return parseSouthland()
         else:
             return "Conference not found"
-    except:
-       return "There was an error in contacting Google Sheets, please try again."
+    except Exception as e:
+        returnStatement = "The following error occured: " + str(e)
+        return returnStatement
  
 """
 Parse the rankings worksheet post
@@ -726,8 +731,9 @@ def parseCompositeData(numCol, teamCol, valueCol, post):
             post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
             i = i + 1
         return post
-    except:
-        return "There was an error in contacting Google Sheets, please try again."
+    except Exception as e:
+        returnStatement = "The following error occured: " + str(e)
+        return returnStatement
 
 """
 Parse the speed worksheet 
@@ -775,8 +781,8 @@ def getRankingsData(r, request):
                 i = i + 1
             return post
         if(request.lower() == "fcs elo"):
-            fcsColumn = fcsWorksheet.col_values(4)
-            fcsEloColumn = fcsWorksheet.col_values(1)
+            fcsColumn = getExcelData(3)
+            fcsEloColumn = getExcelData(0)
             i = 1
             post = ("-----------------------\n**FCS Elo Rankings**\n-----------------------\n")
             for team in fcsColumn[1:26]:
@@ -818,10 +824,19 @@ def getRankingsData(r, request):
             post = ("--------------------------------------------\n**Raw Speed**\n--------------------------------------------\n")
             return parseSpeedData(10, 11, 12, post)
         return "Invalid command. Please try again."
-    except:
-        return "There was an error in contacting Google Sheets, please try again."
+    except Exception as e:
+        returnStatement = "**Rankings retrieval error**\n\nThe following error occured: " + str(e)
+        return returnStatement
     
-        
+"""
+Get a column from the excel spreadsheet
+
+"""
+def getExcelData(column):
+    columnVals = []
+    for rownum in range(sheet.nrows):
+        columnVals.append(str(sheet.cell(rownum, column).value))
+    return columnVals       
     
     
             

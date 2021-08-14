@@ -1,4 +1,4 @@
- import praw
+import praw
 import discord
 import datetime
 from discord.ext import commands
@@ -41,14 +41,14 @@ range to look at. Also parse if the user is looking for a postseason game
 """
 def parseSeason(awayTeam):
     postseason = 0
-    season = "S5"
-    if(("S1" in awayTeam or "S2" in awayTeam or "S3" in awayTeam or "S4" in awayTeam or "S5" in awayTeam)
-           or ("s1" in awayTeam or "s2" in awayTeam or "s3" in awayTeam or "s4" in awayTeam or "s5" in awayTeam)):
+    season = "S6"
+    if(("S1" in awayTeam or "S2" in awayTeam or "S3" in awayTeam or "S4" in awayTeam or "S5" in awayTeam or "S6" in awayTeam)
+           or ("s1" in awayTeam or "s2" in awayTeam or "s3" in awayTeam or "s4" in awayTeam or "s5" in awayTeam or "s6" in awayTeam)):
         teamSplit = awayTeam.split(" ")
         i = 0
         for split in teamSplit:
-            if(("S1" in split or "S2" in split or "S3" in split or "S4" in split or "S5" in split)
-               or ("s1" in split or "s2" in split or "s3" in split or "s4" in split or "s5" in split)):
+            if(("S1" in split or "S2" in split or "S3" in split or "S4" in split or "S5" in split or "S6" in split)
+               or ("s1" in split or "s2" in split or "s3" in split or "s4" in split or "s5" in split or "s6" in split)):
                 season = teamSplit[i]
             if("postseason" in split or "Postseason" in split):
                 postseason = 1
@@ -175,7 +175,7 @@ async def handleScoreMessage(r, message):
               
             # Get the vegas odds
             vegasOddsDict = getVegasOdds(homeTeam, awayTeam)
-            if vegasOddsDict != "There was an error in contacting Google Sheets, please try again.":
+            if "The following error occured:" not in vegasOddsDict:
                 homeVegasOdds = vegasOddsDict[1]
                 awayVegasOdds = vegasOddsDict[2]
                 # Get the score
@@ -183,7 +183,7 @@ async def handleScoreMessage(r, message):
                 awayScore = parseAwayScore(submission.selftext)
                     
                 if("Game complete" in submission.selftext):
-                    if(season == "S5"):
+                    if(season == "S6"):
                         if(int(homeScore) > int(awayScore) or int(homeScore) == int(awayScore)):
                             await makeGameFinalScorePost(message, submission, homeTeam, awayTeam, homeVegasOdds, homeScore, awayScore)
                         elif(int(homeScore) < int(awayScore)):
@@ -196,7 +196,7 @@ async def handleScoreMessage(r, message):
                             post = "**FINAL | " + awayTeam + " defeated " + homeTeam + " " + awayScore + "-" + homeScore + "**\n"
                         await message.channel.send(post)
                 else:
-                    if(season == "S5"):
+                    if(season == "S6"):
                         await getOngoingGameInformation(message, submission, homeVegasOdds, awayVegasOdds, homeTeam, awayTeam, homeScore, awayScore)
                     
                     else:
@@ -207,7 +207,7 @@ async def handleScoreMessage(r, message):
                             post = "**FINAL | " + awayTeam + " defeated " + homeTeam + " " + awayScore + "-" + homeScore + "**\n"
                         await message.channel.send(post) 
             else:
-                await message.channel.send("There was an error in contacting Google Sheets, please try again.")
+                await message.channel.send("**Vegas odds retrieval error**\n\n" + vegasOddsDict)
             
                  
         await lookingForThread.delete()
@@ -259,12 +259,12 @@ async def handlePlotMessage(r, message):
              
             #Get team colors for plots
             colorDict = getTeamColors(homeTeam, awayTeam)
-            if colorDict != "There was an error in contacting Google Sheets, please try again.":
+            if "The following error occured:" not in colorDict:
                 homeColor = colorDict[1]
                 awayColor = colorDict[2]
                 vegasOddsDict = getVegasOdds(homeTeam, awayTeam)
                 # Get the vegas odds
-                if vegasOddsDict != "There was an error in contacting Google Sheets, please try again.":
+                if "The following error occured:" not in vegasOddsDict:
                     homeVegasOdds = vegasOddsDict[1]
                     awayVegasOdds = vegasOddsDict[2]
                     #Work with new gist
@@ -319,9 +319,9 @@ async def handlePlotMessage(r, message):
                         else:
                             await message.channel.send("This game is too old to plot the data. I can only plot Season I, Week 11 games onward")
                 else:
-                    await message.channel.send("There was an error in contacting Google Sheets, please try again.")
+                    await message.channel.send("**Vegas odds retrieval error**\n\n" + vegasOddsDict)
             else:
-                await message.channel.send("There was an error in contacting Google Sheets, please try again.")
+                await message.channel.send("**Color retrieval error**\n\n" + colorOddsDict)
 
             
         await lookingForThread.delete()

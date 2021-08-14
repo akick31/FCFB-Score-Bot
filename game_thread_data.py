@@ -33,9 +33,14 @@ def searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, 
         away = parseAwayTeam(submission.selftext).lower()
         home = parseHomeTeam(submission.selftext).lower()
         print(submission.title)
+    # If looking for season 6...
+    if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread" or submission.link_flair_text == "Scrimmage") and season == "S6"
+        and ((year == 2021 and month >= 8) or (year == 2022)) and "MIAA" not in submission.title
+        and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
+        return submission
     # If looking for season 5...
     if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread" or submission.link_flair_text == "Scrimmage") and season == "S5"
-        and ((year == 2020 and month == 12 and day >= 2) or (year == 2021)) and "MIAA" not in submission.title
+        and ((year == 2020 and month == 12 and day >= 2) or (year == 2021 and month < 8)) and "MIAA" not in submission.title
         and ((homeTeam == home or homeTeam == away) and (awayTeam == home or awayTeam == away))):
         return submission
     # If looking for season 4...
@@ -108,6 +113,8 @@ def searchForGameThread(r, homeTeam, awayTeam, season, request, postseason):
         season = "S4"
     if (season == "s5"):
         season = "S5"
+    if (season == "s6"):
+        season = "S6"
     for submission in r.subreddit("FakeCollegeFootball").search(searchItem, sort='new'):
         # Get game thread submission day
         submissionTime = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
