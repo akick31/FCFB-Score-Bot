@@ -268,7 +268,7 @@ async def handlePlotMessage(r, message):
                     homeVegasOdds = vegasOddsDict[1]
                     awayVegasOdds = vegasOddsDict[2]
                     #Work with new gist
-                    if(season == "S5" or season == "S4"):
+                    if(season == "S6" or season == "S5" or season == "S4"):
                         if("Game complete" in submission.selftext):
                             #If there is a GitHub URL as plays have been called
                             if(url != "NO PLAYS"):
