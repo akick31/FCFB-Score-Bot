@@ -46,10 +46,10 @@ def plot_win_probability_gist(home_team, away_team, home_win_probability, away_w
 Plot the score progression for the game using Gist data
 
 """
-def plot_score_gist(home_team, away_team, homeScore, awayScore, play_number, home_color, away_color, OTFlag):
+def plot_score_gist(home_team, away_team, home_score, away_score, play_number, home_color, away_color, OTFlag):
     play_number = np.array(play_number)
-    homeScore = np.array(homeScore)
-    awayScore = np.array(awayScore)
+    home_score = np.array(home_score)
+    away_score = np.array(away_score)
 
     plt.figure()
     plt.style.use('fivethirtyeight')
@@ -57,13 +57,13 @@ def plot_score_gist(home_team, away_team, homeScore, awayScore, play_number, hom
     if(OTFlag == 1):
         plt.xlabel("Play Number")
         plt.title("Score Plot (OT)")
-        plt.plot(play_number, homeScore, color = home_color, label = home_team, linewidth=2)
-        plt.plot(play_number, awayScore, color = away_color, label = away_team, linewidth=2)
+        plt.plot(play_number, home_score, color = home_color, label = home_team, linewidth=2)
+        plt.plot(play_number, away_score, color = away_color, label = away_team, linewidth=2)
     else:
         plt.xlabel("Play")
         plt.title("Score Plot")
-        plt.plot(play_number, homeScore, color=home_color, label=home_team, linewidth=2)
-        plt.plot(play_number, awayScore, color=away_color, label=away_team, linewidth=2)
+        plt.plot(play_number, home_score, color=home_color, label=home_team, linewidth=2)
+        plt.plot(play_number, away_score, color=away_color, label=away_team, linewidth=2)
         
     plt.legend(loc="upper left")
     plt.savefig("output.png")
@@ -95,17 +95,17 @@ def plot_win_probability_thread_crawler(home_team, away_team, home_win_probabili
 Plot the score progression for the game using Thread Crawler data
 
 """
-def plot_score_thread_crawler(home_team, away_team, homeScore, awayScore, play_number, home_color, away_color):      
+def plot_score_thread_crawler(home_team, away_team, home_score, away_score, play_number, home_color, away_color):      
     play_number = np.array(play_number)
-    homeScore = np.array(homeScore)
-    awayScore = np.array(awayScore)
+    home_score = np.array(home_score)
+    away_score = np.array(away_score)
 
     plt.style.use('fivethirtyeight')
     plt.ylabel("Score")
     plt.xlabel("")
     plt.title("Score Plot")
-    plt.plot(play_number, homeScore, color = home_color, label = home_team)
-    plt.plot(play_number, awayScore, color = away_color, label = away_team)
+    plt.plot(play_number, home_score, color = home_color, label = home_team)
+    plt.plot(play_number, away_score, color = away_color, label = away_team)
     plt.xticks([])   
     plt.legend(loc="upper left")
     plt.savefig("output.png")

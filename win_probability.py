@@ -122,7 +122,6 @@ def get_in_game_win_probability(home_team, away_team):
                 data["elo_diff_time"] = [elo_diff_time]
 
                 current_win_probability = calculate_win_probability_gist(data)
-                print(current_win_probability)
                 win_probability_list.append(current_win_probability)
 
                 i += 1

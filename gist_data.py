@@ -170,25 +170,6 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
         time_elapsed_on_play = 0
     if(time_elapsed_between_plays is None):
         time_elapsed_between_plays = 0
-
-    if(time_elapsed_between_plays is not None and time_elapsed_on_play is not None and quarter is not None and clock is not None and quarter == "4" and total_time_elapsed >= int(clock)):
-        if(cur_home_score > cur_away_score):
-            home_win_probability.append(100)
-            away_win_probability.append(0)
-            playNumber.append(int(play_count) + 1)
-        elif(cur_home_score < cur_away_score):
-            away_win_probability.append(100)
-            home_win_probability.append(0)
-            playNumber.append(int(play_count) + 1)
-    if(total_time_elapsed >= int(clock) and quarter == 4):
-        if(cur_home_score > cur_away_score):
-            home_win_probability.append(100)
-            away_win_probability.append(0)
-            playNumber.append(int(play_count) + 1)
-        elif(cur_home_score < cur_away_score):
-            away_win_probability.append(100)
-            home_win_probability.append(0)
-            playNumber.append(int(play_count) + 1)
         
     
     #Plot score plot
