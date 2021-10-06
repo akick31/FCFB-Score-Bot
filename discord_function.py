@@ -390,7 +390,7 @@ async def handleOpponentMessage(r, message):
 Login to Discord and run the bot
 
 """
-def loginDiscord(r):
+def login_discord(r):
     with open('config.json', 'r') as config_file:
         config_data = json.load(config_file)
     token = config_data['discord_token']
