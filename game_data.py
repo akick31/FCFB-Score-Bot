@@ -10,7 +10,7 @@ Created on Wed May 13 20:24:10 2020
 Parse the team that the game is waiting 
 
 """
-def parseWaitingOn(submissionbody, homeUser, awayUser, homeTeam, awayTeam):
+def parse_waiting_on(submissionbody, homeUser, awayUser, homeTeam, awayTeam):
     if("Waiting on a response from" in submissionbody):
         user = submissionbody.split("Waiting on a response from")[1].split("to this")[0].strip()
         if(user == homeUser):
@@ -22,7 +22,7 @@ def parseWaitingOn(submissionbody, homeUser, awayUser, homeTeam, awayTeam):
 Parse the home team user from the game thread
 
 """    
-def parseHomeUser(submissionbody):
+def parse_home_user(submissionbody):
     homeUser = submissionbody.split("___")[0].split("\n")[13].split("|")[1].strip()
     return homeUser
     
@@ -30,7 +30,7 @@ def parseHomeUser(submissionbody):
 Parse the away team user from the game thread
 
 """    
-def parseAwayUser(submissionbody):
+def parse_away_user(submissionbody):
     awayUser = submissionbody.split("___")[0].split("\n")[12].split("|")[1].strip()
     return awayUser
 
@@ -39,7 +39,7 @@ def parseAwayUser(submissionbody):
 Parse the quarter from the game thread
 
 """
-def parseQuarter(submissionbody):
+def parse_quarter(submissionbody):
     if(len(submissionbody.split("___")) == 7):
         quarter = submissionbody.split("___")[4].split("\n")[4].split("|")[1].split(" ")[0]
     else:
@@ -59,7 +59,7 @@ def parseQuarter(submissionbody):
 Parse the yard line from the game thread
 
 """
-def parseYardLine(submissionbody):
+def parse_yard_line(submissionbody):
     if(len(submissionbody.split("___")) == 7):
         # Get the time
         yardLineField = submissionbody.split("___")[4].split("\n")[4].split("|")[3]
@@ -81,7 +81,7 @@ def parseYardLine(submissionbody):
 Parse the down from the game thread
 
 """
-def parseDown(submissionbody):
+def parse_down(submissionbody):
     if(len(submissionbody.split("___")) == 7):
         # Get the time
         down = submissionbody.split("___")[4].split("\n")[4].split("|")[2]
@@ -93,7 +93,7 @@ def parseDown(submissionbody):
 Parse what team has the ball from the game thread
 
 """  
-def parsePossession(submissionbody):
+def parse_possession(submissionbody):
     possession = "home"
     possession = submissionbody.split("___")[4].split("\n")[4].split("|")[4].split("]")[0].split("[")[-1]
     #Iterate through playlist file
@@ -108,7 +108,7 @@ def parsePossession(submissionbody):
 Parse the time from the game thread
 
 """
-def parseTime(submissionbody):
+def parse_time(submissionbody):
     if(len(submissionbody.split("___")) == 7):
         # Get the time
         time = submissionbody.split("___")[4].split("\n")[4].split("|")[0]
@@ -120,7 +120,7 @@ def parseTime(submissionbody):
 Parse the home score from the game thread
 
 """
-def parseHomeScore(submissionbody):
+def parse_home_score(submissionbody):
     # Handle various different thread formats
     if(len(submissionbody.split("___")) == 7):
         scoreboard = submissionbody.split("___")[5].split("\n")
@@ -152,7 +152,7 @@ def parseHomeScore(submissionbody):
 Parse the away score from the game thread
 
 """
-def parseAwayScore(submissionbody):
+def parse_away_score(submissionbody):
     # Handle various different thread formats
     if(len(submissionbody.split("___")) == 7):
         scoreboard = submissionbody.split("___")[5].split("\n")
@@ -184,7 +184,7 @@ def parseAwayScore(submissionbody):
 Parse the home team from the game thread
 
 """
-def parseHomeTeam(submissionbody):
+def parse_home_team(submissionbody):
     homeTeam = "blank"
     # Handle various different thread formats
     if(len(submissionbody.split("___")) == 7):
@@ -222,7 +222,7 @@ def parseHomeTeam(submissionbody):
 Parse the away team from the game thread
 
 """
-def parseAwayTeam(submissionbody):
+def parse_away_team(submissionbody):
     awayTeam = "blank"
     # Handle various different thread formats
     if(len(submissionbody.split("___")) == 7):
