@@ -1,7 +1,7 @@
-from win_probability import calculateWinProbabilityThreadCrawler
-from win_probability import calculateExpectedPoints
-from plot_graphs import plotScorePlotThreadCrawler
-from plot_graphs import plotWinProbabilityThreadCrawler
+from win_probability import calculate_win_probability_thread_crawler
+from win_probability import calculate_expected_points
+from plot_graphs import plot_win_probability_thread_crawler
+from plot_graphs import plot_score_thread_crawler
 
 """
 Crawl through an old Game Thread (pre-Season 4) and gather game data and plot it
@@ -70,12 +70,12 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                                 
                 expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
                 if(possession == "home"):
-                    curHomeWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
+                    curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                     curAwayWinProbability = 100 - curHomeWinProbability
                     homeWinProbability.append(curHomeWinProbability)
                     awayWinProbability.append(curAwayWinProbability)
                 elif(possession == "away"):
-                    curAwayWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
+                    curAwayWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
                     curHomeWinProbability = 100 - curAwayWinProbability
                     awayWinProbability.append(curAwayWinProbability)
                     homeWinProbability.append(curHomeWinProbability) 
@@ -97,12 +97,12 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                             
                 expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
                 if(possession == "home"):
-                    curHomeWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
+                    curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                     curAwayWinProbability = 100 - curHomeWinProbability
                     homeWinProbability.append(curHomeWinProbability)
                     awayWinProbability.append(curAwayWinProbability)
                 elif(possession == "away"):
-                    curAwayWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
+                    curAwayWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
                     curHomeWinProbability = 100 - curAwayWinProbability
                     awayWinProbability.append(curAwayWinProbability)
                     homeWinProbability.append(curHomeWinProbability)
@@ -125,12 +125,12 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                                 
                 expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
                 if(possession == "home"):
-                    curHomeWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
+                    curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                     curAwayWinProbability = 100 - curHomeWinProbability
                     homeWinProbability.append(curHomeWinProbability)
                     awayWinProbability.append(curAwayWinProbability)
                 elif(possession == "away"):
-                    curAwayWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
+                    curAwayWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
                     curHomeWinProbability = 100 - curAwayWinProbability
                     awayWinProbability.append(curAwayWinProbability)
                     homeWinProbability.append(curHomeWinProbability) 
@@ -151,12 +151,12 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                             
                 expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
                 if(possession == "home"):
-                    curHomeWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
+                    curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                     curAwayWinProbability = 100 - curHomeWinProbability
                     homeWinProbability.append(curHomeWinProbability)
                     awayWinProbability.append(curAwayWinProbability)
                 elif(possession == "away"):
-                    curAwayWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
+                    curAwayWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
                     curHomeWinProbability = 100 - curAwayWinProbability
                     awayWinProbability.append(curAwayWinProbability)
                     homeWinProbability.append(curHomeWinProbability)
@@ -373,12 +373,12 @@ def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, a
                                 break
                             expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
                             if(possession == "home"):
-                                curHomeWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
+                                curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                                 curAwayWinProbability = 100 - curHomeWinProbability
                                 homeWinProbability.append(curHomeWinProbability)
                                 awayWinProbability.append(curAwayWinProbability)
                             elif(possession == "away"):
-                                curAwayWinProbability = calculateWinProbabilityThreadCrawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
+                                curAwayWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, awayVegasOdds) * 100
                                 curHomeWinProbability = 100 - curAwayWinProbability
                                 awayWinProbability.append(curAwayWinProbability)
                                 homeWinProbability.append(curHomeWinProbability) 

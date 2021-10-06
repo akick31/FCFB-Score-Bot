@@ -1,8 +1,8 @@
 import praw
 import requests
 import datetime
-from game_data import parseHomeTeam
-from game_data import parseAwayTeam
+from game_data import parse_home_team
+from game_data import parse_away_team
 
 
 """
@@ -30,8 +30,8 @@ def searchForRequestGameThread(submission, homeTeam, awayTeam, season, request, 
     if(submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Post Game Thread"
        or submission.link_flair_text == "Week 10 Game Thread" or submission.link_flair_text == "Week 9 Game Thread"
        or submission.link_flair_text == "Scrimmage"):
-        away = parseAwayTeam(submission.selftext).lower()
-        home = parseHomeTeam(submission.selftext).lower()
+        away = parse_away_team(submission.selftext).lower()
+        home = parse_home_team(submission.selftext).lower()
         print(submission.title)
     # If looking for season 6...
     if ((submission.link_flair_text == "Game Thread" or submission.link_flair_text == "Week 10 Game Thread" or submission.link_flair_text == "Scrimmage") and season == "S6"
@@ -143,8 +143,8 @@ Iterate through Reddit to find the game thread and return a dictionary of the tw
 def searchForTeamGameThread(r, team):
     for submission in r.subreddit("FakeCollegeFootball").search(team, sort='new'):
         if(submission.link_flair_text == "Game Thread"):
-            away = parseAwayTeam(submission.selftext)
-            home = parseHomeTeam(submission.selftext)
+            away = parse_away_team(submission.selftext)
+            home = parse_home_team(submission.selftext)
         if (submission.link_flair_text == "Game Thread" and (team.lower() == home.lower() or team.lower() == away.lower())):
             if(team.lower() == home.lower()):
                 return {1: home, 2: away}
