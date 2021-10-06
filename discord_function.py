@@ -1,5 +1,6 @@
 import praw
 import discord
+import json
 import datetime
 from discord.ext import commands
 from name_fix import handleNamingInconsistincies
@@ -391,8 +392,10 @@ async def handle_opponent_command(r, message):
 Login to Discord and run the bot
 
 """
-def login_discord(r):
-    token = 'NzA4ODIzNzc3NDI0NzAzNTE5.Xrc9tA.vcsJTLYrVqomAFSnLwY09BlXzYE'
+def loginDiscord(r):
+    with open('config.json', 'r') as config_file:
+        config_data = json.load(config_file)
+    token = config_data['discord_token']
 
     client = discord.Client()
 
