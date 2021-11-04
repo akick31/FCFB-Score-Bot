@@ -1,0 +1,27 @@
+user: akick31 | class(es): clemson | text: Clemson @ 2019-10-29 04:54:09
+user: akick31 | class(es): ncstate | text: NC State @ 2019-10-29 07:33:54
+user: akick31 | class(es): bostoncollege | text: Boston College @ 2019-10-29 07:33:56
+user: akick31 | class(es): iowastate | text: Iowa State @ 2019-10-29 07:34:11
+user: akick31 | class(es): virginiatech | text: Virginia Tech @ 2019-10-29 07:40:33
+user: akick31 | class(es): clemson | text: Clemson @ 2019-10-29 07:40:40
+user: akick31 | class(es): iowastate | text: Iowa State @ 2019-10-29 07:40:49
+user: pm_me_cute_sloths_ | class(es): georgiatech | text: :georgiatech: Georgia Tech @ 2021-10-27 04:06:33
+user: pm_me_cute_sloths_ | class(es): ecu | text: :ecu: East Carolina @ 2021-10-27 04:06:34
+user: pm_me_cute_sloths_ | class(es): ecu | text: :eastcarolina: East Carolina @ 2021-10-27 04:06:34
+user: pm_me_cute_sloths_ | class(es): ecu | text: :ecu: East Carolina @ 2021-10-27 04:08:35
+user: pm_me_cute_sloths_ | class(es): iowastate | text: :iowastate: Iowa State @ 2021-10-27 04:08:48
+user: ma04hew | class(es): notredame | text: :notredame: Notre Dame @ 2021-10-27 06:11:07
+user: phil_wswguy | class(es): pennstate | text: :pennstate: Penn State @ 2021-10-27 06:26:16
+user: CheezeItsAtOrlando | class(es): hawaii | text: :hawaii: Hawaii @ 2021-10-27 12:20:47
+user: Dark197 | class(es): ulm | text: :ulm: ULM @ 2021-10-27 13:40:01
+user: King_of_Zanzibar_ | class(es): texasstate | text: :texasstate: Texas State @ 2021-10-27 15:23:53
+user: Texwolf96 | class(es): houston | text: :houston: Houston @ 2021-10-27 15:27:43
+user: Simulation-Central | class(es): easternmichigan | text: :easternmichigan: Eastern Michigan @ 2021-10-27 22:05:39
+user: pm_me_cute_sloths_ | class(es): northcarolina | text: :northcarolina: North Carolina @ 2021-10-28 01:03:53
+user: pm_me_cute_sloths_ | class(es): iowastate | text: :iowastate: Iowa State @ 2021-10-28 01:04:04
+user: pm_me_cute_sloths_ | class(es): bostoncollege | text: :bostoncollege: Boston College @ 2021-10-28 01:13:54
+user: pm_me_cute_sloths_ | class(es): eastcarolina | text: :eastcarolina: East Carolina @ 2021-10-28 01:15:52
+user: pm_me_cute_sloths_ | class(es): eastcarolina | text: :eastcarolina: East Carolina @ 2021-10-28 01:17:31
+user: pm_me_cute_sloths_ | class(es): houston | text: :houston: Houston @ 2021-10-28 01:19:27
+user: pm_me_cute_sloths_ | class(es): ohiostate | text: :ohiostate: Ohio State @ 2021-10-28 01:20:08
+user: pm_me_cute_sloths_ | class(es): iowastate | text: :iowastate: Iowa State @ 2021-10-28 01:21:16

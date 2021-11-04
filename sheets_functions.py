@@ -23,7 +23,7 @@ sheet = fcsexcel.sheet_by_name('sheet')
 sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-1Fte7S8kXy8E-GY7c3w00vrVcvbY87MWHJln8Ev4S0/edit?usp=sharing')
 colorWorksheet = sh3.worksheet("Main FCFB")
 
-sh4 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1Z-gTdq0xRByvM-UwTAGriyUrfkZQ1dyeQPKu2xB_v4c/edit?usp=sharing')
+sh4 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-8-X9arHYd4r_GlTjmsjVACzxyP9fcHnWqYE1LPrcYA/edit#gid=0')
 standingsWorksheet = sh4.worksheet("Standings")
 rankingsWorksheet = sh4.worksheet("Rankings")
 compositeWorksheet = sh4.worksheet("Composite")
