@@ -272,38 +272,23 @@ async def handle_plot_command(r, message):
                 if "The following error occurred:" not in vegas_odds_dict:
                     home_vegas_odds = vegas_odds_dict[1]
                     away_vegas_odds = vegas_odds_dict[2]
+
                     # Work with new gist
                     if season == "S6" or season == "S5" or season == "S4":
-                        if "Game complete" in submission.selftext:
-                            # If there is a GitHub URL as plays have been called
-                            if url != "NO PLAYS":
-                                # Iterate through the data and plot the graphs
-                                iterate_through_game_gist(home_team, away_team, home_color, away_color)
-                                
-                                # Send score plot
-                                with open('output.png', 'rb') as fp:
-                                    await message.channel.send(file=discord.File(fp, 'new_filename.png'))
-                                    
-                                # Send the win probability plot
-                                with open('output_win_probability.png', 'rb') as fp:
-                                    await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                            else:
-                                await message.channel.send("No plays for the game found.")
+                        # If there is a GitHub URL as plays have been called
+                        if url != "NO PLAYS":
+                            # Iterate through the data and plot the graphs
+                            iterate_through_game_gist(home_team, away_team, home_color, away_color)
+
+                            # Send score plot
+                            with open('output.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+
+                            # Send the win probability plot
+                            with open('output_win_probability.png', 'rb') as fp:
+                                await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
                         else:
-                            # If there is a GitHub URL as plays have been called
-                            if url != "NO PLAYS":
-                                # Iterate through the data and plot the graphs
-                                iterate_through_game_gist(home_team, away_team, home_color, away_color)
-                                
-                                # Send score plot
-                                with open('output.png', 'rb') as fp:
-                                    await message.channel.send(file=discord.File(fp, 'new_filename.png'))
-                                    
-                                # Send the win probability plot
-                                with open('output_win_probability.png', 'rb') as fp:
-                                    await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                            else:
-                                await message.channel.send("No plays for the game found.")
+                            await message.channel.send("No plays for the game found.")
                     else:
                         # Get game thread submission day
                         submission_time = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
@@ -312,8 +297,8 @@ async def handle_plot_command(r, message):
                         day = int(submission_time.split("-")[2].split(" ")[0])
                         if year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8):
                             old_thread = await message.channel.send("Iterating through old thread to generate plots...")
-                            await message.channel.send("**PLEASE NOTE DUE TO HOW THIS DATA WAS GATHERED THAT THIS PLOT "
-                                                        + "IS NOT THE CURRENT MODEL WIN PROBABILITY**")
+                            await message.channel.send("**PLEASE NOTE DUE TO HOW THIS DATA WAS GATHERED THAT THIS PLOT " +
+                                                        "IS NOT THE CURRENT MODEL WIN PROBABILITY**")
                             thread_crawler(home_team, away_team, home_vegas_odds, away_vegas_odds, home_color, away_color, season, submission)
                             # Send score plot
                             with open('output.png', 'rb') as fp:
@@ -324,8 +309,8 @@ async def handle_plot_command(r, message):
                                 await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
                             await old_thread.delete()
                         else:
-                            await message.channel.send("This game is too old to plot the data. I can only plot Season I, "
-                                                       + "Week 11 games onward")
+                            await message.channel.send("This game is too old to plot the data. I can only plot Season I, " +
+                                                       "Week 11 games onward")
                 else:
                     await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
             else:
