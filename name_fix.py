@@ -1,5 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+import json
+
+with open('name_fix.json', 'r') as config_file:
+    name_fix_data = json.load(config_file)
+
+
 """
 Fix the names of teams so that they align with what the Reddit game thread and Google Sheet
 expect
@@ -11,30 +15,30 @@ expect
 Change team from what Reddit expects so that it can match with Google sheets
 
 """
-def handleNamingInconsistincies(team):
-    if(team.find('amp;') >= 0):
+
+
+def handle_naming_inconsistencies(team):
+    if "amp;" in team:
         team = team.replace('amp;', '')
-    if(team.find('–') >= 0):
+    if "–" in team:
         team = team.replace('–', '-')
-    if(team == "UMass"):
-        team = "Massachusetts"
-    if(team == "Southern Mississippi"):
-        team = "Southern Miss"
-    if(team == "Miami (FL)"):
-        team = "Miami"
-    if(team == "Miami (OH)"):
-        team = "Miami, OH"
+    if team in name_fix_data["reddit_names"]:
+        team = name_fix_data["reddit_names"][team]
+
     return team
+
 
 """
 Change the user input team so that it can match for Reddit Game Threads
 
 """
-def changeUserInputTeams(team):
-    if((team == "Texas A&M") and (team.find('A&M') >= 0 or team.find('a&m') >= 0)):
-        team = team.replace('&', '&amp;')
-    if(team == 'Miami' or team == 'miami'):
-        team = 'miami (fl)'
-    if(team == 'Southern Miss' or team == 'southern miss'):
-        team = 'southern mississippi'
+
+
+def fix_user_input_teams(team):
+    team = team.lower()
+    if "a&m" in team:
+        team = team.replace('&', 'amp;')
+    if team in name_fix_data["user_input_fixes"]:
+        team = name_fix_data["user_input_fixes"][team]
+
     return team

@@ -14,7 +14,7 @@ Crawl through an old Game Thread (pre-Season 4) and gather game data and plot it
 Crawl through old season threads and plot the win probability and score
 
 """
-def threadCrawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission):
+def thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, awayColor, season, submission):
     submission.comment_sort = "old"
 
     if(homeTeam.find('-') >= 0):

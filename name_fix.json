@@ -1,0 +1,12 @@
+{
+  "reddit_names": {
+    "UMass": "Massachusetts",
+    "Southern Mississippi": "Southern Miss",
+    "Miami (FL)": "Miami",
+    "Miami (OH)": "Miami, OH"
+  },
+  "user_input_fixes": {
+    "miami": "miami (fl)",
+    "southern miss": "mississippi"
+  }
+}

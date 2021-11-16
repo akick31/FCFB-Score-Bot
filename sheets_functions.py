@@ -623,59 +623,56 @@ def parseSouthland():
 Get the stadings data to post on Discord
 
 """
-def getStandingsData(conference):
+def get_standings_data(conference):
+    conference = conference.lower()
     try:
-        if (conference == "ACC" or conference == "acc"):
+        if conference == "acc":
             return parseACC()
-        elif (conference == "American" or conference == "american" or conference == "AAC" or conference == "aac"):
+        elif conference == "american" or conference == "aac":
             return parseAAC()
-        elif (conference == "Big Ten" or conference == "big ten" or conference == "B1G" or conference == "b1g"
-        or conference == "Big 10" or conference == "big 10"):
+        elif conference == "big ten" or conference == "b1g" or conference == "big 10" or conference == "b10":
             return parseBigTen()
-        elif (conference == "Conference USA" or conference == "conference usa" or conference == "CUSA" or conference == "cusa"
-        or conference == "C-USA" or conference == "c-usa"):
+        elif conference == "conference usa" or conference == "cusa" or conference == "c-usa":
             return parseCUSA()
-        elif (conference == "MAC" or conference == "mac"):
+        elif conference == "mac":
             return parseMAC()
-        elif (conference == "Mountain West" or conference == "mountain west" or conference == "MWC" or conference == "mwc"):
+        elif conference == "mountain west" or conference == "mwc":
             return parseMWC()
-        elif (conference == "Pac-12" or conference == "pac-12" or conference == "PAC-12" or conference == "Pac 12"
-        or conference == "pac 12" or conference == "PAC 12"):
+        elif conference == "pac-12" or conference == "pac 12":
             return parsePac12()
-        elif (conference == "SEC" or conference == "sec"):
+        elif conference == "sec":
             return parseSEC()
-        elif (conference == "Sun Belt" or conference == "sun belt" or conference == "SBC" or conference == "sbc"):
+        elif conference == "sun belt" or conference == "sbc":
             return parseSBC()
-        elif (conference == "Big 12" or conference == "big 12" or conference == "Big XII" or conference == "big xii"):
+        elif conference == "big 12" or conference == "big xii" or conference == "b12":
             return parseBig12()
-        elif (conference == "Independents" or conference == "independents" or conference == "Independent" or conference == "idependents"):
+        elif conference == "independents" or conference == "independent":
             return parseIndependents()
-        elif (conference == "America East" or conference == "america east"):
+        elif conference == "america east":
             return parseAmericaEast()
-        elif (conference == "Atlantic Sun" or conference == "atlantic sun"):
+        elif conference == "atlantic sun":
             return parseAtlanticSun()
-        elif (conference == "Big Sky" or conference == "big sky"):
+        elif conference == "big sky":
             return parseBigSky()
-        elif (conference == "Carolina" or conference == "carolina" or conference == "Carolina Football Conference" or conference == "carolina football conference"
-              or conference == "CFC" or conference == "cfc"):
+        elif conference == "carolina" or conference == "carolina football conference" or conference == "cfc":
             return parseCFC()
-        elif (conference == "Colonial" or conference == "colonial"):
+        elif conference == "colonial":
             return parseColonial()
-        elif (conference == "Delta" or conference == "delta" or conference == "Delta Intercollegiate" or conference == "delta intercollegiate"):
+        elif conference == "delta" or conference == "delta intercollegiate":
             return parseDelta()
-        elif (conference == "Ivy" or conference == "ivy" or conference == "Ivy League" or conference == "ivy league"):
+        elif conference == "ivy" or conference == "ivy league":
             return parseIvy()
-        elif (conference == "Mid Atlantic" or conference == "mid atlantic" or conference == "Mid-Atlantic" or conference == "mid-atlantic"):
+        elif conference == "mid atlantic" or conference == "mid-atlantic":
             return parseMidAtlantic()
-        elif (conference == "Missouri Valley" or conference == "missouri valley" or conference == "MVC" or conference == "mvc"):
+        elif conference == "missouri valley" or conference == "mvc":
             return parseMVC()
-        elif (conference == "Southland" or conference == "southland"):
+        elif conference == "southland":
             return parseSouthland()
         else:
             return "Conference not found"
     except Exception as e:
-        returnStatement = "The following error occured: " + str(e)
-        return returnStatement
+        return_statement = "The following error occured: " + str(e)
+        return return_statement
  
 """
 Parse the rankings worksheet post

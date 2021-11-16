@@ -40,7 +40,7 @@ def calculateVegasOdds(teamElo, opponentElo):
 Return a dictionary containing the Vegas Odds for the game
 
 """
-def getVegasOdds(homeTeam, awayTeam):
+def get_vegas_odds(homeTeam, awayTeam):
     eloDictionary = getEloData()
     if eloDictionary != "There was an error in contacting Google Sheets, please try again.":
         teamEloColumn = eloDictionary[1]

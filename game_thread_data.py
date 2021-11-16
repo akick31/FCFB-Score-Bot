@@ -4,19 +4,23 @@ import datetime
 from game_data import *
 from handle_dates import *
 
-valid_seasons = ["s1", "s2", "s3", "s4", "s5", "s6"]
+with open('season_information.json', 'r') as config_file:
+    season_info_data = json.load(config_file)
 
 """
 Gather the game thread information
 
 @author: apkick
 """
-    
+
+
 """
 Search for a game thread based on what the user requests, searches for two teams in a time span range
 based on what season the user wants to search. Season 4 is the default if they do not specify a season
 
 """
+
+
 def search_for_request_game_thread(submission, home_team, away_team, season, request, postseason, game_time):
     if request == "$score":
         link_flair = ["blank", "Post Game Thread"]
@@ -33,7 +37,7 @@ def search_for_request_game_thread(submission, home_team, away_team, season, req
         home = parse_home_team(submission.selftext).lower()
         print(submission.title)
 
-    if (submission.link_flair_text in link_flair and season in valid_seasons
+    if (submission.link_flair_text in link_flair and season in season_info_data['seasons']
             and check_if_in_season(season, game_time) and "MIAA" not in submission.title
             and ((home_team == home or home_team == away) and (away_team == home or away_team == away))):
         if postseason == 1 and check_if_in_postseason(season, game_time):
@@ -43,16 +47,19 @@ def search_for_request_game_thread(submission, home_team, away_team, season, req
 
     return "NONE"
 
+
 """
 Parse the data from the Github Gist into data.txt
 
 """
+
+
 def parse_data_from_github(github_url):
-    #Parse data from the github url
+    # Parse data from the github url
     url = github_url + "/raw"
     req = requests.get(url)
     
-    #Remove the very first line from the data
+    # Remove the very first line from the data
     data = ""
     flag = 0
     for character in req.text:
@@ -65,10 +72,13 @@ def parse_data_from_github(github_url):
         data = data.replace('--------------------------------------------------------------------------------\n', '')
     return data
 
+
 """
 Iterate through Reddit to find the game threads
 
 """
+
+
 def search_for_game_thread(r, home_team, away_team, season, request, postseason):
     search_item = "\"Game Thread\" \"" + home_team + "\" \"" + away_team + "\""
     print(search_item)
@@ -90,11 +100,14 @@ def search_for_game_thread(r, home_team, away_team, season, request, postseason)
                 return game_thread
     return "NONE"
 
+
 """
 Iterate through Reddit to find the game thread and return a dictionary of the two teams in that game, with the 
 1 value being the team you're looking for, 2 value being their opponent
 
 """
+
+
 def search_for_team_game_thread(r, team):
     for submission in r.subreddit("FakeCollegeFootball").search(team, sort='new'):
         if submission.link_flair_text == "Game Thread":
@@ -106,29 +119,35 @@ def search_for_team_game_thread(r, team):
             elif team.lower() == away.lower():
                 return {1: away, 2: home}
     return {1: "NONE", 2: "NONE"}
-    
+
+
 """
 Parse the Gist url from the game thread
 
 """
-def parse_url_from_gamethread(submissionbody, season):
-    if "github" not in submissionbody and "pastebin" not in submissionbody:
+
+
+def parse_url_from_game_thread(submission_body, season):
+    if "github" not in submission_body and "pastebin" not in submission_body:
         return "NO PLAYS"
-    elif "Waiting on a response" in submissionbody:
-        split_list = submissionbody.split("Waiting on")[0].split("[Plays](")
+    elif "Waiting on a response" in submission_body:
+        split_list = submission_body.split("Waiting on")[0].split("[Plays](")
         num_items = len(split_list) - 1
         return split_list[num_items].split(")")[0]
     else:
-        split_list = submissionbody.split("#Game complete")[0].split("[Plays](")
+        split_list = submission_body.split("#Game complete")[0].split("[Plays](")
         num_items = len(split_list) - 1
         return split_list[num_items].split(")")[0]
-    
+
+
 """
 Save the Github Gist data into data.txt
 
 """
-def save_github_data(submissionbody, season):
-    url = parse_url_from_gamethread(submissionbody, season)
+
+
+def save_github_data(submission_body, season):
+    url = parse_url_from_game_thread(submission_body, season)
     if url != "NO PLAYS":
         data = parse_data_from_github(url)
         text_file = open("data.txt", "w")
