@@ -360,7 +360,7 @@ def thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, 
                             if(time == 0 and int(quarter) == 4):
                                 if(homeScore > awayScore):
                                     curHomeWinProbability = 100
-                                    urAwayWinProbability = 100 - curHomeWinProbability
+                                    curAwayWinProbability = 100 - curHomeWinProbability
                                     homeWinProbability.append(curHomeWinProbability)
                                     awayWinProbability.append(curAwayWinProbability)
                                 elif(homeScore < awayScore):
@@ -369,7 +369,7 @@ def thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, 
                                     awayWinProbability.append(curAwayWinProbability)
                                     homeWinProbability.append(curHomeWinProbability)
                                 break
-                            expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
+                            expectedPoints = calculate_expected_points(int(down), int(distance), int(yardLine), playType)
                             if(possession == "home"):
                                 curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                                 curAwayWinProbability = 100 - curHomeWinProbability

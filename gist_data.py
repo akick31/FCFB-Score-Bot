@@ -1,11 +1,9 @@
 import csv
 import math
-from win_probability import calculate_expected_points
-from win_probability import calculate_win_probability_gist
-from plot_graphs import plot_score_gist
-from plot_graphs import plot_win_probability_gist
-from vegas_odds import getElo
-from sheets_functions import getEloData
+from win_probability import *
+from plot_graphs import *
+from vegas_odds import *
+from sheets_functions import *
 
 """
 Iterate through Gist data and post plots for that data
@@ -25,10 +23,13 @@ data = {
   'elo_diff_time': [27.0449]
 }
 
+
 """
 Iterate through Gist data and post plots for that data for a game
 
 """
+
+
 def iterate_through_game_gist(home_team, away_team, home_color, away_color):
     home_score = []
     away_score = []
@@ -37,12 +38,8 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
     play_number = []
     play_count = 1
     overtime_flag = 0
-    cur_home_score = 0
-    cur_away_score = 0
-    row_count = 1
     time_elapsed_between_plays = 0
     time_elapsed_on_play = 0
-    total_time_elapsed = 0
 
     home_elo = 0
     away_elo = 0
@@ -50,10 +47,10 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
     if elo_dictionary != "There was an error in contacting Google Sheets, please try again.":
         team_elo_column = elo_dictionary[1]
         elo_data_column = elo_dictionary[2]
-        home_elo = getElo(home_team, team_elo_column, elo_data_column)
-        away_elo = getElo(away_team, team_elo_column, elo_data_column)
+        home_elo = get_elo(home_team, team_elo_column, elo_data_column)
+        away_elo = get_elo(away_team, team_elo_column, elo_data_column)
     
-    #Iterate through playlist file
+    # Iterate through playlist file
     with open('data.txt', 'r+') as csvfile:
         counter = csv.reader(csvfile, delimiter= '|', lineterminator='\n')  
         row_count = sum(1 for row in counter)
@@ -62,17 +59,13 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n') 
         i = 1
         for row in reader:
-            if(len(row) > 2):
+            if len(row) > 2:
                 time_elapsed_between_plays = 0
                 time_elapsed_on_play = 0
 
                 home_score.append(int(row[0])) 
                 away_score.append(int(row[1]))
-                cur_home_score = int(row[0])
-                cur_away_score = int(row[1])
 
-                offense_score = "0"
-                defense_score = "0"
                 possession = row[5]
                 if possession == "home":
                     offense_score = row[0]
@@ -83,9 +76,6 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
                 margin = int(offense_score) - int(defense_score)
 
                 # Get seconds left in half and seconds left in game and current half
-                seconds_left_game = 1680
-                seconds_left_half = 840
-                half = 0
                 quarter = row[2]
                 clock = row[3]
                 if quarter == "1":
@@ -109,20 +99,16 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
                     seconds_left_half = 0
                     half = 2
 
-                if (int(quarter) <= 4 and row[16] != "" and row[16] != "None"):
+                if int(quarter) <= 4 and row[16] != "" and row[16] != "None":
                     time_elapsed_on_play = int(row[16])
-                if (int(quarter) <= 4 and row[17] != "" and row[17] != "None"):
+                if int(quarter) <= 4 and row[17] != "" and row[17] != "None":
                     time_elapsed_between_plays = int(row[17])
-                total_time_elapsed = time_elapsed_on_play + time_elapsed_between_plays
 
                 position = 100 - int(row[4])
                 down = int(row[6])
                 distance = int(row[7])
 
                 # Get elo
-                offense_elo = 0
-                defense_elo = 0
-                elo_diff_time = 0
                 if possession == "home":
                     offense_elo = home_elo
                     defense_elo = away_elo
@@ -166,14 +152,13 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
 
             i = i + 1
 
-    if(time_elapsed_on_play is None):
+    if time_elapsed_on_play is None:
         time_elapsed_on_play = 0
-    if(time_elapsed_between_plays is None):
+    if time_elapsed_between_plays is None:
         time_elapsed_between_plays = 0
-        
     
-    #Plot score plot
+    # Plot score plot
     plot_score_gist(home_team, away_team, home_score, away_score, play_number, home_color, away_color, overtime_flag)
    
-    #Plot win probability
+    # Plot win probability
     plot_win_probability_gist(home_team, away_team, home_win_probability, away_win_probability, play_number, home_color, away_color)
