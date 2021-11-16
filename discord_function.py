@@ -205,7 +205,6 @@ async def handle_score_command(r, message):
                         await get_ongoing_game_information(message, submission, home_vegas_odds, away_vegas_odds, home_team, away_team, home_score, away_score)
                     
                     else:
-                        post = "blank"
                         if int(home_score) > int(away_score):
                             post = "**FINAL | " + home_team + " defeated " + away_team + " " + home_score + "-" + away_score + "**\n"
                         else:
@@ -248,7 +247,7 @@ async def handle_plot_command(r, message):
         
         # Look for game thread
         submission = search_for_game_thread(r, home_team, away_team, season, "$plot", postseason)
-        if submission == "NONE" :
+        if submission == "NONE":
             await message.channel.send("No game thread found.")
         else:
             print("GAME THREAD FOUND")
