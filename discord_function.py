@@ -7,26 +7,12 @@ from name_fix import handleNamingInconsistincies
 from name_fix import changeUserInputTeams
 from vegas_odds import getVegasOdds
 from color import getTeamColors
-from game_data import parse_quarter
-from game_data import parse_yard_line
-from game_data import parse_down
-from game_data import parse_possession
-from game_data import parse_time
-from game_data import parse_home_score
-from game_data import parse_away_score
-from game_data import parse_home_team
-from game_data import parse_away_team
-from game_data import parse_home_user
-from game_data import parse_away_user
-from game_data import parse_waiting_on
-from game_thread_data import searchForGameThread
-from game_thread_data import searchForTeamGameThread
-from game_thread_data import saveGithubData
+from game_data import *
+from game_thread_data import *
 from gist_data import iterate_through_game_gist
 from thread_crawler import threadCrawler
 from win_probability import get_in_game_win_probability
-from sheets_functions import getStandingsData
-from sheets_functions import getRankingsData
+from sheets_functions import *
 
 """
 Handle the Discord side of the bot. Look for messages and post responses
@@ -152,7 +138,7 @@ async def handle_score_command(r, message):
         # Parse the season number from string
         parse_season_dict = parse_season(away_team)
         away_team = parse_season_dict[1]
-        season = parse_season_dict[2]
+        season = parse_season_dict[2].lower()
         postseason = parse_season_dict[3]
             
         lookingForThread = await message.channel.send("Looking for the game thread...")
@@ -161,13 +147,13 @@ async def handle_score_command(r, message):
         home_team = changeUserInputTeams(home_team)
         away_team = changeUserInputTeams(away_team)
         
-        submission = searchForGameThread(r, home_team, away_team, season, "$score", postseason)
+        submission = search_for_game_thread(r, home_team, away_team, season, "$score", postseason)
         if(submission == "NONE"):
             await message.channel.send("No game thread found.")
         else:
             print("GAME THREAD FOUND")
             
-            url = saveGithubData(submission.selftext, season)
+            url = save_github_data(submission.selftext, season)
             home_team = parse_home_team(submission.selftext)
             away_team = parse_away_team(submission.selftext)
                         
@@ -234,7 +220,7 @@ async def handle_plot_command(r, message):
         # Parse the season number from string
         parse_season_dict = parse_season(away_team)
         away_team = parse_season_dict[1]
-        season = parse_season_dict[2]
+        season = parse_season_dict[2].lower()
         postseason = parse_season_dict[3]
         
         lookingForThread = await message.channel.send("Looking for the game thread...")
@@ -244,14 +230,14 @@ async def handle_plot_command(r, message):
         away_team = changeUserInputTeams(away_team)
         
         # Look for game thread
-        submission = searchForGameThread(r, home_team, away_team, season, "$plot", postseason)
+        submission = search_for_game_thread(r, home_team, away_team, season, "$plot", postseason)
         if(submission == "NONE"):
             await message.channel.send("No game thread found.")
         else:
             print("GAME THREAD FOUND")
             
             # Parse data from url
-            url = saveGithubData(submission.selftext, season)
+            url = save_github_data(submission.selftext, season)
             home_team = parse_home_team(submission.selftext)
             away_team = parse_away_team(submission.selftext)
                         
@@ -380,7 +366,7 @@ async def handle_opponent_command(r, message):
     
     team = changeUserInputTeams(team)
     
-    opponent = searchForTeamGameThread(r, team) 
+    opponent = search_for_team_game_thread(r, team)
     # opponent[1] is team, opponent[2] is the opponent
     if(opponent[1] == "NONE"):
         await message.channel.send("No game thread found.")
