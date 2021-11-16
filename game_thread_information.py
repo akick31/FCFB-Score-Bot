@@ -1,7 +1,7 @@
 import praw
 import requests
 import datetime
-from game_data import *
+from parse_game_data import *
 from handle_dates import *
 
 with open('season_information.json', 'r') as config_file:

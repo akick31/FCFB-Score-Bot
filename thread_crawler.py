@@ -1,7 +1,5 @@
-from win_probability import calculate_win_probability_thread_crawler
-from win_probability import calculate_expected_points
-from plot_graphs import plot_win_probability_thread_crawler
-from plot_graphs import plot_score_thread_crawler
+from win_probability import *
+from plot_graphs import *
 
 """
 Crawl through an old Game Thread (pre-Season 4) and gather game data and plot it
@@ -68,7 +66,7 @@ def thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, 
                 m, s = clock.split(':')
                 time = int(m) * 60 + int(s)
                                 
-                expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
+                expectedPoints = calculate_expected_points(int(down), int(distance), int(yardLine), playType)
                 if(possession == "home"):
                     curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                     curAwayWinProbability = 100 - curHomeWinProbability
@@ -95,7 +93,7 @@ def thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, 
                 m, s = clock.split(':')
                 time = int(m) * 60 + int(s)
                             
-                expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
+                expectedPoints = calculate_expected_points(int(down), int(distance), int(yardLine), playType)
                 if(possession == "home"):
                     curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                     curAwayWinProbability = 100 - curHomeWinProbability
@@ -123,7 +121,7 @@ def thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, 
                 m, s = clock.split(':')
                 time = int(m) * 60 + int(s)
                                 
-                expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
+                expectedPoints = calculate_expected_points(int(down), int(distance), int(yardLine), playType)
                 if(possession == "home"):
                     curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, awayScore, homeScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                     curAwayWinProbability = 100 - curHomeWinProbability
@@ -149,7 +147,7 @@ def thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, 
                 m, s = clock.split(':')
                 time = int(m) * 60 + int(s)
                             
-                expectedPoints = calculateExpectedPoints(int(down), int(distance), int(yardLine), playType)  
+                expectedPoints = calculate_expected_points(int(down), int(distance), int(yardLine), playType)
                 if(possession == "home"):
                     curHomeWinProbability = calculate_win_probability_thread_crawler(expectedPoints, int(quarter), time, homeScore, awayScore, int(down), int(distance), int(yardLine), playType, homeVegasOdds) * 100
                     curAwayWinProbability = 100 - curHomeWinProbability
@@ -407,5 +405,5 @@ def thread_crawler(homeTeam, awayTeam, homeVegasOdds, awayVegasOdds, homeColor, 
                                 homeWinProbability.append(curHomeWinProbability)
                             break
                             
-    plotScorePlotThreadCrawler(homeTeam, awayTeam, homeScoreList, awayScoreList, playNumber, homeColor, awayColor)
-    plotWinProbabilityThreadCrawler(homeTeam, awayTeam, homeWinProbability, awayWinProbability, playNumber, homeColor, awayColor)
+    plot_score_plot_thread_crawler(homeTeam, awayTeam, homeScoreList, awayScoreList, playNumber, homeColor, awayColor)
+    plot_win_probability_thread_crawler(homeTeam, awayTeam, homeWinProbability, awayWinProbability, playNumber, homeColor, awayColor)

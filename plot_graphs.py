@@ -95,7 +95,7 @@ def plot_win_probability_thread_crawler(home_team, away_team, home_win_probabili
 Plot the score progression for the game using Thread Crawler data
 
 """
-def plot_score_thread_crawler(home_team, away_team, home_score, away_score, play_number, home_color, away_color):      
+def plot_score_plot_thread_crawler(home_team, away_team, home_score, away_score, play_number, home_color, away_color):
     play_number = np.array(play_number)
     home_score = np.array(home_score)
     away_score = np.array(away_score)
