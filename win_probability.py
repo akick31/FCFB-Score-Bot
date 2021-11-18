@@ -3,8 +3,8 @@ import csv
 import xgboost as xgb
 import pandas as pd
 import m2cgen as m2c
-from vegas_odds import getElo
-from sheets_functions import getEloData
+from vegas_odds import *
+from sheets_functions import *
 from scipy.stats import norm
 
 """
@@ -41,8 +41,8 @@ def get_in_game_win_probability(home_team, away_team):
     if elo_dictionary != "There was an error in contacting Google Sheets, please try again.":
         team_elo_column = elo_dictionary[1]
         elo_data_column = elo_dictionary[2]
-        home_elo = getElo(home_team, team_elo_column, elo_data_column)
-        away_elo = getElo(away_team, team_elo_column, elo_data_column)
+        home_elo = get_elo(home_team, team_elo_column, elo_data_column)
+        away_elo = get_elo(away_team, team_elo_column, elo_data_column)
     
     #Iterate through playlist file
     with open('data.txt', 'r') as csvfile:

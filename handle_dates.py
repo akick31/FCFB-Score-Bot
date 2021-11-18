@@ -25,6 +25,12 @@ def check_if_in_season(season, game_time):
     season_start_year = int(season_info_data['seasons'][season]['start_year'])
     season_start = parse_into_datetime(season_start_month, season_start_day, season_start_year)
 
+    if season_info_data['seasons'][season]['end_month'] == "N/A":
+        if season_start <= game_time.date():
+            return True
+        else:
+            return False
+
     season_end_month = int(season_info_data['seasons'][season]['end_month'])
     season_end_day = int(season_info_data['seasons'][season]['end_day'])
     season_end_year = int(season_info_data['seasons'][season]['end_year'])

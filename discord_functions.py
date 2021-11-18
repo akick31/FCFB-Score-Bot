@@ -33,67 +33,21 @@ range to look at. Also parse if the user is looking for a postseason game
 def parse_season(away_team):
     postseason = 0
     season = season_info_data['current_season']
-    if season_info_data['seasons'] in away_team.lower():
-        team_split = away_team.split(" ")
-        i = 0
-        for split in team_split:
-            split = split.lower()
-            if season_info_data['seasons'] in split:
-                season = team_split[i]
-            if "postseason" in split:
-                postseason = 1
-            i = i + 1
-        away_team = away_team.split(season)[0] 
-        away_team = away_team.strip()
+    for season in season_info_data['seasons'].keys():
+        if season in away_team.lower():
+            team_split = away_team.split(" ")
+            for split in team_split:
+                split = split.lower()
+                if season == split:
+                    season = split
+                    if "postseason" in team_split:
+                        postseason = 1
+                    away_team = away_team.split(season)[0]
+                    away_team = away_team.strip()
+                    return {1: away_team, 2: season, 3: postseason}
+            away_team = away_team.split(season)[0]
+            away_team = away_team.strip()
     return {1: away_team, 2: season, 3: postseason}
-
-
-"""
-Make posts for ongoing games on Reddit
-
-"""
-
-
-async def make_ongoing_game_comment(message, submission, cur_clock, cur_down, cur_possession, cur_yard_line, vegasOdds, team, opponentTeam, score, opponentScore, cur_win_probability, waiting_on):
-    odds = round(vegasOdds * 2) / 2
-    if odds == 0:
-        odds = "Push"
-    elif odds > 0:
-        odds = "+" + str(odds)
-    post = "**" + cur_clock + " | " + opponentTeam + " " + opponentScore + " " + team + " " + score + " (" + str(odds) + ")** \n"
-    yard_post = cur_down + " | :football: " + cur_possession + " | " + cur_yard_line + "\n"
-    win_post = "Each team has a 50% chance to win\n"
-    if int(cur_win_probability) >= 50:
-        win_post = team + " has a " + str(int(cur_win_probability)) + "% chance to win\n"
-    elif int(cur_win_probability) < 50:
-        win_post = opponentTeam + " has a " + str(100-int(cur_win_probability)) + "% chance to win\n"
-    waiting_on_post = "Waiting on " + waiting_on + " for a number\n"
-    await message.channel.send(post + yard_post + win_post + waiting_on_post + submission.url + "\n")
-
-
-"""
-Make posts for games that went final on Reddit
-
-"""
-
-
-async def make_game_final_score_comment(message, team, opponent_team, vegas_odds, score, opponent_score):
-    odds = round(vegas_odds * 2) / 2
-    number_odds = odds
-    if odds == 0:
-        odds = "Push"
-    elif odds > 0:
-        odds = "+" + str(odds)
-    post = "**FINAL | " + team + " defeated " + opponent_team + " " + score + "-" + opponent_score + "**\n"
-    if int(number_odds) > 0:
-        await message.channel.send(post + "UPSET! " + team + " was underdogs at " + str(odds) + " and won!")
-    if int(number_odds) < 0 and (int(opponent_score) - int(score)) > number_odds:
-        await message.channel.send(post + opponent_team + " beat the spread listed at " + str(odds))
-    elif int(number_odds) < 0 and (int(opponent_score) - int(score)) < number_odds:
-        print(number_odds)
-        await message.channel.send(post + team + " covered the spread listed at " + str(odds))
-    if int(number_odds) == 0 or (int(opponent_score) - int(score)) == number_odds:
-        await message.channel.send(post + "This game was a push!")
 
 
 """
@@ -105,7 +59,7 @@ ongoing game or post a past game
 
 async def handle_score_command(r, message):
     message_content = message.content.lower()
-    if "vs" in message.message_content:
+    if "vs" in message_content:
         teams = message_content.split("$score")[1]
 
         home_team = teams.split("vs")[0].strip()
@@ -126,7 +80,9 @@ async def handle_score_command(r, message):
         
         submission = search_for_game_thread(r, home_team, away_team, season, "$score", postseason)
         if submission == "NONE":
-            await message.channel.send("No game thread found.")
+            await message.channel.send("No game thread found for " + home_team + " vs " + away_team)
+            print("No game thread found for " + home_team + " vs " + away_team + "\n")
+
         else:
             print("GAME THREAD FOUND")
             
@@ -151,9 +107,9 @@ async def handle_score_command(r, message):
                 if "Game complete" in submission.selftext:
                     if season == season_info_data['current_season']:
                         if int(home_score) > int(away_score) or int(home_score) == int(away_score):
-                            await make_game_final_score_comment(message, home_team, away_team, home_vegas_odds, home_score, away_score)
+                            await craft_game_final_score_comment(message, home_team, away_team, home_vegas_odds, home_score, away_score)
                         elif int(home_score) < int(away_score):
-                            await make_game_final_score_comment(message, away_team, home_team, away_vegas_odds, away_score, home_score)
+                            await craft_game_final_score_comment(message, away_team, home_team, away_vegas_odds, away_score, home_score)
                     else:
                         post = "blank"
                         if int(home_score) > int(away_score):
@@ -209,7 +165,8 @@ async def handle_plot_command(r, message):
         # Look for game thread
         submission = search_for_game_thread(r, home_team, away_team, season, "$plot", postseason)
         if submission == "NONE":
-            await message.channel.send("No game thread found.")
+            await message.channel.send("No game thread found for " + home_team + " vs " + away_team)
+            print("No game thread found for " + home_team + " vs " + away_team + "\n")
         else:
             print("GAME THREAD FOUND")
             
@@ -223,7 +180,7 @@ async def handle_plot_command(r, message):
             away_team = handle_naming_inconsistencies(away_team)
              
             # Get team colors for plots
-            color_dict = getTeamColors(home_team, away_team)
+            color_dict = get_team_colors(home_team, away_team)
             if "The following error occurred:" not in color_dict:
                 home_color = color_dict[1]
                 away_color = color_dict[2]
@@ -234,7 +191,7 @@ async def handle_plot_command(r, message):
                     away_vegas_odds = vegas_odds_dict[2]
 
                     # Work with new gist
-                    if season == "S6" or season == "S5" or season == "S4":
+                    if season == "s6" or season == "s5" or season == "s4":
                         # If there is a GitHub URL as plays have been called
                         if url != "NO PLAYS":
                             # Iterate through the data and plot the graphs
@@ -247,8 +204,10 @@ async def handle_plot_command(r, message):
                             # Send the win probability plot
                             with open('output_win_probability.png', 'rb') as fp:
                                 await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                            print("Plot posted for " + home_team + " vs " + away_team + "\n")
                         else:
-                            await message.channel.send("No plays for the game found.")
+                            await message.channel.send("Could not generate plot for " + home_team + " vs " + away_team)
+                            print("Could not post plot for " + home_team + " vs " + away_team + "\n")
                     else:
                         # Get game thread submission day
                         submission_time = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
@@ -257,8 +216,8 @@ async def handle_plot_command(r, message):
                         day = int(submission_time.split("-")[2].split(" ")[0])
                         if year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8):
                             old_thread = await message.channel.send("Iterating through old thread to generate plots...")
-                            await message.channel.send("**PLEASE NOTE DUE TO HOW THIS DATA WAS GATHERED THAT THIS PLOT " +
-                                                        "IS NOT THE CURRENT MODEL WIN PROBABILITY**")
+                            await message.channel.send("PLEASE NOTE DUE TO HOW THIS DATA WAS GATHERED THAT THIS PLOT " +
+                                                        "IS NOT THE CURRENT MODEL WIN PROBABILITY")
                             thread_crawler(home_team, away_team, home_vegas_odds, away_vegas_odds, home_color, away_color, season, submission)
                             # Send score plot
                             with open('output.png', 'rb') as fp:
@@ -268,9 +227,11 @@ async def handle_plot_command(r, message):
                             with open('output_win_probability.png', 'rb') as fp:
                                 await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
                             await old_thread.delete()
+                            print("Old plot posted for " + home_team + " vs " + away_team + "\n")
                         else:
                             await message.channel.send("This game is too old to plot the data. I can only plot Season I, " +
                                                        "Week 11 games onward")
+                            print("Could not post old plot for " + home_team + " vs " + away_team + "\n")
                 else:
                     await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
             else:
@@ -337,9 +298,11 @@ async def handle_opponent_command(r, message):
     opponent = search_for_team_game_thread(r, team)
     # opponent[1] is team, opponent[2] is the opponent
     if opponent[1] == "NONE":
-        await message.channel.send("No game thread found.")
+        await message.channel.send("Could not find opponent for " + team + ". No game thread found.")
+        print("Could not find opponent for " + team + "\n")
     else:
         await message.channel.send(opponent[1] + " is playing " + opponent[2])
+        print("Opponent posted for " + team + "\n")
     await looking_for_thread.delete()
 
 
@@ -352,6 +315,7 @@ Login to Discord and run the bot
 def login_discord(r):
     with open('config.json', 'r') as config_file:
         config_data = json.load(config_file)
+
     token = config_data['discord_token']
 
     client = discord.Client()

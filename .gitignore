@@ -6,3 +6,6 @@ config.json
 .idea/vcs.xml
 .idea/modules.xml
 *.xml
+*.pyc
+*.pyc
+FCFBRollCallBot-2d263a255851.json

@@ -1,7 +1,7 @@
 import gspread
 import xlrd
-from oauth2client.service_account import ServiceAccountCredentials
-from poll_data import getCoachesPollData
+from oauth2client.service_account import *
+from poll_data import *
 
 """
 Handle contacting Google Sheets and getting information from the document
@@ -757,10 +757,10 @@ Get the rankings data to post on Discord
 def getRankingsData(r, request):
     try:
         if(request.lower() == "fbs coaches" or request.lower() == "fbs coaches poll"):
-            return getCoachesPollData(r, "FBS")
+            return get_coaches_poll_data(r, "FBS")
             
         elif(request.lower() == "fcs coaches" or request.lower() == "fcs coaches poll"):
-            return getCoachesPollData(r, "FCS")
+            return get_coaches_poll_data(r, "FCS")
         if(request.lower() == "coaches" or request.lower() == "coaches poll"):
             return "Please specify whether you want FBS or FCS coaches poll data"
         if(request.lower() == "fbs" or request.lower() == "fcs"):

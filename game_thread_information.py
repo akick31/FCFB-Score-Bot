@@ -23,7 +23,7 @@ based on what season the user wants to search. Season 4 is the default if they d
 
 def search_for_request_game_thread(submission, home_team, away_team, season, request, postseason, game_time):
     if request == "$score":
-        link_flair = ["blank", "Post Game Thread"]
+        link_flair = ["blank", "Game Thread", "Post Game Thread"]
     # Else the request is for the game plots
     else:
         link_flair = ["Game Thread", "Week 10 Game Thread", "Week 9 Game Thread"]
@@ -68,7 +68,7 @@ def parse_data_from_github(github_url):
             flag = 1
         elif flag == 1:
             data = data + character 
-    if data.find('--------------------------------------------------------------------------------\n' >= 0):
+    if data.find('--------------------------------------------------------------------------------\n') >= 0:
         data = data.replace('--------------------------------------------------------------------------------\n', '')
     return data
 
@@ -81,23 +81,17 @@ Iterate through Reddit to find the game threads
 
 def search_for_game_thread(r, home_team, away_team, season, request, postseason):
     search_item = "\"Game Thread\" \"" + home_team + "\" \"" + away_team + "\""
-    print(search_item)
+    print("Search Query: " + search_item)
 
     for submission in r.subreddit("FakeCollegeFootball").search(search_item, sort='new'):
         # Get game thread submission day
-        game_time = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
+        game_time = datetime.datetime.fromtimestamp(int(submission.created_utc))
         home_team = home_team.lower()
         away_team = away_team.lower()
-        if request == "$score":
-            game_thread = search_for_request_game_thread(submission, home_team, away_team, season, request, postseason, game_time)
-            if game_thread != "NONE":
-                print(game_thread.url)
-                return game_thread
-        elif request == "$plot":
-            game_thread = search_for_request_game_thread(submission, home_team, away_team, season, request, postseason, game_time)
-            if game_thread != "NONE":
-                print(game_thread.url)
-                return game_thread
+        game_thread = search_for_request_game_thread(submission, home_team, away_team, season, request, postseason, game_time)
+        if game_thread != "NONE":
+            print(game_thread.url)
+            return game_thread
     return "NONE"
 
 
