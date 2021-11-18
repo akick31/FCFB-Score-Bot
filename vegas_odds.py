@@ -1,4 +1,4 @@
-from sheets_functions import getEloData
+from sheets_functions import *
 
 """
 Handle calculating vegas odds for games
@@ -50,7 +50,7 @@ Return a dictionary containing the Vegas Odds for the game
 
 
 def get_vegas_odds(home_team, away_team):
-    elo_dictionary = getEloData()
+    elo_dictionary = get_elo_data()
     if elo_dictionary != "There was an error in contacting Google Sheets, please try again.":
         team_elo_column = elo_dictionary[1]
         elo_data_column = elo_dictionary[2]

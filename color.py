@@ -1,4 +1,4 @@
-from sheets_functions import getColorData
+from sheets_functions import *
 
 """
 Handle the colors aspect of the bot
@@ -13,7 +13,7 @@ Get the colors for both teams playing
 
 
 def get_team_colors(home_team, away_team):
-    color_dict = getColorData()
+    color_dict = get_color_data()
     if color_dict != "There was an error in contacting Google Sheets, please try again.":
         team_color_column = color_dict[1]
         color_data_column = color_dict[2]
@@ -40,10 +40,10 @@ def get_color(team, team_color_column, color_data_column):
     i = 0
     color = "black"
     for value in team_column:
-            if team == value:
-                color = color_column[i]
-                break
-            i = i + 1  
+        if team == value:
+            color = color_column[i]
+            break
+        i = i + 1
     return color
 
 
@@ -53,11 +53,11 @@ Compare team colors and if they're within a threshold, use black and red
 
 
 def compare_color(home_color, away_color):
-    if home_color != "black" and home_color != None:
+    if home_color != "black" and home_color is not None:
         home_hex = home_color.split("#")[1]
     else:
         home_hex = "000000"
-    if away_color != "black" and away_color != None:
+    if away_color != "black" and away_color is not None:
         away_hex = away_color.split("#")[1]
     else:
         away_hex = "000000"

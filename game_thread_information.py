@@ -90,7 +90,7 @@ def search_for_game_thread(r, home_team, away_team, season, request, postseason)
         away_team = away_team.lower()
         game_thread = search_for_request_game_thread(submission, home_team, away_team, season, request, postseason, game_time)
         if game_thread != "NONE":
-            print(game_thread.url)
+            print("\n" + game_thread.url)
             return game_thread
     return "NONE"
 

@@ -37,470 +37,538 @@ sosmovrWorksheet = sh6.worksheet("SOSMOVR")
 sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZAt2PjbwHCoWaQZY6jsQRHUK9t6xHZCxa1wn1W9Kt9E/edit?usp=sharing')
 speedWorksheet = sh7.worksheet("Quickest Team Ranking")
 
+
 """
 Get Elo data from both FBS and FCS sheets
 
 """
-def getEloData():
-    try:
-        teamEloColumn = []
-        eloDataColumn = []
-        fbsColumn = fbsWorksheet.col_values(2)
-        fbsColumn.pop(0)
-        fcsColumn = getExcelData(3)
-        fcsColumn.pop(0)
-        teamEloColumn.extend(fbsColumn)
-        teamEloColumn.extend(fcsColumn)
 
-        fbsEloColumn = fbsWorksheet.col_values(3)
-        fbsEloColumn.pop(0)
-        fcsEloColumn = getExcelData(0)
-        fcsEloColumn.pop(0)
-        eloDataColumn.extend(fbsEloColumn)
-        eloDataColumn.extend(fcsEloColumn)
+
+def get_elo_data():
+    try:
+        team_elo_column = []
+        elo_data_column = []
+        fbs_column = fbsWorksheet.col_values(2)
+        fbs_column.pop(0)
+        fcs_column = get_excel_data(3)
+        fcs_column.pop(0)
+        team_elo_column.extend(fbs_column)
+        team_elo_column.extend(fcs_column)
+
+        fbs_elo_column = fbsWorksheet.col_values(3)
+        fbs_elo_column.pop(0)
+        fcs_elo_column = get_excel_data(0)
+        fcs_elo_column.pop(0)
+        elo_data_column.extend(fbs_elo_column)
+        elo_data_column.extend(fcs_elo_column)
         
-        return {1: teamEloColumn, 2: eloDataColumn}
+        return {1: team_elo_column, 2: elo_data_column}
     except Exception as e:
-        returnStatement = "The following error occured: " + str(e)
-        return returnStatement
+        return_statement = "The following error occured: " + str(e)
+        return return_statement
+ 
  
 """
 Get Hex Color data for both FBS and FCS teams
 
 """
-def getColorData():
+
+
+def get_color_data():
     try:
-        teamColorColumn = []
-        colorDataColumn = []
-        fbsColumn = colorWorksheet.col_values(1)
-        fbsColumn.pop(0)
-        fcsColumn = colorWorksheet.col_values(7)
-        fcsColumn.pop(0)
-        teamColorColumn.extend(fbsColumn)
-        teamColorColumn.extend(fcsColumn)
+        team_color_column = []
+        color_data_column = []
+        fbs_column = colorWorksheet.col_values(1)
+        fbs_column.pop(0)
+        fcs_column = colorWorksheet.col_values(7)
+        fcs_column.pop(0)
+        team_color_column.extend(fbs_column)
+        team_color_column.extend(fcs_column)
         fbsColorColumn = colorWorksheet.col_values(4)
         fbsColorColumn.pop(0)
         fcsColorColumn = colorWorksheet.col_values(10)
         fcsColorColumn.pop(0)
-        colorDataColumn.extend(fbsColorColumn)
-        colorDataColumn.extend(fcsColorColumn)
+        color_data_column.extend(fbsColorColumn)
+        color_data_column.extend(fcsColorColumn)
         
-        return {1: teamColorColumn, 2: colorDataColumn}
+        return {1: team_color_column, 2: color_data_column}
     except Exception as e:
-        returnStatement = "The following error occured: " + str(e)
-        return returnStatement
+        return_statement = "The following error occured: " + str(e)
+        return return_statement
+   
     
 """
 Get the ACC standings from CHEFF
 
 """
-def parseACC():
-    post = "----------------------\n**ACC**\n----------------------\n----------------------\nAtlantic\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(2)
-    teamConferenceColumn = standingsWorksheet.col_values(3)
-    teamOverallColumn = standingsWorksheet.col_values(4)
-    for i in range (6, 13):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+
+
+def parse_acc():
+    post = ("----------------------\n**ACC**\n----------------------\n" +
+           "----------------------\nAtlantic\n----------------------\n")
+    team_column = standingsWorksheet.col_values(2)
+    team_conference_column = standingsWorksheet.col_values(3)
+    team_overall_column = standingsWorksheet.col_values(4)
+    for i in range(6, 13):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nCoastal\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(5)
-    teamConferenceColumn = standingsWorksheet.col_values(6)
-    teamOverallColumn = standingsWorksheet.col_values(7)
-    for i in range (6, 13):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(5)
+    team_conference_column = standingsWorksheet.col_values(6)
+    team_overall_column = standingsWorksheet.col_values(7)
+    for i in range(6, 13):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the AAC standings from CHEFF
 
 """
-def parseAAC():
+
+
+def parse_aac():
     post = "----------------------\n**American**\n----------------------\n----------------------\nEast\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(9)
-    teamConferenceColumn = standingsWorksheet.col_values(10)
-    teamOverallColumn = standingsWorksheet.col_values(11)
-    for i in range (6, 12):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(9)
+    team_conference_column = standingsWorksheet.col_values(10)
+    team_overall_column = standingsWorksheet.col_values(11)
+    for i in range(6, 12):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nWest\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(12)
-    teamConferenceColumn = standingsWorksheet.col_values(13)
-    teamOverallColumn = standingsWorksheet.col_values(14)
-    for i in range (6, 12):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(12)
+    team_conference_column = standingsWorksheet.col_values(13)
+    team_overall_column = standingsWorksheet.col_values(14)
+    for i in range(6, 12):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Big 10 standings from CHEFF
 
 """
-def parseBigTen():
-    post = "----------------------\n**Big Ten**\n----------------------\n----------------------\nEast\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(16)
-    teamConferenceColumn = standingsWorksheet.col_values(17)
-    teamOverallColumn = standingsWorksheet.col_values(18)
-    for i in range (6, 13):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+
+
+def parse_bigten():
+    post = ("----------------------\n**Big Ten**\n----------------------\n" +
+            "----------------------\nEast\n----------------------\n")
+    team_column = standingsWorksheet.col_values(16)
+    team_conference_column = standingsWorksheet.col_values(17)
+    team_overall_column = standingsWorksheet.col_values(18)
+    for i in range(6, 13):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nWest\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(19)
-    teamConferenceColumn = standingsWorksheet.col_values(20)
-    teamOverallColumn = standingsWorksheet.col_values(21)
-    for i in range (6, 13):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(19)
+    team_conference_column = standingsWorksheet.col_values(20)
+    team_overall_column = standingsWorksheet.col_values(21)
+    for i in range(6, 13):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Pac 12 standings from CHEFF
 
 """
-def parsePac12():
-    post = "----------------------\n**Pac-12**\n----------------------\n----------------------\nNorth\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(2)
-    teamConferenceColumn = standingsWorksheet.col_values(3)
-    teamOverallColumn = standingsWorksheet.col_values(4)
-    for i in range (28, 34):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+
+
+def parse_pac12():
+    post = ("----------------------\n**Pac-12**\n----------------------\n" + 
+            "----------------------\nNorth\n----------------------\n")
+    team_column = standingsWorksheet.col_values(2)
+    team_conference_column = standingsWorksheet.col_values(3)
+    team_overall_column = standingsWorksheet.col_values(4)
+    for i in range(28, 34):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nSouth\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(5)
-    teamConferenceColumn = standingsWorksheet.col_values(6)
-    teamOverallColumn = standingsWorksheet.col_values(7)
-    for i in range (28, 34):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(5)
+    team_conference_column = standingsWorksheet.col_values(6)
+    team_overall_column = standingsWorksheet.col_values(7)
+    for i in range(28, 34):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the CUSA standings from CHEFF
 
 """
-def parseCUSA():
-    post = "----------------------\n**Conference USA**\n----------------------\n----------------------\nEast\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(2)
-    teamConferenceColumn = standingsWorksheet.col_values(3)
-    teamOverallColumn = standingsWorksheet.col_values(4)
-    for i in range (17, 24):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+
+
+def parse_cusa():
+    post = ("----------------------\n**Conference USA**\n----------------------\n" +
+           "----------------------\nEast\n----------------------\n")
+    team_column = standingsWorksheet.col_values(2)
+    team_conference_column = standingsWorksheet.col_values(3)
+    team_overall_column = standingsWorksheet.col_values(4)
+    for i in range(17, 24):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nWest\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(5)
-    teamConferenceColumn = standingsWorksheet.col_values(6)
-    teamOverallColumn = standingsWorksheet.col_values(7)
-    for i in range (17, 24):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(5)
+    team_conference_column = standingsWorksheet.col_values(6)
+    team_overall_column = standingsWorksheet.col_values(7)
+    for i in range(17, 24):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the MAC standings from CHEFF
 
 """
-def parseMAC():
-    post = "----------------------\n**MAC**\n----------------------\n----------------------\nEast\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(9)
-    teamConferenceColumn = standingsWorksheet.col_values(10)
-    teamOverallColumn = standingsWorksheet.col_values(11)
-    for i in range (17, 23):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+
+
+def parse_mac():
+    post = ("----------------------\n**MAC**\n----------------------\n" +
+            "----------------------\nEast\n----------------------\n")
+    team_column = standingsWorksheet.col_values(9)
+    team_conference_column = standingsWorksheet.col_values(10)
+    team_overall_column = standingsWorksheet.col_values(11)
+    for i in range(17, 23):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nWest\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(12)
-    teamConferenceColumn = standingsWorksheet.col_values(13)
-    teamOverallColumn = standingsWorksheet.col_values(14)
-    for i in range (17, 23):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(12)
+    team_conference_column = standingsWorksheet.col_values(13)
+    team_overall_column = standingsWorksheet.col_values(14)
+    for i in range(17, 23):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Mountain West standings from CHEFF
 
 """
-def parseMWC():
-    post = "----------------------\n**Mountain West**\n----------------------\n----------------------\nMountain\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(16)
-    teamConferenceColumn = standingsWorksheet.col_values(17)
-    teamOverallColumn = standingsWorksheet.col_values(18)
-    for i in range (17, 23):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+
+
+def parse_mwc():
+    post = ("----------------------\n**Mountain West**\n----------------------\n" +
+            "----------------------\nMountain\n----------------------\n")
+    team_column = standingsWorksheet.col_values(16)
+    team_conference_column = standingsWorksheet.col_values(17)
+    team_overall_column = standingsWorksheet.col_values(18)
+    for i in range(17, 23):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nWest\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(19)
-    teamConferenceColumn = standingsWorksheet.col_values(20)
-    teamOverallColumn = standingsWorksheet.col_values(21)
-    for i in range (17, 23):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(19)
+    team_conference_column = standingsWorksheet.col_values(20)
+    team_overall_column = standingsWorksheet.col_values(21)
+    for i in range(17, 23):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the SEC standings from CHEFF
 
 """
-def parseSEC():
-    post = "----------------------\n**SEC**\n----------------------\n----------------------\nEast\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(9)
-    teamConferenceColumn = standingsWorksheet.col_values(10)
-    teamOverallColumn = standingsWorksheet.col_values(11)
-    for i in range (28, 35):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+
+
+def parse_sec():
+    post = ("----------------------\n**SEC**\n----------------------\n" +
+            "----------------------\nEast\n----------------------\n")
+    team_column = standingsWorksheet.col_values(9)
+    team_conference_column = standingsWorksheet.col_values(10)
+    team_overall_column = standingsWorksheet.col_values(11)
+    for i in range(28, 35):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nWest\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(12)
-    teamConferenceColumn = standingsWorksheet.col_values(13)
-    teamOverallColumn = standingsWorksheet.col_values(14)
-    for i in range (28, 35):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(12)
+    team_conference_column = standingsWorksheet.col_values(13)
+    team_overall_column = standingsWorksheet.col_values(14)
+    for i in range(28, 35):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Sun Belt standings from CHEFF
 
 """
-def parseSBC():
-    post = "----------------------\n**Sun Belt**\n----------------------\n----------------------\nEast\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(16)
-    teamConferenceColumn = standingsWorksheet.col_values(17)
-    teamOverallColumn = standingsWorksheet.col_values(18)
-    for i in range (28, 34):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+
+
+def parse_sbc():
+    post = ("----------------------\n**Sun Belt**\n----------------------\n" +
+            "----------------------\nEast\n----------------------\n")
+    team_column = standingsWorksheet.col_values(16)
+    team_conference_column = standingsWorksheet.col_values(17)
+    team_overall_column = standingsWorksheet.col_values(18)
+    for i in range(28, 34):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nWest\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(19)
-    teamConferenceColumn = standingsWorksheet.col_values(20)
-    teamOverallColumn = standingsWorksheet.col_values(21)
-    for i in range (28, 34):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(19)
+    team_conference_column = standingsWorksheet.col_values(20)
+    team_overall_column = standingsWorksheet.col_values(21)
+    for i in range(28, 34):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Big 12 standings from CHEFF
 
 """
-def parseBig12():
+
+
+def parse_big12():
     post = "----------------------\n**Big 12**\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(2)
-    teamConferenceColumn = standingsWorksheet.col_values(3)
-    teamOverallColumn = standingsWorksheet.col_values(4)
-    for i in range (38, 43):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(2)
+    team_conference_column = standingsWorksheet.col_values(3)
+    team_overall_column = standingsWorksheet.col_values(4)
+    for i in range(38, 43):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
-    teamColumn = standingsWorksheet.col_values(5)
-    teamConferenceColumn = standingsWorksheet.col_values(6)
-    teamOverallColumn = standingsWorksheet.col_values(7)
-    for i in range (38, 43):
-        team = teamColumn[i].strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+    team_column = standingsWorksheet.col_values(5)
+    team_conference_column = standingsWorksheet.col_values(6)
+    team_overall_column = standingsWorksheet.col_values(7)
+    for i in range(38, 43):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Independents standings from CHEFF
 
 """
-def parseIndependents():
+
+
+def parse_independents():
     post = "----------------------\n**Independents**\n----------------------\n"
-    teamColumn = standingsWorksheet.col_values(9)
-    teamOverallColumn = standingsWorksheet.col_values(11)
-    for i in range (38, 42):
-        team = teamColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + "\n"
+    team_column = standingsWorksheet.col_values(9)
+    team_overall_column = standingsWorksheet.col_values(11)
+    for i in range(38, 42):
+        team = team_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + "\n"
         i += 1
     return post
+
 
 """
 Get the America East standings from 1212.one
 
 """
-def parseAmericaEast():
-    post = "----------------------\n**America East**\n----------------------\n----------------------\nTri-State\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(9)
-    for i in range (3, 9):
-        team = teamColumn[i].split(" ")[:-1]
+
+
+def parse_americaeast():
+    post = ("----------------------\n**America East**\n----------------------\n" +
+            "----------------------\nTri-State\n----------------------\n")
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    for i in range(3, 9):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nNew England\n----------------------\n"
-    for i in range (3, 9):
-        team = teamColumn[i].split(" ")[:-1]
+    for i in range(3, 9):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Atlantic Sun standings from 1212.one
 
 """
-def parseAtlanticSun():
-    post = "----------------------\n**Atlantic Sun**\n----------------------\n----------------------\nDusk\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(9)
-    for i in range (20, 27):
-        team = teamColumn[i].split(" ")[:-1]
+
+
+def parse_atlanticsun():
+    post = ("----------------------\n**Atlantic Sun**\n----------------------\n" +
+            "----------------------\nDusk\n----------------------\n")
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    for i in range(20, 27):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nDawn\n----------------------\n"
-    for i in range (28, 35):
-        team = teamColumn[i].split(" ")[:-1]
+    for i in range(28, 35):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Big Sky standings from 1212.one
 
 """
-def parseBigSky():
-    post = "----------------------\n**Big Sky**\n----------------------\n----------------------\nSouth\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(9)
-    for i in range (39, 46):
-        team = teamColumn[i].split(" ")[:-1]
+
+
+def parse_bigsky():
+    post = ("----------------------\n**Big Sky**\n----------------------\n" +
+           "----------------------\nSouth\n----------------------\n")
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    for i in range(39, 46):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nNorth\n----------------------\n"
-    for i in range (47, 54):
-        team = teamColumn[i].split(" ")[:-1]
+    for i in range(47, 54):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Carolina Football Conference standings from 1212.one
 
 """
-def parseCFC():
-    post = "--------------------------------------------\n**Carolina Football Conference**\n--------------------------------------------\n----------------------\nNorth\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(9)
-    for i in range (58, 64):
-        team = teamColumn[i].split(" ")[:-1]
+
+
+def parse_cfc():
+    post = ("--------------------------------------------\n**Carolina Football Conference**\n--------------------" + 
+            "------------------------\n" +
+            "----------------------\nNorth\n----------------------\n")
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    for i in range(58, 64):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nSouth\n----------------------\n"
-    for i in range (65, 71):
-        team = teamColumn[i].split(" ")[:-1]
+    for i in range(65, 71):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Colonial standings from 1212.one
 
 """
-def parseColonial():
-    post = "----------------------\n**Colonial**\n----------------------\n----------------------\nSouth\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(9)
-    for i in range (75, 81):
-        team = teamColumn[i].split(" ")[:-1]
+
+
+def parse_colonial():
+    post = ("----------------------\n**Colonial**\n----------------------\n" +
+           "----------------------\nSouth\n----------------------\n")
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    for i in range(75, 81):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nNorth\n----------------------\n"
-    for i in range (82, 88):
-        team = teamColumn[i].split(" ")[:-1]
+    for i in range(82, 88):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
 
@@ -508,69 +576,78 @@ def parseColonial():
 Get the Delta Intercollegiate standings from 1212.one
 
 """
-def parseDelta():
-    post = "--------------------------------------------\n**Delta Intercollegiate**\n--------------------------------------------\n----------------------\nMississippi Valley\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(9)
-    for i in range (92, 100):
-        team = teamColumn[i].split(" ")[:-1]
+def parse_delta():
+    post = ("--------------------------------------------\n**Delta Intercollegiate**\n-------------------" + 
+            "-------------------------\n" +
+            "----------------------\nMississippi Valley\n----------------------\n")
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    for i in range(92, 100):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nTennessee Valley\n----------------------\n"
-    for i in range (82, 88):
-        team = teamColumn[i].split(" ")[:-1]
+    for i in range(82, 88):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Ivy League standings from 1212.one
 
 """
-def parseIvy():
+
+
+def parse_ivy():
     post = "----------------------\n**Ivy League**\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(6)
-    for i in range (113, 121):
-        team = teamColumn[i].split(" ")[:-1]
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(6)
+    for i in range(113, 121):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Mid-Atlantic standings from 1212.one
 
 """
-def parseMidAtlantic():
-    post = "----------------------\n**Mid Atlantic**\n----------------------\n----------------------\nAtlantic\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(9)
-    for i in range (125, 131):
-        team = teamColumn[i].split(" ")[:-1]
+
+
+def parse_midatlantic():
+    post = ("----------------------\n**Mid Atlantic**\n----------------------\n" +
+            "----------------------\nAtlantic\n----------------------\n")
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    for i in range(125, 131):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nAdirondack\n----------------------\n"
-    for i in range (132, 138):
-        team = teamColumn[i].split(" ")[:-1]
+    for i in range(132, 138):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
 
@@ -578,43 +655,47 @@ def parseMidAtlantic():
 Get the Missouri Valley standings from 1212.one
 
 """
-def parseMVC():
-    post = "--------------------------------------------\n**Missouri Valley**\n-----------------------------------------\n----------------------\nPrairie\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(9)
-    for i in range (142, 149):
-        team = teamColumn[i].split(" ")[:-1]
+def parse_mvc():
+    post = ("--------------------------------------------\n**Missouri Valley**\n-----------------------------------------\n" + \
+           "----------------------\nPrairie\n----------------------\n")
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    for i in range(142, 149):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nMetro\n----------------------\n"
-    for i in range (150, 157):
-        team = teamColumn[i].split(" ")[:-1]
+    for i in range(150, 157):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
+
 
 """
 Get the Southland standings from 1212.one
 
 """
-def parseSouthland():
+
+
+def parse_southland():
     post = "----------------------\n**Southland**\n----------------------\n"
-    teamColumn = fcsStandingsWorksheet.col_values(2)
-    teamConferenceColumn = fcsStandingsWorksheet.col_values(3)
-    teamOverallColumn = fcsStandingsWorksheet.col_values(6)
-    for i in range (161,175):
-        team = teamColumn[i].split(" ")[:-1]
+    team_column = fcsStandingsWorksheet.col_values(2)
+    team_conference_column = fcsStandingsWorksheet.col_values(3)
+    team_overall_column = fcsStandingsWorksheet.col_values(6)
+    for i in range(161,175):
+        team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
-        conferenceRecord = teamConferenceColumn[i].strip()
-        overallRecord = teamOverallColumn[i].strip()
-        post = post + " " + team + " " + overallRecord + " (" + conferenceRecord + ")\n"
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     return post
     
@@ -627,213 +708,228 @@ def get_standings_data(conference):
     conference = conference.lower()
     try:
         if conference == "acc":
-            return parseACC()
+            return parse_acc()
         elif conference == "american" or conference == "aac":
-            return parseAAC()
+            return parse_aac()
         elif conference == "big ten" or conference == "b1g" or conference == "big 10" or conference == "b10":
-            return parseBigTen()
+            return parse_bigten()
         elif conference == "conference usa" or conference == "cusa" or conference == "c-usa":
-            return parseCUSA()
+            return parse_cusa()
         elif conference == "mac":
-            return parseMAC()
+            return parse_mac()
         elif conference == "mountain west" or conference == "mwc":
-            return parseMWC()
+            return parse_mwc()
         elif conference == "pac-12" or conference == "pac 12":
-            return parsePac12()
+            return parse_pac12()
         elif conference == "sec":
-            return parseSEC()
+            return parse_sec()
         elif conference == "sun belt" or conference == "sbc":
-            return parseSBC()
+            return parse_sbc()
         elif conference == "big 12" or conference == "big xii" or conference == "b12":
-            return parseBig12()
+            return parse_big12()
         elif conference == "independents" or conference == "independent":
-            return parseIndependents()
+            return parse_independents()
         elif conference == "america east":
-            return parseAmericaEast()
+            return parse_americaeast()
         elif conference == "atlantic sun":
-            return parseAtlanticSun()
+            return parse_atlanticsun()
         elif conference == "big sky":
-            return parseBigSky()
+            return parse_bigsky()
         elif conference == "carolina" or conference == "carolina football conference" or conference == "cfc":
-            return parseCFC()
+            return parse_cfc()
         elif conference == "colonial":
-            return parseColonial()
+            return parse_colonial()
         elif conference == "delta" or conference == "delta intercollegiate":
-            return parseDelta()
+            return parse_delta()
         elif conference == "ivy" or conference == "ivy league":
-            return parseIvy()
+            return parse_ivy()
         elif conference == "mid atlantic" or conference == "mid-atlantic":
-            return parseMidAtlantic()
+            return parse_midatlantic()
         elif conference == "missouri valley" or conference == "mvc":
-            return parseMVC()
+            return parse_mvc()
         elif conference == "southland":
-            return parseSouthland()
+            return parse_southland()
         else:
             return "Conference not found"
     except Exception as e:
         return_statement = "The following error occured: " + str(e)
         return return_statement
  
+ 
 """
 Parse the rankings worksheet post
 
 """
-def parserankingsWorksheet(numCol, teamCol, valueCol, post):
-    ranks = rankingsWorksheet.col_values(numCol)
-    teams = rankingsWorksheet.col_values(teamCol)
-    values = rankingsWorksheet.col_values(valueCol)
+
+
+def parse_rankings_worksheet(num_col, team_col, value_col, post):
+    ranks = rankingsWorksheet.col_values(num_col)
+    teams = rankingsWorksheet.col_values(team_col)
+    values = rankingsWorksheet.col_values(value_col)
     i = 4
     for team in teams[4:-1]:
         value = values[i]
         rank = ranks[i]
-        if((int(rank)) > 25):
+        if int(rank) > 25:
             break
         post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
         i = i + 1
     return post
+
 
 """
 Parse the SOSMOVR worksheet from Zen Sunshine and output the post
 
 """
-def parsesosmovrWorksheet(numCol, teamCol, valueCol, post):
-    ranks = sosmovrWorksheet.col_values(numCol)
-    teams = sosmovrWorksheet.col_values(teamCol)
-    values = sosmovrWorksheet.col_values(valueCol)
+
+
+def parse_sosmovr_worksheet(num_col, team_col, value_col, post):
+    ranks = sosmovrWorksheet.col_values(num_col)
+    teams = sosmovrWorksheet.col_values(team_col)
+    values = sosmovrWorksheet.col_values(value_col)
     i = 1
     for team in teams[1:-1]:
         value = values[i]
         rank = ranks[i]
-        if((int(rank)) > 25):
+        if int(rank) > 25:
             break
         post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
         i = i + 1
     return post
+
 
 """
 Parse the composite worksheet
 
 """
-def parseCompositeData(numCol, teamCol, valueCol, post):
+
+
+def parse_composite_data(num_col, team_col, value_col, post):
     try:
-        ranks = compositeWorksheet.col_values(numCol)
-        teams = compositeWorksheet.col_values(teamCol)
-        values = compositeWorksheet.col_values(valueCol)
+        ranks = compositeWorksheet.col_values(num_col)
+        teams = compositeWorksheet.col_values(team_col)
+        values = compositeWorksheet.col_values(value_col)
         i = 4
         for team in teams[4:-1]:
             value = values[i]
             rank = ranks[i]
-            if((int(rank)) > 25):
+            if int(rank) > 25:
                 break
             post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
             i = i + 1
         return post
     except Exception as e:
-        returnStatement = "The following error occured: " + str(e)
-        return returnStatement
+        return_statement = "The following error occured: " + str(e)
+        return return_statement
+
 
 """
 Parse the speed worksheet 
 
 """
-def parseSpeedData(numCol, teamCol, valueCol, post):
-    ranks = speedWorksheet.col_values(numCol)
-    teams = speedWorksheet.col_values(teamCol)
-    values = speedWorksheet.col_values(valueCol)
+
+
+def parse_speed_data(num_col, team_col, value_col, post):
+    ranks = speedWorksheet.col_values(num_col)
+    teams = speedWorksheet.col_values(team_col)
+    values = speedWorksheet.col_values(value_col)
     i = 2
     for team in teams[2:-1]:
         value = values[i]
         rank = ranks[i]
-        if((int(rank)) > 25):
+        if int(rank) > 25:
             break
         post = post + "#" + rank + " " + team.strip() + " " + value.strip() + "\n"
         i = i + 1
     return post
     
+    
 """
 Get the rankings data to post on Discord
 
 """      
-def getRankingsData(r, request):
+
+
+def get_rankings_data(r, request):
     try:
-        if(request.lower() == "fbs coaches" or request.lower() == "fbs coaches poll"):
+        if request.lower() == "fbs coaches" or request.lower() == "fbs coaches poll":
             return get_coaches_poll_data(r, "FBS")
             
-        elif(request.lower() == "fcs coaches" or request.lower() == "fcs coaches poll"):
+        elif request.lower() == "fcs coaches" or request.lower() == "fcs coaches poll":
             return get_coaches_poll_data(r, "FCS")
-        if(request.lower() == "coaches" or request.lower() == "coaches poll"):
+        if request.lower() == "coaches" or request.lower() == "coaches poll":
             return "Please specify whether you want FBS or FCS coaches poll data"
-        if(request.lower() == "fbs" or request.lower() == "fcs"):
+        if request.lower() == "fbs" or request.lower() == "fcs":
             return "Please be more specific"
-        if("committee" in request.lower() or "playoff" in request.lower()):
+        if "committee" in request.lower() or "playoff" in request.lower():
             return "This request is not available right now"
-        if(request.lower() == "fbs elo"):
-            fbsColumn = fbsWorksheet.col_values(2)
-            fbsEloColumn = fbsWorksheet.col_values(3)
+        if request.lower() == "fbs elo":
+            fbs_column = fbsWorksheet.col_values(2)
+            fbs_elo_column = fbsWorksheet.col_values(3)
             i = 1
-            post = ("-----------------------\n**FBS Elo Rankings**\n-----------------------\n")
-            for team in fbsColumn[1:26]:
-                elo = fbsEloColumn[i]
+            post = "-----------------------\n**FBS Elo Rankings**\n-----------------------\n"
+            for team in fbs_column[1:26]:
+                elo = fbs_elo_column[i]
                 post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
                 i = i + 1
             return post
-        if(request.lower() == "fcs elo"):
-            fcsColumn = getExcelData(3)
-            fcsEloColumn = getExcelData(0)
+        if request.lower() == "fcs elo":
+            fcs_column = get_excel_data(3)
+            fcs_elo_column = get_excel_data(0)
             i = 1
-            post = ("-----------------------\n**FCS Elo Rankings**\n-----------------------\n")
-            for team in fcsColumn[1:26]:
-                if("(" in team):
+            post = "-----------------------\n**FCS Elo Rankings**\n-----------------------\n"
+            for team in fcs_column[1:26]:
+                if "(" in team:
                     team = team.split("(")[0]
                     team = team.strip()
-                elo = fcsEloColumn[i]
+                elo = fcs_elo_column[i]
                 post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
                 i = i + 1
             return post
-        if(request.lower() == "mov"):
-            post = ("-----------------------\n**FBS MoV Rankings**\n-----------------------\n")
-            return parserankingsWorksheet(2, 3, 4, post)
-        if(request.lower() == "scoring offense" or request.lower() == "offense"):
-            post = ("--------------------------------------------\n**FBS Scoring Offense Rankings**\n--------------------------------------------\n")
-            return parserankingsWorksheet(10, 11, 12, post)
-        if(request.lower() == "scoring defense" or request.lower() == "defense"):
-            post = ("--------------------------------------------\n**FBS Scoring Defense Rankings**\n--------------------------------------------\n")
-            return parserankingsWorksheet(14, 15, 16, post)
-        if(request.lower() == "sosmovr" or request.lower() == "smr" or request.lower() == "sauce mover"):
-            post = ("--------------------------------------------\n**FBS SOSMOVR**\n--------------------------------------------\n")
-            return parsesosmovrWorksheet(2, 3, 4, post)
-        if(request.lower() == "eqw"):
-            post = ("--------------------------------------------\n**FBS EQW**\n--------------------------------------------\n")
-            return parsesosmovrWorksheet(7, 8, 9, post)
-        if(request.lower() == "composite"):
-            post = ("--------------------------------------------\n**Composite**\n--------------------------------------------\n")
-            return parseCompositeData(2, 3, 4, post)
-        if(request.lower() == "colley" or request.lower() == "colley matrix"):
-            post = ("--------------------------------------------\n**Colley Matrix**\n--------------------------------------------\n")
-            return parseCompositeData(13, 14, 15, post)
-        if(request.lower() == "adjusted strength rating" or request.lower() == "adjusted strength" or request.lower() == "asr"):
-            post = ("--------------------------------------------\n**Adjusted Strength Rating**\n--------------------------------------------\n")
-            return parseCompositeData(17, 18, 19, post)
-        if(request.lower() == "adjusted speed" or request.lower() == "speed"):
-            post = ("--------------------------------------------\n**Adjusted Speed**\n--------------------------------------------\n")
-            return parseSpeedData(2, 3, 4, post)
-        if(request.lower() == "raw speed"):
-            post = ("--------------------------------------------\n**Raw Speed**\n--------------------------------------------\n")
-            return parseSpeedData(10, 11, 12, post)
+        if request.lower() == "mov":
+            post = "-----------------------\n**FBS MoV Rankings**\n-----------------------\n"
+            return parse_rankings_worksheet(2, 3, 4, post)
+        if request.lower() == "scoring offense" or request.lower() == "offense":
+            post = "--------------------------------------------\n**FBS Scoring Offense Rankings**\n--------------------------------------------\n"
+            return parse_rankings_worksheet(10, 11, 12, post)
+        if request.lower() == "scoring defense" or request.lower() == "defense":
+            post = "--------------------------------------------\n**FBS Scoring Defense Rankings**\n--------------------------------------------\n"
+            return parse_rankings_worksheet(14, 15, 16, post)
+        if request.lower() == "sosmovr" or request.lower() == "smr" or request.lower() == "sauce mover":
+            post = "--------------------------------------------\n**FBS SOSMOVR**\n--------------------------------------------\n"
+            return parse_sosmovr_worksheet(2, 3, 4, post)
+        if request.lower() == "eqw":
+            post = "--------------------------------------------\n**FBS EQW**\n--------------------------------------------\n"
+            return parse_sosmovr_worksheet(7, 8, 9, post)
+        if request.lower() == "composite":
+            post = "--------------------------------------------\n**Composite**\n--------------------------------------------\n"
+            return parse_composite_data(2, 3, 4, post)
+        if request.lower() == "colley" or request.lower() == "colley matrix":
+            post = "--------------------------------------------\n**Colley Matrix**\n--------------------------------------------\n"
+            return parse_composite_data(13, 14, 15, post)
+        if request.lower() == "adjusted strength rating" or request.lower() == "adjusted strength" or request.lower() == "asr":
+            post = "--------------------------------------------\n**Adjusted Strength Rating**\n--------------------------------------------\n"
+            return parse_composite_data(17, 18, 19, post)
+        if request.lower() == "adjusted speed" or request.lower() == "speed":
+            post = "--------------------------------------------\n**Adjusted Speed**\n--------------------------------------------\n"
+            return parse_speed_data(2, 3, 4, post)
+        if request.lower() == "raw speed":
+            post = "--------------------------------------------\n**Raw Speed**\n--------------------------------------------\n"
+            return parse_speed_data(10, 11, 12, post)
         return "Invalid command. Please try again."
     except Exception as e:
-        returnStatement = "**Rankings retrieval error**\n\nThe following error occured: " + str(e)
-        return returnStatement
+        return_statement = "**Rankings retrieval error**\n\nThe following error occured: " + str(e)
+        return return_statement
     
 """
 Get a column from the excel spreadsheet
 
 """
-def getExcelData(column):
-    columnVals = []
-    for rownum in range(sheet.nrows):
-        columnVals.append(str(sheet.cell(rownum, column).value))
-    return columnVals       
+def get_excel_data(column):
+    column_vals = []
+    for row_num in range(sheet.nrows):
+        column_vals.append(str(sheet.cell(row_num, column).value))
+    return column_vals       
     
     
             

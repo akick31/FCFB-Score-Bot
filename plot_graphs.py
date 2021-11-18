@@ -8,10 +8,13 @@ Plot graphs using MatPlotLib
 @author: apkick
 """
 
+
 """
 Plot the win probability for the game using Gist data
 
 """
+
+
 def plot_win_probability_gist(home_team, away_team, home_win_probability, away_win_probability, play_number, home_color, away_color):
     play_number = np.array(play_number)
     home_win_probability = np.array(home_win_probability)
@@ -41,12 +44,15 @@ def plot_win_probability_gist(home_team, away_team, home_win_probability, away_w
     ax2.legend(l2, [away_team], loc="lower left")
     plt.savefig("output_win_probability.png")
     plt.close()
-    
+
+
 """
 Plot the score progression for the game using Gist data
 
 """
-def plot_score_gist(home_team, away_team, home_score, away_score, play_number, home_color, away_color, OTFlag):
+
+
+def plot_score_gist(home_team, away_team, home_score, away_score, play_number, home_color, away_color, ot_flag):
     play_number = np.array(play_number)
     home_score = np.array(home_score)
     away_score = np.array(away_score)
@@ -54,7 +60,7 @@ def plot_score_gist(home_team, away_team, home_score, away_score, play_number, h
     plt.figure()
     plt.style.use('fivethirtyeight')
     plt.ylabel("Score")
-    if(OTFlag == 1):
+    if ot_flag == 1:
         plt.xlabel("Play Number")
         plt.title("Score Plot (OT)")
         plt.plot(play_number, home_score, color = home_color, label = home_team, linewidth=2)
@@ -69,10 +75,13 @@ def plot_score_gist(home_team, away_team, home_score, away_score, play_number, h
     plt.savefig("output.png")
     plt.close()
 
+
 """
 Plot the win probability for the game using Thread Crawler data
 
 """
+
+
 def plot_win_probability_thread_crawler(home_team, away_team, home_win_probability, away_win_probability, play_number, home_color, away_color):
     play_number = np.array(play_number)
     home_win_probability = np.array(home_win_probability)
@@ -90,11 +99,14 @@ def plot_win_probability_thread_crawler(home_team, away_team, home_win_probabili
     plt.legend(loc="upper left")
     plt.savefig("output_win_probability.png")
     plt.close()
-    
+
+
 """
 Plot the score progression for the game using Thread Crawler data
 
 """
+
+
 def plot_score_plot_thread_crawler(home_team, away_team, home_score, away_score, play_number, home_color, away_color):
     play_number = np.array(play_number)
     home_score = np.array(home_score)

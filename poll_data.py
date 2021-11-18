@@ -49,7 +49,7 @@ Get the data and return it to the bot
 
 
 def get_coaches_poll_data(r, request):
-    submission = findCoachesPollPost(r)
+    submission = find_coaches_poll_post(r)
     if submission == "NONE":
         return "Could not find the rankings"
     elif request == "FBS":

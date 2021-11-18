@@ -93,10 +93,10 @@ async def handle_score_command(r, message):
             # Hardcode to fix inconsistencies in stat sheets
             home_team = handle_naming_inconsistencies(home_team)
             away_team = handle_naming_inconsistencies(away_team)
-              
+
             # Get the vegas odds
             vegas_odds_dict = get_vegas_odds(home_team, away_team)
-            if "The following error occured:" not in vegas_odds_dict:
+            if "The following error occurred:" not in vegas_odds_dict:
                 home_vegas_odds = vegas_odds_dict[1]
                 away_vegas_odds = vegas_odds_dict[2]
 
@@ -216,8 +216,8 @@ async def handle_plot_command(r, message):
                         day = int(submission_time.split("-")[2].split(" ")[0])
                         if year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8):
                             old_thread = await message.channel.send("Iterating through old thread to generate plots...")
-                            await message.channel.send("PLEASE NOTE DUE TO HOW THIS DATA WAS GATHERED THAT THIS PLOT " +
-                                                        "IS NOT THE CURRENT MODEL WIN PROBABILITY")
+                            await message.channel.send("Please note due to how this data was gathered that this plot does" +
+                                                       "not use the current win probability model, so it is slightly inaccurate.")
                             thread_crawler(home_team, away_team, home_vegas_odds, away_vegas_odds, home_color, away_color, season, submission)
                             # Send score plot
                             with open('output.png', 'rb') as fp:
@@ -275,7 +275,7 @@ async def handle_rankings_command(r, message):
                                    "- Adjusted Speed (FBS Only)\n" + "- Raw Speed (FBS Only)\n" +
                                    "**If you want a ranking added, please contact Dick**")
     else:
-        post = getRankingsData(r, request)
+        post = get_rankings_data(r, request)
         await message.channel.send(post)
 
 
