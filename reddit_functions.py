@@ -91,9 +91,11 @@ Get the home record from the title
 
 
 def parse_home_record(title):
-    for item in title.split("@")[1].split(" "):
-        if "(" in item and "-" in item:
-            return item
+    if "@" in title:
+        for item in title.split("@")[1].split(" "):
+            if "(" in item and "-" in item:
+                return item
+    return None
         
 
 """
@@ -102,10 +104,11 @@ Get the away record from the title
 
 
 def parse_away_record(title):
-    for item in title.split("@")[0].split(" "):
-        if "(" in item and "-" in item:
-            return item
-
+    if "@" in title:
+        for item in title.split("@")[0].split(" "):
+            if "(" in item and "-" in item:
+                return item
+    return None
 
 """
 Make posts for games that went final on Reddit
@@ -113,7 +116,8 @@ Make posts for games that went final on Reddit
 """
 
 
-async def craft_game_final_score_comment(message, submission, home_team, away_team, vegas_odds, home_score, away_score):
+async def craft_game_final_score_comment(message, submission, home_team, away_team, vegas_odds, home_score, away_score,
+                                         home_record, away_record):
     if vegas_odds == "NONE":
         odds = ""
     else:
@@ -124,7 +128,7 @@ async def craft_game_final_score_comment(message, submission, home_team, away_te
         elif odds > 0:
             odds = "+" + str(odds)
 
-    draw_final_scorebug(odds, home_team, away_team, home_score, away_score)
+    draw_final_scorebug(odds, home_team, away_team, home_score, away_score, home_record, away_record)
 
     with open('scorebug_final.png', 'rb') as fp:
         await message.channel.send(file=discord.File(fp, 'posted_final_scorebug.png'))

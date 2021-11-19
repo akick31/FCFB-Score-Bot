@@ -122,14 +122,14 @@ def add_score(img, home_score, away_score):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("GazRg-BoldItalic.ttf", 100)
 
-    if away_score < 20:
+    if home_score < 20:
         draw.text((426, 50), str(home_score), (255, 255, 255), font=font)
     else:
         draw.text((421, 50), str(home_score), (255, 255, 255), font=font)
 
     if away_score < 10:
         draw.text((322, 50), str(away_score), (255, 255, 255), font=font)
-    elif away_score < 20:
+    elif away_score < 20 or away_score > 40:
         draw.text((292, 50), str(away_score), (255, 255, 255), font=font)
     else:
         draw.text((270, 50), str(away_score), (255, 255, 255), font=font)
@@ -234,7 +234,8 @@ Add odds to the score bug
 
 def add_odds(img, vegas_odds, team, home_team, away_team, shortened_home_team, shortened_away_team):
     if vegas_odds != "":
-        vegas_odds = "(" + vegas_odds + ")"
+        vegas_odds = "(" + str(vegas_odds) + ")"
+
     home_team_len = len(shortened_home_team)
     away_team_len = len(shortened_away_team)
 
@@ -333,7 +334,8 @@ def draw_scorebug(cur_clock, cur_down_and_distance, cur_possession, cur_yard_lin
 
         img = add_waiting_on(img, waiting_on)
 
-        img = add_records(img, home_record, away_record)
+        if home_record is not None and away_record is not None:
+            img = add_records(img, home_record, away_record)
 
         # if home_score > away_score or home_score == away_score:
         #    img = add_odds(img, vegas_odds, home_team, home_team, away_team, shortened_home_team, shortened_away_team)
@@ -351,7 +353,7 @@ Draw the score bug
 """
 
 
-def draw_final_scorebug(vegas_odds, home_team, away_team, home_score, away_score):
+def draw_final_scorebug(vegas_odds, home_team, away_team, home_score, away_score, home_record, away_record):
     img = Image.open('scorebug.png')
 
     # Get team colors for plots
@@ -371,10 +373,14 @@ def draw_final_scorebug(vegas_odds, home_team, away_team, home_score, away_score
 
         img = add_final(img)
 
-        if home_score > away_score or home_score == away_score:
-            img = add_odds(img, vegas_odds, home_team, home_team, away_team, shortened_home_team, shortened_away_team)
-        else:
-            img = add_odds(img, vegas_odds, away_team, home_team, away_team, shortened_home_team, shortened_away_team)
+        if home_record is not None and away_record is not None:
+            img = add_records(img, home_record, away_record)
+
+
+        # if home_score > away_score or home_score == away_score:
+        #    img = add_odds(img, vegas_odds, home_team, home_team, away_team, shortened_home_team, shortened_away_team)
+        # else:
+        #   img = add_odds(img, vegas_odds, away_team, home_team, away_team, shortened_home_team, shortened_away_team)
 
         img.save('scorebug_final.png')
 
