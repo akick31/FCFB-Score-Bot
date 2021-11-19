@@ -7,10 +7,20 @@
   },
   "user_input_fixes": {
     "miami": "miami (fl)",
-    "southern miss": "mississippi"
+    "southern miss": "southern mississippi"
   },
   "shorten_names": {
     "KANSAS ST": "K-STATE",
-    "LOUISIANA TECH": "LA TECH"
+    "LOUISIANA TECH": "LA TECH",
+    "FLORIDA ATLANTIC": "FAU",
+    "LOUISIANA-MONROE": "ULM",
+    "TEXAS SOUTHERN": "TX SOUTHERN",
+    "WESTERN CAROLINA": "W. CAROLINA",
+    "CENTRAL CONNECTICUT": "C. CONNECTICUT",
+    "ARKANSAS-PINE BLUFF": "UAPB",
+    "WESTERN ILLINOIS": "W. ILLINOIS",
+    "EASTERN ILLINOIS": "E. ILLINOIS",
+    "NORTHERN IOWA": "UNI",
+    "WESTERN KENTUCKY": "WKU"
   }
 }
