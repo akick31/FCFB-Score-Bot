@@ -4,11 +4,71 @@
         "away x": "63"
     },
     "auburn": {
-        "home x": "613",
+        "home x": "602",
         "away x": "69"
     },
     "wyoming": {
-        "home x": "613",
+        "home x": "602",
         "away x": "60"
+    },
+    "texas": {
+        "home x": "602",
+        "away x": "60"
+    },
+    "washington st": {
+        "home x": "602",
+        "away x": "60"
+    },
+    "texas st": {
+        "home x": "602",
+        "away x": "60"
+    },
+    "stanford": {
+        "home x": "602",
+        "away x": "60"
+    },
+    "southern miss": {
+        "home x": "602",
+        "away x": "60"
+    },
+    "brown": {
+        "home x": "602",
+        "away x": "63"
+    },
+    "memphis": {
+        "home x": "602",
+        "away x": "63"
+    },
+    "hawaii": {
+        "home x": "602",
+        "away x": "63"
+    },
+    "tulane": {
+        "home x": "602",
+        "away x": "63"
+    },
+    "temple": {
+        "home x": "624",
+        "away x": "63"
+    },
+    "kansas": {
+        "home x": "624",
+        "away x": "63"
+    },
+    "oklahoma": {
+        "home x": "602",
+        "away x": "63"
+    },
+    "charlotte": {
+        "home x": "624",
+        "away x": "63"
+    },
+    "wku": {
+        "home x": "670",
+        "away x": "63"
+    },
+    "utah st": {
+        "home x": "602",
+        "away x": "63"
     }
 }

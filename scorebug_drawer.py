@@ -83,7 +83,10 @@ def add_team_names(img, home_team, away_team):
         x = int(name_location_data[home_team.lower()]["home x"])
         draw.text((x, 70), home_team, (255, 255, 255), font=home_font)
     else:
-        if home_team_len > 10:
+        if home_team_len > 13:
+            home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
+            home_shift = (home_team_len - 7) * 8
+        elif home_team_len > 10:
             home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
             home_shift = (home_team_len - 7) * 8
         elif home_team_len < 5:
@@ -99,7 +102,10 @@ def add_team_names(img, home_team, away_team):
         x = int(name_location_data[away_team.lower()]["away x"])
         draw.text((x, 70), away_team, (255, 255, 255), font=away_font)
     else:
-        if away_team_len > 10:
+        if away_team_len > 13:
+            away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
+            away_shift = (away_team_len - 10) * 2
+        elif away_team_len > 10:
             away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
             away_shift = (away_team_len - 10) * 6
         elif away_team_len < 5:
@@ -121,15 +127,20 @@ Add team names to the score bug
 def add_score(img, home_score, away_score):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("GazRg-BoldItalic.ttf", 100)
+    hundred_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 80)
 
     if home_score < 20:
         draw.text((426, 50), str(home_score), (255, 255, 255), font=font)
+    elif home_score >= 100:
+        draw.text((411, 60), str(home_score), (255, 255, 255), font=hundred_font)
     else:
         draw.text((421, 50), str(home_score), (255, 255, 255), font=font)
 
     if away_score < 10:
         draw.text((322, 50), str(away_score), (255, 255, 255), font=font)
-    elif away_score < 20 or away_score > 40:
+    elif away_score >= 100:
+        draw.text((275, 60), str(away_score), (255, 255, 255), font=hundred_font)
+    elif away_score < 20:
         draw.text((292, 50), str(away_score), (255, 255, 255), font=font)
     else:
         draw.text((270, 50), str(away_score), (255, 255, 255), font=font)
@@ -270,8 +281,13 @@ Add records to the score bug
 def add_records(img, home_record, away_record):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
+    home_wins = int(home_record.split("-")[0].split("(")[1])
+    home_losses = int(home_record.split("-")[1].split(")")[0])
 
-    draw.text((690, 118), home_record, (255, 255, 255), font=font)
+    if home_wins > 10 or home_losses > 10:
+        draw.text((669, 118), home_record, (255, 255, 255), font=font)
+    else:
+        draw.text((688, 118), home_record, (255, 255, 255), font=font)
     draw.text((60, 118), away_record, (255, 255, 255), font=font)
 
     return img
