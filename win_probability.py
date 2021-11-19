@@ -51,6 +51,9 @@ def get_in_game_win_probability(home_team, away_team):
     with open('data.txt', 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
         i = 0
+        last_play_possession_change = False
+        play = None
+        result = None
         for row in reader:
             if len(row) > 2:
                 # Get margin in score
@@ -91,6 +94,14 @@ def get_in_game_win_probability(home_team, away_team):
                 down = int(row[6])
                 distance = int(row[7])
 
+                if str(play) == "PAT" or str(play) == "TWO_POINT" or str(result) == "TURNOVER":
+                    last_play_possession_change = True
+                else:
+                    last_play_possession_change = False
+
+                play = row[12]
+                result = row[14]
+
                 # Get elo
                 if possession == "home":
                     offense_elo = home_elo
@@ -116,12 +127,13 @@ def get_in_game_win_probability(home_team, away_team):
                 data["half"] = [half]
                 data["elo_diff_time"] = [elo_diff_time]
 
+
                 current_win_probability = calculate_win_probability_gist(data)
                 win_probability_list.append(current_win_probability)
 
                 i += 1
-                    
-        return win_probability_list[-1]
+
+        return {1: win_probability_list[-1], 2: last_play_possession_change}
     
     
 """

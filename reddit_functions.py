@@ -17,8 +17,11 @@ Get information to make a post for ongoing games on Reddit
 async def get_ongoing_game_information(message, submission, home_vegas_odds, away_vegas_odds, home_team, away_team, home_score, away_score):
     # Get win probability
     cur_possession = parse_possession(submission.selftext)
-    offense_win_probability = get_in_game_win_probability(home_team, away_team)
-    if cur_possession == home_team:
+    win_probability_result = get_in_game_win_probability(home_team, away_team)
+    offense_win_probability = win_probability_result[1]
+    last_play_possession_change = win_probability_result[2]
+
+    if cur_possession == home_team and last_play_possession_change is False:
         home_win_probability = offense_win_probability
     else:
         home_win_probability = 100 - offense_win_probability
