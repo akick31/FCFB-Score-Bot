@@ -1,4 +1,5 @@
 import praw
+import discord
 import json
 from parse_game_data import *
 from win_probability import *
@@ -39,7 +40,7 @@ async def get_ongoing_game_information(message, submission, home_vegas_odds, awa
     else:
         cur_clock = str(cur_time) + " " + str(cur_quarter)
 
-    # If home team is winning or the score is tied
+    # If home team is winning or tied
     if int(home_score) > int(away_score) or int(home_score) == int(away_score):
         await craft_ongoing_game_comment(message, submission, cur_clock, cur_down, cur_possession, cur_yard_line, home_vegas_odds, home_team, away_team, home_score, away_score, home_win_probability, waiting_on)
     # If the home team is losing
@@ -59,15 +60,26 @@ async def craft_ongoing_game_comment(message, submission, cur_clock, cur_down, c
         odds = "Push"
     elif odds > 0:
         odds = "+" + str(odds)
-    post = "**" + cur_clock + " | " + opponent_team + " " + opponent_score + " " + team + " " + score + " (" + str(odds) + ")** \n"
-    yard_post = cur_down + " | :football: " + cur_possession + " | " + cur_yard_line + "\n"
-    win_post = "Each team has a 50% chance to win\n"
+
+    embed = discord.Embed(title=opponent_team + " vs " + team, url=submission.url, color=0x28db18)
+    embed.add_field(name="Line", value=odds + " " + team, inline=True)
     if int(cur_win_probability) >= 50:
-        win_post = team + " has a " + str(int(cur_win_probability)) + "% chance to win\n"
-    elif int(cur_win_probability) < 50:
-        win_post = opponent_team + " has a " + str(100-int(cur_win_probability)) + "% chance to win\n"
-    waiting_on_post = "Waiting on " + waiting_on + " for a number\n"
-    await message.channel.send(post + yard_post + win_post + waiting_on_post + submission.url + "\n")
+        embed.add_field(name="Win Probability", value=str(int(cur_win_probability)) + "% " + team, inline=True)
+    else:
+        embed.add_field(name="Win Probability", value=str(int(cur_win_probability)) + "% " + opponent_team, inline=True)
+    embed.add_field(name=" \u200b", value=" \u200b", inline=True)
+    embed.add_field(name="Clock", value=cur_clock, inline=True)
+    if int(score) == int(opponent_score):
+        embed.add_field(name="Score", value=score + "-" + opponent_score + " Tied", inline=True)
+    else:
+        embed.add_field(name="Score", value=team + " leads " + score + "-" + opponent_score, inline=True)
+    embed.add_field(name=" \u200b", value=" \u200b", inline=True)
+    embed.add_field(name="Down", value=cur_down, inline=True)
+    embed.add_field(name="Possession", value=":football: " + cur_possession, inline=True)
+    embed.add_field(name="Yard Line", value=cur_yard_line, inline=True)
+    embed.set_footer(text="Waiting on " + waiting_on + " for a number")
+
+    await message.channel.send(embed=embed)
     print("Comment posted for " + team + " vs " + opponent_team + "\n")
 
 
