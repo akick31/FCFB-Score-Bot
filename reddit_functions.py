@@ -71,8 +71,7 @@ async def craft_ongoing_game_comment(message, submission, cur_clock, cur_down, c
     home_record = parse_home_record(submission.title)
     away_record = parse_away_record(submission.title)
 
-    post = ("**__Game Information__**\n**Win Probability:** " + win_post + "**Spread**: " + odds_post
-            + "\n**Ball Location:** " + cur_yard_line)
+    post = ("**__Game Information__**\n**Win Probability:** " + win_post + "**Spread**: " + odds_post)
 
     draw_scorebug(cur_clock, cur_down, cur_possession, cur_yard_line, odds, home_team, away_team,
                   home_score, away_score, waiting_on, home_record, away_record)
@@ -80,7 +79,7 @@ async def craft_ongoing_game_comment(message, submission, cur_clock, cur_down, c
     with open('scorebug_new.png', 'rb') as fp:
         await message.channel.send(post, file=discord.File(fp, 'posted_scorebug.png'))
 
-    await message.channel.send("**Watch:** " + submission.url)
+    await message.channel.send("**Ball Location:** " + cur_yard_line + "\n**Watch:** " + submission.url)
 
     print("Comment posted for " + home_team + " vs " + away_team + "\n")
 
