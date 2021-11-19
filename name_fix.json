@@ -8,5 +8,9 @@
   "user_input_fixes": {
     "miami": "miami (fl)",
     "southern miss": "mississippi"
+  },
+  "shorten_names": {
+    "KANSAS ST": "K-STATE",
+    "LOUISIANA TECH": "LA TECH"
   }
 }

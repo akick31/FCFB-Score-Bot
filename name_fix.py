@@ -42,3 +42,19 @@ def fix_user_input_teams(team):
         team = name_fix_data["user_input_fixes"][team]
 
     return team
+
+
+"""
+Shorten team names for the score bug
+
+"""
+
+
+def shorten_team_name(team):
+    team = team.upper()
+    if "STATE" in team:
+        team = team.replace('STATE', 'ST')
+    if team in name_fix_data["shorten_names"]:
+        team = name_fix_data["shorten_names"][team]
+
+    return team
