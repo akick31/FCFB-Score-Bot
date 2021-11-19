@@ -53,11 +53,11 @@ Make posts for ongoing games on Reddit
 async def craft_ongoing_game_comment(message, submission, cur_clock, cur_down, cur_possession, cur_yard_line, vegas_odds, home_team, away_team, home_score, away_score, home_win_probability, waiting_on):
     odds = round(vegas_odds * 2) / 2
     if odds == 0:
-        odds = "Push"
+        odds_post = "Push"
     elif odds > 0:
-        odds = "+" + str(odds)
+        odds_post = home_team + " +" + str(odds)
     else:
-        odds = str(odds)
+        odds_post = home_team + " " + str(odds)
 
     win_post = "Each team has a 50% chance to win\n"
     if int(home_win_probability) >= 50:
@@ -65,11 +65,14 @@ async def craft_ongoing_game_comment(message, submission, cur_clock, cur_down, c
     elif int(home_win_probability) < 50:
         win_post = away_team + " has a " + str(100 - int(home_win_probability)) + "% chance to win\n"
 
-    post = ("**__Game Information__**\n**Win Probability:** " + win_post + "**Ball Location:** "
-            + cur_yard_line)
+    home_record = parse_home_record(submission.title)
+    away_record = parse_away_record(submission.title)
+
+    post = ("**__Game Information__**\n**Win Probability:** " + win_post + "**Spread**: " + odds_post
+            + "\n**Ball Location:** " + cur_yard_line)
 
     draw_scorebug(cur_clock, cur_down, cur_possession, cur_yard_line, odds, home_team, away_team,
-                  home_score, away_score, waiting_on)
+                  home_score, away_score, waiting_on, home_record, away_record)
 
     with open('scorebug_new.png', 'rb') as fp:
         await message.channel.send(post, file=discord.File(fp, 'posted_scorebug.png'))
@@ -77,6 +80,28 @@ async def craft_ongoing_game_comment(message, submission, cur_clock, cur_down, c
     await message.channel.send("**Watch:** " + submission.url)
 
     print("Comment posted for " + home_team + " vs " + away_team + "\n")
+
+
+"""
+Get the home record from the title
+"""
+
+
+def parse_home_record(title):
+    for item in title.split("@")[1].split(" "):
+        if "(" in item and "-" in item:
+            return item
+        
+
+"""
+Get the away record from the title
+"""
+
+
+def parse_away_record(title):
+    for item in title.split("@")[0].split(" "):
+        if "(" in item and "-" in item:
+            return item
 
 
 """

@@ -262,6 +262,21 @@ def add_odds(img, vegas_odds, team, home_team, away_team, shortened_home_team, s
 
 
 """
+Add records to the score bug
+"""
+
+
+def add_records(img, home_record, away_record):
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
+
+    draw.text((690, 118), home_record, (255, 255, 255), font=font)
+    draw.text((60, 118), away_record, (255, 255, 255), font=font)
+
+    return img
+
+
+"""
 Add final to the score bug
 """
 
@@ -280,7 +295,8 @@ Draw the score bug
 """
 
 
-def draw_scorebug(cur_clock, cur_down_and_distance, cur_possession, cur_yard_line, vegas_odds, home_team, away_team, home_score, away_score, waiting_on):
+def draw_scorebug(cur_clock, cur_down_and_distance, cur_possession, cur_yard_line, vegas_odds, home_team,
+                  away_team, home_score, away_score, waiting_on, home_record, away_record):
     img = Image.open('scorebug.png')
 
     # Get team colors for plots
@@ -317,10 +333,12 @@ def draw_scorebug(cur_clock, cur_down_and_distance, cur_possession, cur_yard_lin
 
         img = add_waiting_on(img, waiting_on)
 
-        if home_score > away_score or home_score == away_score:
-            img = add_odds(img, vegas_odds, home_team, home_team, away_team, shortened_home_team, shortened_away_team)
-        else:
-            img = add_odds(img, vegas_odds, away_team, home_team, away_team, shortened_home_team, shortened_away_team)
+        img = add_records(img, home_record, away_record)
+
+        # if home_score > away_score or home_score == away_score:
+        #    img = add_odds(img, vegas_odds, home_team, home_team, away_team, shortened_home_team, shortened_away_team)
+        # else:
+        #    img = add_odds(img, vegas_odds, away_team, home_team, away_team, shortened_home_team, shortened_away_team)
 
         img.save('scorebug_new.png')
         
