@@ -106,27 +106,15 @@ async def handle_score_command(r, message):
                     
                 if "Game complete" in submission.selftext:
                     if season == season_info_data['current_season']:
-                        if int(home_score) > int(away_score) or int(home_score) == int(away_score):
-                            await craft_game_final_score_comment(message, home_team, away_team, home_vegas_odds, home_score, away_score)
-                        elif int(home_score) < int(away_score):
-                            await craft_game_final_score_comment(message, away_team, home_team, away_vegas_odds, away_score, home_score)
+                        await craft_game_final_score_comment(message, submission, home_team, away_team, home_vegas_odds, home_score, away_score)
                     else:
-                        post = "blank"
-                        if int(home_score) > int(away_score):
-                            post = "**FINAL | " + home_team + " defeated " + away_team + " " + home_score + "-" + away_score + "**\n"
-                        else:
-                            post = "**FINAL | " + away_team + " defeated " + home_team + " " + away_score + "-" + home_score + "**\n"
-                        await message.channel.send(post)
+                        await craft_game_final_score_comment(message, submission, home_team, away_team, "NONE", home_score, away_score)
                 else:
                     if season == season_info_data['current_season']:
                         await get_ongoing_game_information(message, submission, home_vegas_odds, away_vegas_odds, home_team, away_team, home_score, away_score)
                     
                     else:
-                        if int(home_score) > int(away_score):
-                            post = "**FINAL | " + home_team + " defeated " + away_team + " " + home_score + "-" + away_score + "**\n"
-                        else:
-                            post = "**FINAL | " + away_team + " defeated " + home_team + " " + away_score + "-" + home_score + "**\n"
-                        await message.channel.send(post) 
+                        await craft_game_final_score_comment(message, submission, home_team, away_team, "NONE", home_score, away_score)
             else:
                 await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
 
