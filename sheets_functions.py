@@ -704,6 +704,8 @@ def parse_southland():
 Get the stadings data to post on Discord
 
 """
+
+
 def get_standings_data(conference):
     conference = conference.lower()
     try:

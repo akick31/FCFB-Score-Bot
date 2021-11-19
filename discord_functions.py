@@ -250,7 +250,10 @@ Handle when the user requests the conference standings
 
 async def handle_standings_command(r, message):
     message_content = message.content.lower()
-    conference = message_content.split("$standing")[1].strip()
+    if "$standing " in message_content:
+        conference = message_content.split("$standing")[1].strip()
+    else:
+        conference = message_content.split("$standings")[1].strip()
 
     post = get_standings_data(conference)
     await message.channel.send(post)
