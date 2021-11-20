@@ -81,9 +81,11 @@ def add_team_names(img, home_team, away_team):
     if home_team.lower() in name_location_data.keys():
         home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
         x = int(name_location_data[home_team.lower()]["home x"])
+        if home_team_len >= 12:
+            home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
         draw.text((x, 70), home_team, (255, 255, 255), font=home_font)
     else:
-        if home_team_len > 13:
+        if home_team_len >= 12:
             home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
             home_shift = (home_team_len - 7) * 8
         elif home_team_len > 10:
@@ -100,9 +102,11 @@ def add_team_names(img, home_team, away_team):
     if away_team.lower() in name_location_data.keys():
         away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
         x = int(name_location_data[away_team.lower()]["away x"])
+        if away_team_len >= 12:
+            away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
         draw.text((x, 70), away_team, (255, 255, 255), font=away_font)
     else:
-        if away_team_len > 13:
+        if away_team_len >= 12:
             away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
             away_shift = (away_team_len - 10) * 2
         elif away_team_len > 10:
