@@ -59,17 +59,29 @@ ongoing game or post a past game
 
 async def handle_score_command(r, message):
     message_content = message.content.lower()
-    if "vs" in message_content:
+    if "vs" in message.content:
         teams = message_content.split("$score")[1]
 
         home_team = teams.split("vs")[0].strip()
         away_team = teams.split("vs")[1].strip()
-        
+
         # Parse the season number from string
         parse_season_dict = parse_season(away_team)
         away_team = parse_season_dict[1]
         season = parse_season_dict[2].lower()
         postseason = parse_season_dict[3]
+    else:
+        home_team = message_content.split("$score")[1].strip()
+        opponent = search_for_team_game_thread(r, home_team)
+        # opponent[1] is team, opponent[2] is the opponent
+        if opponent[1] == "NONE":
+            await message.channel.send("Could not find opponent for " + team + ". No game thread found.")
+            print("Could not find opponent for " + team + "\n")
+            return
+        else:
+            away_team = opponent[2]
+            season = season_info_data['current_season']
+            postseason = 0
             
         looking_for_thread = await message.channel.send("Looking for the game thread...")
         print("LOOKING FOR THREAD WITH THE FOLLOWING MATCH UP: " + home_team + " vs " + away_team)
@@ -126,8 +138,6 @@ async def handle_score_command(r, message):
                 await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
 
         await looking_for_thread.delete()
-    else: 
-        await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
 
 
 """
@@ -139,18 +149,31 @@ ongoing game or post a past game
 
 async def handle_plot_command(r, message):
     message_content = message.content.lower()
+
     if "vs" in message.content:
         teams = message_content.split("$plot")[1]
 
         home_team = teams.split("vs")[0].strip()
         away_team = teams.split("vs")[1].strip()
-        
+
         # Parse the season number from string
         parse_season_dict = parse_season(away_team)
         away_team = parse_season_dict[1]
         season = parse_season_dict[2].lower()
         postseason = parse_season_dict[3]
-        
+    else:
+        home_team = message_content.split("$plot")[1].strip()
+        opponent = search_for_team_game_thread(r, home_team)
+        # opponent[1] is team, opponent[2] is the opponent
+        if opponent[1] == "NONE":
+            await message.channel.send("Could not find opponent for " + team + ". No game thread found.")
+            print("Could not find opponent for " + team + "\n")
+            return
+        else:
+            away_team = opponent[2]
+            season = season_info_data['current_season']
+            postseason = 0
+
         looking_for_thread = await message.channel.send("Looking for the game thread...")
         print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + home_team + " vs " + away_team)
         
@@ -233,8 +256,8 @@ async def handle_plot_command(r, message):
                 await message.channel.send("**Color retrieval error**\n\n" + color_dict)
             
         await looking_for_thread.delete()
-    else: 
-        await message.channel.send("Incorrect format. Format needs to be [team] vs [team]")
+
+
 
 
 """

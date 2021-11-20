@@ -70,5 +70,17 @@
     "utah st": {
         "home x": "602",
         "away x": "63"
+    },
+    "ecu": {
+        "home x": "670",
+        "away x": "63"
+    },
+    "northwestern": {
+        "home x": "533",
+        "away x": "63"
+    },
+    "purdue": {
+        "home x": "602",
+        "away x": "63"
     }
 }
