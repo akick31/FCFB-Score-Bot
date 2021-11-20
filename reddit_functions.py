@@ -71,15 +71,20 @@ async def craft_ongoing_game_comment(message, submission, cur_clock, cur_down, c
     home_record = parse_home_record(submission.title)
     away_record = parse_away_record(submission.title)
 
-    post = ("**__Game Information__**\n**Win Probability:** " + win_post + "**Spread**: " + odds_post)
+    embed = discord.Embed(title="**Game Information**", color=0x005EB8)
+    embed.add_field(name="**Watch**", value="[Game Thread](" + submission.url + ")", inline=False)
+    embed.add_field(name="**Spread**", value=odds_post, inline=False)
+    embed.add_field(name="**Win Probability**", value=win_post, inline=False)
 
     draw_scorebug(cur_clock, cur_down, cur_possession, cur_yard_line, odds, home_team, away_team,
                   home_score, away_score, waiting_on, home_record, away_record)
 
     with open('scorebug_new.png', 'rb') as fp:
-        await message.channel.send(post, file=discord.File(fp, 'posted_scorebug.png'))
+        file = discord.File(fp, 'posted_scorebug.png')
+        embed.set_image(url="attachment://posted_scorebug.png")
 
-    await message.channel.send("**Ball Location:** " + cur_yard_line + "\n**Watch:** " + submission.url)
+    embed.add_field(name="**Ball Location**", value=cur_yard_line, inline=False)
+    await message.channel.send(embed=embed, file=file)
 
     print("Comment posted for " + home_team + " vs " + away_team + "\n")
 
@@ -127,12 +132,15 @@ async def craft_game_final_score_comment(message, submission, home_team, away_te
         elif odds > 0:
             odds = "+" + str(odds)
 
+    embed = discord.Embed(title="**Post Game Information**", color=0x005EB8)
     draw_final_scorebug(odds, home_team, away_team, home_score, away_score, home_record, away_record)
 
     with open('scorebug_final.png', 'rb') as fp:
-        await message.channel.send(file=discord.File(fp, 'posted_final_scorebug.png'))
+        file=discord.File(fp, 'posted_final_scorebug.png')
+        embed.set_image(url="attachment://posted_final_scorebug.png")
 
-    await message.channel.send("**Post Game Thread:** " + submission.url)
+    embed.add_field(name="**Discuss**", value="[Post Game Thread](" + submission.url + ")", inline=False)
+    await message.channel.send(embed=embed, file=file)
 
     print("Comment posted for " + home_team + " vs " + away_team + "\n")
 
