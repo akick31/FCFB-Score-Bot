@@ -59,7 +59,9 @@ ongoing game or post a past game
 
 async def handle_score_command(r, message):
     message_content = message.content.lower()
-    if "vs" in message.content:
+    print(message_content)
+
+    if "vs" in message_content:
         teams = message_content.split("$score")[1]
 
         home_team = teams.split("vs")[0].strip()
@@ -72,6 +74,7 @@ async def handle_score_command(r, message):
         postseason = parse_season_dict[3]
     else:
         home_team = message_content.split("$score")[1].strip()
+
         opponent = search_for_team_game_thread(r, home_team)
         # opponent[1] is team, opponent[2] is the opponent
         if opponent[1] == "NONE":
@@ -83,61 +86,61 @@ async def handle_score_command(r, message):
             season = season_info_data['current_season']
             postseason = 0
             
-        looking_for_thread = await message.channel.send("Looking for the game thread...")
-        print("LOOKING FOR THREAD WITH THE FOLLOWING MATCH UP: " + home_team + " vs " + away_team)
+    looking_for_thread = await message.channel.send("Looking for the game thread...")
+    print("LOOKING FOR THREAD WITH THE FOLLOWING MATCH UP: " + home_team + " vs " + away_team)
 
-        # Fix the inputted user team for naming inconsistencies
-        home_team = fix_user_input_teams(home_team)
-        away_team = fix_user_input_teams(away_team)
-        
-        submission = search_for_game_thread(r, home_team, away_team, season, "$score", postseason)
-        if submission == "NONE":
-            await message.channel.send("No game thread found for " + home_team + " vs " + away_team)
-            print("No game thread found for " + home_team + " vs " + away_team + "\n")
+    # Fix the inputted user team for naming inconsistencies
+    home_team = fix_user_input_teams(home_team)
+    away_team = fix_user_input_teams(away_team)
 
-        else:
-            print("GAME THREAD FOUND")
-            
-            url = save_github_data(submission.selftext, season)
-            home_team = parse_home_team(submission.selftext)
-            away_team = parse_away_team(submission.selftext)
-                        
-            # Hardcode to fix inconsistencies in stat sheets
-            home_team = handle_naming_inconsistencies(home_team)
-            away_team = handle_naming_inconsistencies(away_team)
+    submission = search_for_game_thread(r, home_team, away_team, season, "$score", postseason)
+    if submission == "NONE":
+        await message.channel.send("No game thread found for " + home_team + " vs " + away_team)
+        print("No game thread found for " + home_team + " vs " + away_team + "\n")
 
-            # Get the vegas odds
-            vegas_odds_dict = get_vegas_odds(home_team, away_team)
-            if "The following error occurred:" not in vegas_odds_dict:
-                home_vegas_odds = vegas_odds_dict[1]
-                away_vegas_odds = vegas_odds_dict[2]
+    else:
+        print("GAME THREAD FOUND")
 
-                # Get the score
-                home_score = parse_home_score(submission.selftext)
-                away_score = parse_away_score(submission.selftext)
+        url = save_github_data(submission.selftext, season)
+        home_team = parse_home_team(submission.selftext)
+        away_team = parse_away_team(submission.selftext)
 
-                home_record = parse_home_record(submission.title)
-                away_record = parse_away_record(submission.title)
-                    
-                if "Game complete" in submission.selftext:
-                    if season == season_info_data['current_season']:
-                        await craft_game_final_score_comment(message, submission, home_team, away_team, home_vegas_odds,
-                                                             home_score, away_score, home_record, away_record)
-                    else:
-                        await craft_game_final_score_comment(message, submission, home_team, away_team, "NONE", 
-                                                             home_score, away_score, home_record, away_record)
+        # Hardcode to fix inconsistencies in stat sheets
+        home_team = handle_naming_inconsistencies(home_team)
+        away_team = handle_naming_inconsistencies(away_team)
+
+        # Get the vegas odds
+        vegas_odds_dict = get_vegas_odds(home_team, away_team)
+        if "The following error occurred:" not in vegas_odds_dict:
+            home_vegas_odds = vegas_odds_dict[1]
+            away_vegas_odds = vegas_odds_dict[2]
+
+            # Get the score
+            home_score = parse_home_score(submission.selftext)
+            away_score = parse_away_score(submission.selftext)
+
+            home_record = parse_home_record(submission.title)
+            away_record = parse_away_record(submission.title)
+
+            if "Game complete" in submission.selftext:
+                if season == season_info_data['current_season']:
+                    await craft_game_final_score_comment(message, submission, home_team, away_team, home_vegas_odds,
+                                                         home_score, away_score, home_record, away_record)
                 else:
-                    if season == season_info_data['current_season']:
-                        await get_ongoing_game_information(message, submission, home_vegas_odds, away_vegas_odds, 
-                                                           home_team, away_team, home_score, away_score)
-                    
-                    else:
-                        await craft_game_final_score_comment(message, submission, home_team, away_team, "NONE", 
-                                                             home_score, away_score, home_record, away_record)
+                    await craft_game_final_score_comment(message, submission, home_team, away_team, "NONE",
+                                                         home_score, away_score, home_record, away_record)
             else:
-                await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
+                if season == season_info_data['current_season']:
+                    await get_ongoing_game_information(message, submission, home_vegas_odds, away_vegas_odds,
+                                                       home_team, away_team, home_score, away_score)
 
-        await looking_for_thread.delete()
+                else:
+                    await craft_game_final_score_comment(message, submission, home_team, away_team, "NONE",
+                                                         home_score, away_score, home_record, away_record)
+        else:
+            await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
+
+    await looking_for_thread.delete()
 
 
 """
@@ -150,7 +153,7 @@ ongoing game or post a past game
 async def handle_plot_command(r, message):
     message_content = message.content.lower()
 
-    if "vs" in message.content:
+    if "vs" in message_content:
         teams = message_content.split("$plot")[1]
 
         home_team = teams.split("vs")[0].strip()
@@ -174,88 +177,88 @@ async def handle_plot_command(r, message):
             season = season_info_data['current_season']
             postseason = 0
 
-        looking_for_thread = await message.channel.send("Looking for the game thread...")
-        print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + home_team + " vs " + away_team)
-        
-        home_team = fix_user_input_teams(home_team)
-        away_team = fix_user_input_teams(away_team)
-        
-        # Look for game thread
-        submission = search_for_game_thread(r, home_team, away_team, season, "$plot", postseason)
-        if submission == "NONE":
-            await message.channel.send("No game thread found for " + home_team + " vs " + away_team)
-            print("No game thread found for " + home_team + " vs " + away_team + "\n")
-        else:
-            print("GAME THREAD FOUND")
-            
-            # Parse data from url
-            url = save_github_data(submission.selftext, season)
-            home_team = parse_home_team(submission.selftext)
-            away_team = parse_away_team(submission.selftext)
-                        
-            # Hardcode to fix inconsistencies in stat sheets
-            home_team = handle_naming_inconsistencies(home_team)
-            away_team = handle_naming_inconsistencies(away_team)
-             
-            # Get team colors for plots
-            color_dict = get_team_colors(home_team, away_team)
-            if "The following error occurred:" not in color_dict:
-                home_color = color_dict[1]
-                away_color = color_dict[2]
-                vegas_odds_dict = get_vegas_odds(home_team, away_team)
-                # Get the vegas odds
-                if "The following error occurred:" not in vegas_odds_dict:
-                    home_vegas_odds = vegas_odds_dict[1]
-                    away_vegas_odds = vegas_odds_dict[2]
+    looking_for_thread = await message.channel.send("Looking for the game thread...")
+    print("LOOKING FOR THREAD WITH THE FOLLOWING MATCHUP: " + home_team + " vs " + away_team)
 
-                    # Work with new gist
-                    if season == "s6" or season == "s5" or season == "s4":
-                        # If there is a GitHub URL as plays have been called
-                        if url != "NO PLAYS":
-                            # Iterate through the data and plot the graphs
-                            iterate_through_game_gist(home_team, away_team, home_color, away_color)
+    home_team = fix_user_input_teams(home_team)
+    away_team = fix_user_input_teams(away_team)
 
-                            # Send score plot
-                            with open('output.png', 'rb') as fp:
-                                await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+    # Look for game thread
+    submission = search_for_game_thread(r, home_team, away_team, season, "$plot", postseason)
+    if submission == "NONE":
+        await message.channel.send("No game thread found for " + home_team + " vs " + away_team)
+        print("No game thread found for " + home_team + " vs " + away_team + "\n")
+    else:
+        print("GAME THREAD FOUND")
 
-                            # Send the win probability plot
-                            with open('output_win_probability.png', 'rb') as fp:
-                                await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                            print("Plot posted for " + home_team + " vs " + away_team + "\n")
-                        else:
-                            await message.channel.send("Could not generate plot for " + home_team + " vs " + away_team)
-                            print("Could not post plot for " + home_team + " vs " + away_team + "\n")
+        # Parse data from url
+        url = save_github_data(submission.selftext, season)
+        home_team = parse_home_team(submission.selftext)
+        away_team = parse_away_team(submission.selftext)
+
+        # Hardcode to fix inconsistencies in stat sheets
+        home_team = handle_naming_inconsistencies(home_team)
+        away_team = handle_naming_inconsistencies(away_team)
+
+        # Get team colors for plots
+        color_dict = get_team_colors(home_team, away_team)
+        if "The following error occurred:" not in color_dict:
+            home_color = color_dict[1]
+            away_color = color_dict[2]
+            vegas_odds_dict = get_vegas_odds(home_team, away_team)
+            # Get the vegas odds
+            if "The following error occurred:" not in vegas_odds_dict:
+                home_vegas_odds = vegas_odds_dict[1]
+                away_vegas_odds = vegas_odds_dict[2]
+
+                # Work with new gist
+                if season == "s6" or season == "s5" or season == "s4":
+                    # If there is a GitHub URL as plays have been called
+                    if url != "NO PLAYS":
+                        # Iterate through the data and plot the graphs
+                        iterate_through_game_gist(home_team, away_team, home_color, away_color)
+
+                        # Send score plot
+                        with open('output.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+
+                        # Send the win probability plot
+                        with open('output_win_probability.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                        print("Plot posted for " + home_team + " vs " + away_team + "\n")
                     else:
-                        # Get game thread submission day
-                        submission_time = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
-                        year = int(submission_time.split("-")[0])
-                        month = int(submission_time.split("-")[1])
-                        day = int(submission_time.split("-")[2].split(" ")[0])
-                        if year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8):
-                            old_thread = await message.channel.send("Iterating through old thread to generate plots...")
-                            await message.channel.send("Please note due to how this data was gathered that this plot does" +
-                                                       "not use the current win probability model, so it is slightly inaccurate.")
-                            thread_crawler(home_team, away_team, home_vegas_odds, away_vegas_odds, home_color, away_color, season, submission)
-                            # Send score plot
-                            with open('output.png', 'rb') as fp:
-                                await message.channel.send(file=discord.File(fp, 'new_filename.png'))
-                                    
-                            # Send the win probability plot
-                            with open('output_win_probability.png', 'rb') as fp:
-                                await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
-                            await old_thread.delete()
-                            print("Old plot posted for " + home_team + " vs " + away_team + "\n")
-                        else:
-                            await message.channel.send("This game is too old to plot the data. I can only plot Season I, " +
-                                                       "Week 11 games onward")
-                            print("Could not post old plot for " + home_team + " vs " + away_team + "\n")
+                        await message.channel.send("Could not generate plot for " + home_team + " vs " + away_team)
+                        print("Could not post plot for " + home_team + " vs " + away_team + "\n")
                 else:
-                    await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
+                    # Get game thread submission day
+                    submission_time = datetime.datetime.fromtimestamp(int(submission.created_utc)).strftime('%Y-%m-%d %H:%M:%S')
+                    year = int(submission_time.split("-")[0])
+                    month = int(submission_time.split("-")[1])
+                    day = int(submission_time.split("-")[2].split(" ")[0])
+                    if year > 2018 or (year == 2018 and month == 8 and day > 25) or (year == 2018 and month > 8):
+                        old_thread = await message.channel.send("Iterating through old thread to generate plots...")
+                        await message.channel.send("Please note due to how this data was gathered that this plot does" +
+                                                   "not use the current win probability model, so it is slightly inaccurate.")
+                        thread_crawler(home_team, away_team, home_vegas_odds, away_vegas_odds, home_color, away_color, season, submission)
+                        # Send score plot
+                        with open('output.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_filename.png'))
+
+                        # Send the win probability plot
+                        with open('output_win_probability.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
+                        await old_thread.delete()
+                        print("Old plot posted for " + home_team + " vs " + away_team + "\n")
+                    else:
+                        await message.channel.send("This game is too old to plot the data. I can only plot Season I, " +
+                                                   "Week 11 games onward")
+                        print("Could not post old plot for " + home_team + " vs " + away_team + "\n")
             else:
-                await message.channel.send("**Color retrieval error**\n\n" + color_dict)
-            
-        await looking_for_thread.delete()
+                await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
+        else:
+            await message.channel.send("**Color retrieval error**\n\n" + color_dict)
+
+    await looking_for_thread.delete()
 
 
 
