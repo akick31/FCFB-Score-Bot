@@ -78,8 +78,8 @@ async def handle_score_command(r, message):
         opponent = search_for_team_game_thread(r, home_team)
         # opponent[1] is team, opponent[2] is the opponent
         if opponent[1] == "NONE":
-            await message.channel.send("Could not find opponent for " + team + ". No game thread found.")
-            print("Could not find opponent for " + team + "\n")
+            await message.channel.send("Could not find opponent for " + home_team + ". No game thread found.")
+            print("Could not find opponent for " + home_team + "\n")
             return
         else:
             away_team = opponent[2]
