@@ -20,25 +20,22 @@ file_location = "FCSElo.xlsx"
 fcs_excel = xlrd.open_workbook(file_location)
 sheet = fcs_excel.sheet_by_name('sheet')
 
-sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-1Fte7S8kXy8E-GY7c3w00vrVcvbY87MWHJln8Ev4S0/edit?usp=sharing')
-colorWorksheet = sh3.worksheet("Main FCFB")
+sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-8-X9arHYd4r_GlTjmsjVACzxyP9fcHnWqYE1LPrcYA/edit#gid=0')
+standingsWorksheet = sh3.worksheet("Standings")
+rankingsWorksheet = sh3.worksheet("Rankings")
+compositeWorksheet = sh3.worksheet("Composite")
 
-sh4 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-8-X9arHYd4r_GlTjmsjVACzxyP9fcHnWqYE1LPrcYA/edit#gid=0')
-standingsWorksheet = sh4.worksheet("Standings")
-rankingsWorksheet = sh4.worksheet("Rankings")
-compositeWorksheet = sh4.worksheet("Composite")
+sh4 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1IrBBMKApJVYlU10wCOKp_oW3wvQfFT-xTC_A6EHJlzU/edit?usp=sharing')
+fcsStandingsWorksheet = sh4.worksheet("Sheet1")
 
-sh5 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1IrBBMKApJVYlU10wCOKp_oW3wvQfFT-xTC_A6EHJlzU/edit?usp=sharing')
-fcsStandingsWorksheet = sh5.worksheet("Sheet1")
+sh5 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1GDDwQ2FpZIgGoDdZoRNbBg8IyQir2-WZriz8bHHXbSE/edit?usp=sharing')
+sosmovrWorksheet = sh5.worksheet("SOSMOVR")
 
-sh6 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1GDDwQ2FpZIgGoDdZoRNbBg8IyQir2-WZriz8bHHXbSE/edit?usp=sharing')
-sosmovrWorksheet = sh6.worksheet("SOSMOVR")
+sh6 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZAt2PjbwHCoWaQZY6jsQRHUK9t6xHZCxa1wn1W9Kt9E/edit?usp=sharing')
+speedWorksheet = sh6.worksheet("Quickest Team Ranking")
 
-sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZAt2PjbwHCoWaQZY6jsQRHUK9t6xHZCxa1wn1W9Kt9E/edit?usp=sharing')
-speedWorksheet = sh7.worksheet("Quickest Team Ranking")
-
-sh8 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1nCoC6j9GbA3AqJbQ5rCZQICrWEVRdvDqXe5ZJnjAGXU/edit#gid=155279901')
-start_games_worksheet = sh8.worksheet("Weekly Blocks")
+sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1nCoC6j9GbA3AqJbQ5rCZQICrWEVRdvDqXe5ZJnjAGXU/edit#gid=155279901')
+start_games_worksheet = sh7.worksheet("Weekly Blocks")
 
 
 """
@@ -69,35 +66,7 @@ def get_elo_data():
     except Exception as e:
         return_statement = "The following error occured: " + str(e)
         return return_statement
- 
- 
-"""
-Get Hex Color data for both FBS and FCS teams
 
-"""
-
-
-def get_color_data():
-    try:
-        team_color_column = []
-        color_data_column = []
-        fbs_column = colorWorksheet.col_values(1)
-        fbs_column.pop(0)
-        fcs_column = colorWorksheet.col_values(7)
-        fcs_column.pop(0)
-        team_color_column.extend(fbs_column)
-        team_color_column.extend(fcs_column)
-        fbsColorColumn = colorWorksheet.col_values(4)
-        fbsColorColumn.pop(0)
-        fcsColorColumn = colorWorksheet.col_values(10)
-        fcsColorColumn.pop(0)
-        color_data_column.extend(fbsColorColumn)
-        color_data_column.extend(fcsColorColumn)
-        
-        return {1: team_color_column, 2: color_data_column}
-    except Exception as e:
-        return_statement = "The following error occured: " + str(e)
-        return return_statement
    
     
 """
