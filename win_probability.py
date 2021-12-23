@@ -61,8 +61,32 @@ def get_in_game_win_probability(home_team, away_team):
                 if possession == "home":
                     offense_score = row[0]
                     defense_score = row[1]
-                else:
+                elif possession == "away":
                     offense_score = row[1]
+                    defense_score = row[0]
+                elif possession == "home" and str(result) == "TOUCHDOWN":
+                    offense_score = str(int(row[0]) + 6)
+                    defense_score = row[1]
+                elif possession == "away" and str(result) == "TOUCHDOWN":
+                    offense_score = str(int(row[1]) + 6)
+                    defense_score = row[0]
+                elif possession == "home" and str(result) == "TURNOVER_TOUCHDOWN":
+                    offense_score = str(int(row[1]) + 6)
+                    defense_score = row[0]
+                elif possession == "away" and str(result) == "TURNOVER_TOUCHDOWN":
+                    offense_score = str(int(row[0]) + 6)
+                    defense_score = row[1]
+                elif possession == "home" and str(result) == "PAT":
+                    offense_score = str(int(row[0]) + 1)
+                    defense_score = row[1]
+                elif possession == "away" and str(result) == "PAT":
+                    offense_score = str(int(row[1]) + 1)
+                    defense_score = row[0]
+                elif possession == "home" and str(result) == "TWO_POINT":
+                    offense_score = str(int(row[0]) + 2)
+                    defense_score = row[1]
+                elif possession == "away" and str(result) == "TWO_POINT":
+                    offense_score = str(int(row[1]) + 2)
                     defense_score = row[0]
                 margin = int(offense_score) - int(defense_score)
 
