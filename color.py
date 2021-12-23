@@ -6,6 +6,25 @@ Handle the colors aspect of the bot
 @author: apkick
 """
 
+
+"""
+Get the colors for both teams playing
+
+"""
+
+
+def get_scorebug_colors(home_team, away_team):
+    color_dict = get_color_data()
+    if color_dict != "There was an error in contacting Google Sheets, please try again.":
+        team_color_column = color_dict[1]
+        color_data_column = color_dict[2]
+        home_color = get_color(home_team, team_color_column, color_data_column)
+        away_color = get_color(away_team, team_color_column, color_data_column)
+        return {1: home_color, 2: away_color}
+    else:
+        return "There was an error in contacting Google Sheets, please try again."
+
+
 """
 Get the colors for both teams playing
 
