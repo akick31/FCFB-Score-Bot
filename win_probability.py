@@ -118,7 +118,7 @@ def get_in_game_win_probability(home_team, away_team):
                 down = int(row[6])
                 distance = int(row[7])
 
-                if str(play) == "PAT" or str(play) == "TWO_POINT" or str(result) == "TURNOVER":
+                if str(play) == "PAT" or str(play) == "TWO_POINT" or str(result) == "TURNOVER" or "KICKOFF" in str(play):
                     last_play_possession_change = True
                 else:
                     last_play_possession_change = False
