@@ -49,7 +49,7 @@ def get_in_game_win_probability(home_team, away_team):
     
     # Iterate through playlist file
     with open('data.txt', 'r') as csvfile:
-        reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n')
+        reader = csv.reader(csvfile, delimiter='|', lineterminator='\n')
         i = 0
         last_play_possession_change = False
         play = None
@@ -126,7 +126,6 @@ def get_in_game_win_probability(home_team, away_team):
                 data["seconds_left_half"] = [seconds_left_half]
                 data["half"] = [half]
                 data["elo_diff_time"] = [elo_diff_time]
-
 
                 current_win_probability = calculate_win_probability_gist(data)
                 win_probability_list.append(current_win_probability)
