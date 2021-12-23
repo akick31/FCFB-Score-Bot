@@ -28,16 +28,16 @@ def get_team_colors(home_team, away_team):
 
     # Try to get secondary colors
     if color_comparison[1] == "Black":
-        home_color = get_secondary_color(home_team)
+        home_color = get_primary_color(home_team)
         away_color = get_secondary_color(away_team)
         color_comparison = compare_color(home_color, away_color)
         if color_comparison[1] == "Black":
-            home_color = get_primary_color(home_team)
-            away_color = get_secondary_color(away_team)
+            home_color = get_secondary_color(home_team)
+            away_color = get_primary_color(away_team)
             color_comparison = compare_color(home_color, away_color)
             if color_comparison[1] == "Black":
                 home_color = get_secondary_color(home_team)
-                away_color = get_primary_color(away_team)
+                away_color = get_secondary_color(away_team)
                 color_comparison = compare_color(home_color, away_color)
                 if color_comparison[1] == "Black":
                     color_comparison[1] = "#000000"
