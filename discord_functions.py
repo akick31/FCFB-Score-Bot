@@ -331,6 +331,49 @@ async def handle_opponent_command(r, message):
 
 
 """
+Handle when the user requests to start games
+
+"""
+
+
+async def handle_start_games_command(r, message):
+    print("STARTING GAMES")
+    await message.channel.send("Starting games for this week")
+    message_content = message.content.lower()
+    game_start_commands = parse_game_start_commands()
+    for command in game_start_commands:
+        print(command)
+        try:
+            r.redditor("NFCAAOfficialRefBot").message("newgame", command)
+        except Exception as e:
+            print(e)
+            print("Rate limit, waiting 400 seconds...")
+            await message.channel.send("Rate limit, waiting 400 seconds...")
+            time.sleep(400)
+            await message.channel.send("Continuing...")
+            r.redditor("NFCAAOfficialRefBot").message("newgame", command)
+    print("DONE STARTING GAMES")
+    await message.channel.send("Done starting games for this week")
+
+
+"""
+Handle resetting the week flag in config.json
+
+"""
+
+
+async def handle_reset_week_command(config_data, message):
+    if config_data['week_run'] == "NO":
+        print("Reset week_run flag in config.json to YES")
+        config_data['week_run'] = "YES"
+        await message.channel.send("Manually marked games for this week as done, you can no longer use $start_games to start games until this command is run again to clear the flag")
+    else:
+        print("Reset week_run flag in config.json to NO")
+        config_data['week_run'] = "NO"
+        await message.channel.send("Reset the flag to start games, you may now use $start_games to start the games for the week")
+
+
+"""
 Login to Discord and run the bot
 
 """
@@ -362,6 +405,22 @@ def login_discord(r):
 
         elif message_content.startswith('$opponent'):
             await handle_opponent_command(r, message)
+
+        nfcaa_office = discord.utils.find(lambda r: r.name == 'NFCAA Office', message.guild.roles)
+        fbs_commissioner = discord.utils.find(lambda r: r.name == 'FBS Conference Commissioner', message.guild.roles)
+        fcs_commissioner = discord.utils.find(lambda r: r.name == 'FCS Conference Commissioner', message.guild.roles)
+        roles = message.author.roles
+
+        if nfcaa_office in roles or fbs_commissioner in roles or fcs_commissioner in roles:
+            if message_content.startswith('$start_games'):
+                if config_data['week_run'] == "YES":
+                    await message.channel.send("The games have already been started for this week, please verify you want to start and then reset this by using command $reset_week before starting the games again")
+                else:
+                    await handle_start_games_command(r, message)
+                    config_data['week_run'] = "YES"
+            elif message_content.startswith('$reset_week'):
+                await handle_reset_week_command(config_data, message)
+
                 
     @client.event
     async def on_ready():

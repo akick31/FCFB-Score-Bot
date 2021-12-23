@@ -17,8 +17,8 @@ sh = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZFi4MqxWX84-VdIiWjJ
 fbsWorksheet = sh.worksheet("Season 6 Rankings (All-Time)")
 
 file_location = "FCSElo.xlsx"
-fcsexcel = xlrd.open_workbook(file_location)
-sheet = fcsexcel.sheet_by_name('sheet')
+fcs_excel = xlrd.open_workbook(file_location)
+sheet = fcs_excel.sheet_by_name('sheet')
 
 sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-1Fte7S8kXy8E-GY7c3w00vrVcvbY87MWHJln8Ev4S0/edit?usp=sharing')
 colorWorksheet = sh3.worksheet("Main FCFB")
@@ -36,6 +36,9 @@ sosmovrWorksheet = sh6.worksheet("SOSMOVR")
 
 sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZAt2PjbwHCoWaQZY6jsQRHUK9t6xHZCxa1wn1W9Kt9E/edit?usp=sharing')
 speedWorksheet = sh7.worksheet("Quickest Team Ranking")
+
+sh8 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1nCoC6j9GbA3AqJbQ5rCZQICrWEVRdvDqXe5ZJnjAGXU/edit#gid=155279901')
+start_games_worksheet = sh8.worksheet("Weekly Blocks")
 
 
 """
@@ -922,11 +925,14 @@ def get_rankings_data(r, request):
     except Exception as e:
         return_statement = "**Rankings retrieval error**\n\nThe following error occured: " + str(e)
         return return_statement
-    
+
+
 """
 Get a column from the excel spreadsheet
 
 """
+
+
 def get_excel_data(column):
     column_vals = []
     for row_num in range(sheet.nrows):
@@ -934,7 +940,20 @@ def get_excel_data(column):
     return column_vals       
     
     
-            
+"""
+Get the commands to start a game and return it as a list
+
+
+"""
+
+
+def parse_game_start_commands():
+    try:
+        commands = start_games_worksheet.col_values(2)
+        return commands
+    except Exception as e:
+        return_statement = "The following error occured: " + str(e)
+        return return_statement
             
         
         
