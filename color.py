@@ -1,4 +1,5 @@
 from sheets_functions import *
+import json
 
 """
 Handle the colors aspect of the bot
@@ -6,23 +7,11 @@ Handle the colors aspect of the bot
 @author: apkick
 """
 
+with open('fbs_color.json', 'r') as config_file:
+    fbs_color_data = json.load(config_file)
 
-"""
-Get the colors for both teams playing
-
-"""
-
-
-def get_scorebug_colors(home_team, away_team):
-    color_dict = get_color_data()
-    if color_dict != "There was an error in contacting Google Sheets, please try again.":
-        team_color_column = color_dict[1]
-        color_data_column = color_dict[2]
-        home_color = get_color(home_team, team_color_column, color_data_column)
-        away_color = get_color(away_team, team_color_column, color_data_column)
-        return {1: home_color, 2: away_color}
-    else:
-        return "There was an error in contacting Google Sheets, please try again."
+with open('fcs_color.json', 'r') as config_file:
+    fcs_color_data = json.load(config_file)
 
 
 """
@@ -32,37 +21,62 @@ Get the colors for both teams playing
 
 
 def get_team_colors(home_team, away_team):
-    color_dict = get_color_data()
-    if color_dict != "There was an error in contacting Google Sheets, please try again.":
-        team_color_column = color_dict[1]
-        color_data_column = color_dict[2]
-        home_color = get_color(home_team, team_color_column, color_data_column)
-        away_color = get_color(away_team, team_color_column, color_data_column)
+    home_color = get_primary_color(home_team)
+    away_color = get_primary_color(away_team)
+
+    color_comparison = compare_color(home_color, away_color)
+
+    # Try to get secondary colors
+    if color_comparison[1] == "Black":
+        home_color = get_secondary_color(home_team)
+        away_color = get_secondary_color(away_team)
         color_comparison = compare_color(home_color, away_color)
-        if color_comparison[1] == color_comparison[2]:
-            home_color = "black"
-            away_color = "red"
-        return {1: color_comparison[1], 2: color_comparison[2]}
-    else:
-        return "There was an error in contacting Google Sheets, please try again."
+        if color_comparison[1] == "Black":
+            home_color = get_primary_color(home_team)
+            away_color = get_secondary_color(away_team)
+            color_comparison = compare_color(home_color, away_color)
+            if color_comparison[1] == "Black":
+                home_color = get_secondary_color(home_team)
+                away_color = get_primary_color(away_team)
+                color_comparison = compare_color(home_color, away_color)
+                if color_comparison[1] == "Black":
+                    color_comparison[1] = "#000000"
+                    color_comparison[2] = "#FF0000"
+
+    return {1: color_comparison[1], 2: color_comparison[2]}
 
 
 """
-Return the color for the team requested
+Get the primary team color from the json
 
-"""   
+"""
 
 
-def get_color(team, team_color_column, color_data_column):
-    team_column = team_color_column
-    color_column = color_data_column
-    i = 0
-    color = "black"
-    for value in team_column:
-        if team == value:
-            color = color_column[i]
-            break
-        i = i + 1
+def get_primary_color(team):
+    if team in fbs_color_data["primary_colors"]:
+        color = fbs_color_data["primary_colors"][team]
+    elif team in fcs_color_data["primary_colors"]:
+        color = fcs_color_data["primary_colors"][team]
+    else:
+        color = "black"
+        print("Could not find color for " + team)
+    return color
+
+
+"""
+Get the secondary team color from the json and
+
+"""
+
+
+def get_secondary_color(team):
+    if team in fbs_color_data["secondary_colors"]:
+        color = fbs_color_data["secondary_colors"][team]
+    elif team in fcs_color_data["secondary_colors"]:
+        color = fcs_color_data["secondary_colors"][team]
+    else:
+        color = "black"
+        print("Could not find color for " + team)
     return color
 
 
@@ -80,12 +94,12 @@ def compare_color(home_color, away_color):
         away_hex = away_color.split("#")[1]
     else:
         away_hex = "000000"
+
     home_decimal = int(home_hex, 16) 
     away_decimal = int(away_hex, 16)
+
     # If difference is greater than 330000 they are far enough apart
-    if abs(home_decimal-away_decimal) < 330000:
-        home_color = "black"
-        away_color = "red"
+    if abs(home_decimal-away_decimal) > 330000:
         return {1: home_color, 2: away_color}
     else:
-        return {1: home_color, 2: away_color}
+        return {1: "Black", 2: "Red"}

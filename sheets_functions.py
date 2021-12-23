@@ -14,31 +14,28 @@ scope = ['https://spreadsheets.google.com/feeds',
 credentials = ServiceAccountCredentials.from_json_keyfile_name('FCFBRollCallBot-2d263a255851.json', scope)
 gc = gspread.authorize(credentials)
 sh = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZFi4MqxWX84-VdIiWjJmuvB8f80lfKNkffeKcdJKtAU/edit#gid=1733685321')
-fbsWorksheet = sh.worksheet("Season 6 Rankings (All-Time)")
+fbs_worksheet = sh.worksheet("Season 6 Rankings (All-Time)")
 
 file_location = "FCSElo.xlsx"
 fcs_excel = xlrd.open_workbook(file_location)
 sheet = fcs_excel.sheet_by_name('sheet')
 
-sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-1Fte7S8kXy8E-GY7c3w00vrVcvbY87MWHJln8Ev4S0/edit?usp=sharing')
-colorWorksheet = sh3.worksheet("Main FCFB")
+sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-8-X9arHYd4r_GlTjmsjVACzxyP9fcHnWqYE1LPrcYA/edit#gid=0')
+standingsWorksheet = sh3.worksheet("Standings")
+rankingsWorksheet = sh3.worksheet("Rankings")
+composite_worksheet = sh3.worksheet("Composite")
 
-sh4 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-8-X9arHYd4r_GlTjmsjVACzxyP9fcHnWqYE1LPrcYA/edit#gid=0')
-standingsWorksheet = sh4.worksheet("Standings")
-rankingsWorksheet = sh4.worksheet("Rankings")
-compositeWorksheet = sh4.worksheet("Composite")
+sh4 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1IrBBMKApJVYlU10wCOKp_oW3wvQfFT-xTC_A6EHJlzU/edit?usp=sharing')
+fcs_standings_worksheet = sh4.worksheet("Sheet1")
 
-sh5 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1IrBBMKApJVYlU10wCOKp_oW3wvQfFT-xTC_A6EHJlzU/edit?usp=sharing')
-fcsStandingsWorksheet = sh5.worksheet("Sheet1")
+sh5 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1GDDwQ2FpZIgGoDdZoRNbBg8IyQir2-WZriz8bHHXbSE/edit?usp=sharing')
+sosmovr_worksheet = sh5.worksheet("SOSMOVR")
 
-sh6 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1GDDwQ2FpZIgGoDdZoRNbBg8IyQir2-WZriz8bHHXbSE/edit?usp=sharing')
-sosmovrWorksheet = sh6.worksheet("SOSMOVR")
+sh6 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZAt2PjbwHCoWaQZY6jsQRHUK9t6xHZCxa1wn1W9Kt9E/edit?usp=sharing')
+speed_worksheet = sh6.worksheet("Quickest Team Ranking")
 
-sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZAt2PjbwHCoWaQZY6jsQRHUK9t6xHZCxa1wn1W9Kt9E/edit?usp=sharing')
-speedWorksheet = sh7.worksheet("Quickest Team Ranking")
-
-sh8 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1nCoC6j9GbA3AqJbQ5rCZQICrWEVRdvDqXe5ZJnjAGXU/edit#gid=155279901')
-start_games_worksheet = sh8.worksheet("Weekly Blocks")
+sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1nCoC6j9GbA3AqJbQ5rCZQICrWEVRdvDqXe5ZJnjAGXU/edit#gid=155279901')
+start_games_worksheet = sh7.worksheet("Weekly Blocks")
 
 
 """
@@ -51,14 +48,14 @@ def get_elo_data():
     try:
         team_elo_column = []
         elo_data_column = []
-        fbs_column = fbsWorksheet.col_values(2)
+        fbs_column = fbs_worksheet.col_values(2)
         fbs_column.pop(0)
         fcs_column = get_excel_data(3)
         fcs_column.pop(0)
         team_elo_column.extend(fbs_column)
         team_elo_column.extend(fcs_column)
 
-        fbs_elo_column = fbsWorksheet.col_values(3)
+        fbs_elo_column = fbs_worksheet.col_values(3)
         fbs_elo_column.pop(0)
         fcs_elo_column = get_excel_data(0)
         fcs_elo_column.pop(0)
@@ -69,35 +66,7 @@ def get_elo_data():
     except Exception as e:
         return_statement = "The following error occured: " + str(e)
         return return_statement
- 
- 
-"""
-Get Hex Color data for both FBS and FCS teams
 
-"""
-
-
-def get_color_data():
-    try:
-        team_color_column = []
-        color_data_column = []
-        fbs_column = colorWorksheet.col_values(1)
-        fbs_column.pop(0)
-        fcs_column = colorWorksheet.col_values(7)
-        fcs_column.pop(0)
-        team_color_column.extend(fbs_column)
-        team_color_column.extend(fcs_column)
-        fbsColorColumn = colorWorksheet.col_values(4)
-        fbsColorColumn.pop(0)
-        fcsColorColumn = colorWorksheet.col_values(10)
-        fcsColorColumn.pop(0)
-        color_data_column.extend(fbsColorColumn)
-        color_data_column.extend(fcsColorColumn)
-        
-        return {1: team_color_column, 2: color_data_column}
-    except Exception as e:
-        return_statement = "The following error occured: " + str(e)
-        return return_statement
    
     
 """
@@ -434,9 +403,9 @@ Get the America East standings from 1212.one
 def parse_americaeast():
     post = ("----------------------\n**America East**\n----------------------\n" +
             "----------------------\nTri-State\n----------------------\n")
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(9)
     for i in range(3, 9):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -464,9 +433,9 @@ Get the Atlantic Sun standings from 1212.one
 def parse_atlanticsun():
     post = ("----------------------\n**Atlantic Sun**\n----------------------\n" +
             "----------------------\nDusk\n----------------------\n")
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(9)
     for i in range(20, 27):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -494,9 +463,9 @@ Get the Big Sky standings from 1212.one
 def parse_bigsky():
     post = ("----------------------\n**Big Sky**\n----------------------\n" +
            "----------------------\nSouth\n----------------------\n")
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(9)
     for i in range(39, 46):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -525,9 +494,9 @@ def parse_cfc():
     post = ("--------------------------------------------\n**Carolina Football Conference**\n--------------------" + 
             "------------------------\n" +
             "----------------------\nNorth\n----------------------\n")
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(9)
     for i in range(58, 64):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -555,9 +524,9 @@ Get the Colonial standings from 1212.one
 def parse_colonial():
     post = ("----------------------\n**Colonial**\n----------------------\n" +
            "----------------------\nSouth\n----------------------\n")
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(9)
     for i in range(75, 81):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -583,9 +552,9 @@ def parse_delta():
     post = ("--------------------------------------------\n**Delta Intercollegiate**\n-------------------" + 
             "-------------------------\n" +
             "----------------------\nMississippi Valley\n----------------------\n")
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(9)
     for i in range(92, 100):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -612,9 +581,9 @@ Get the Ivy League standings from 1212.one
 
 def parse_ivy():
     post = "----------------------\n**Ivy League**\n----------------------\n"
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(6)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(6)
     for i in range(113, 121):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -634,9 +603,9 @@ Get the Mid-Atlantic standings from 1212.one
 def parse_midatlantic():
     post = ("----------------------\n**Mid Atlantic**\n----------------------\n" +
             "----------------------\nAtlantic\n----------------------\n")
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(9)
     for i in range(125, 131):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -661,9 +630,9 @@ Get the Missouri Valley standings from 1212.one
 def parse_mvc():
     post = ("--------------------------------------------\n**Missouri Valley**\n-----------------------------------------\n" + \
            "----------------------\nPrairie\n----------------------\n")
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(9)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(9)
     for i in range(142, 149):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -690,9 +659,9 @@ Get the Southland standings from 1212.one
 
 def parse_southland():
     post = "----------------------\n**Southland**\n----------------------\n"
-    team_column = fcsStandingsWorksheet.col_values(2)
-    team_conference_column = fcsStandingsWorksheet.col_values(3)
-    team_overall_column = fcsStandingsWorksheet.col_values(6)
+    team_column = fcs_standings_worksheet.col_values(2)
+    team_conference_column = fcs_standings_worksheet.col_values(3)
+    team_overall_column = fcs_standings_worksheet.col_values(6)
     for i in range(161,175):
         team = team_column[i].split(" ")[:-1]
         team = ' '.join(team).strip()
@@ -789,9 +758,9 @@ Parse the SOSMOVR worksheet from Zen Sunshine and output the post
 
 
 def parse_sosmovr_worksheet(num_col, team_col, value_col, post):
-    ranks = sosmovrWorksheet.col_values(num_col)
-    teams = sosmovrWorksheet.col_values(team_col)
-    values = sosmovrWorksheet.col_values(value_col)
+    ranks = sosmovr_worksheet.col_values(num_col)
+    teams = sosmovr_worksheet.col_values(team_col)
+    values = sosmovr_worksheet.col_values(value_col)
     i = 1
     for team in teams[1:-1]:
         value = values[i]
@@ -811,9 +780,9 @@ Parse the composite worksheet
 
 def parse_composite_data(num_col, team_col, value_col, post):
     try:
-        ranks = compositeWorksheet.col_values(num_col)
-        teams = compositeWorksheet.col_values(team_col)
-        values = compositeWorksheet.col_values(value_col)
+        ranks = composite_worksheet.col_values(num_col)
+        teams = composite_worksheet.col_values(team_col)
+        values = composite_worksheet.col_values(value_col)
         i = 4
         for team in teams[4:-1]:
             value = values[i]
@@ -835,9 +804,9 @@ Parse the speed worksheet
 
 
 def parse_speed_data(num_col, team_col, value_col, post):
-    ranks = speedWorksheet.col_values(num_col)
-    teams = speedWorksheet.col_values(team_col)
-    values = speedWorksheet.col_values(value_col)
+    ranks = speed_worksheet.col_values(num_col)
+    teams = speed_worksheet.col_values(team_col)
+    values = speed_worksheet.col_values(value_col)
     i = 2
     for team in teams[2:-1]:
         value = values[i]
@@ -869,8 +838,8 @@ def get_rankings_data(r, request):
         if "committee" in request.lower() or "playoff" in request.lower():
             return "This request is not available right now"
         if request.lower() == "fbs elo":
-            fbs_column = fbsWorksheet.col_values(2)
-            fbs_elo_column = fbsWorksheet.col_values(3)
+            fbs_column = fbs_worksheet.col_values(2)
+            fbs_elo_column = fbs_worksheet.col_values(3)
             i = 1
             post = "-----------------------\n**FBS Elo Rankings**\n-----------------------\n"
             for team in fbs_column[1:26]:

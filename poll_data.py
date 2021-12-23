@@ -12,7 +12,7 @@ Find the post for the coaches poll
 
 def find_coaches_poll_post(r):
     search_item = "\"Coaches Poll\""
-    for submission in r.subreddit("FakeCollegeFootball").search(searchItem, sort='new'):
+    for submission in r.subreddit("FakeCollegeFootball").search(search_item, sort='new'):
         if "OFFICIAL COACHES' POLL" in submission.title and submission.link_flair_text == "Official":
             return submission
     return "NONE"

@@ -271,7 +271,7 @@ def draw_scorebug(cur_clock, cur_down_and_distance, cur_possession, cur_yard_lin
     img = Image.open('scorebug.png')
 
     # Get team colors for plots
-    color_dict = get_scorebug_colors(home_team, away_team)
+    color_dict = get_team_colors(home_team, away_team)
     if "The following error occurred:" not in color_dict:
         home_color = color_dict[1]
         away_color = color_dict[2]
@@ -327,7 +327,7 @@ def draw_final_scorebug(vegas_odds, home_team, away_team, home_score, away_score
     img = Image.open('scorebug.png')
 
     # Get team colors for plots
-    color_dict = get_scorebug_colors(home_team, away_team)
+    color_dict = get_team_colors(home_team, away_team)
     if "The following error occurred:" not in color_dict:
         home_color = color_dict[1]
         away_color = color_dict[2]
