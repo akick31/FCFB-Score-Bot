@@ -111,13 +111,15 @@ def add_possession(img, home_team, away_team, possession, home_score, away_score
     if possession == home_team:
         if home_score < 10:
             draw.ellipse((496, 105, 506, 115), fill=(255, 255, 255, 255))
-        elif home_score >= 20:
+        elif 20 <= home_score < 30:
             draw.ellipse((534, 105, 544, 115), fill=(255, 255, 255, 255))
+        elif home_score >= 30:
+            draw.ellipse((525, 105, 535, 115), fill=(255, 255, 255, 255))
         else:
             draw.ellipse((520, 105, 530, 115), fill=(255, 255, 255, 255))
     elif possession == away_team:
         if away_score < 10:
-            draw.ellipse((297, 105, 307, 115), fill=(255, 255, 255, 255))
+            draw.ellipse((310, 105, 320, 115), fill=(255, 255, 255, 255))
         elif away_score < 20:
             draw.ellipse((277, 105, 287, 115), fill=(255, 255, 255, 255))
         else:
