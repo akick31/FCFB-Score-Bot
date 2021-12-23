@@ -8,10 +8,6 @@ from PIL import Image, ImageDraw, ImageFont
 from color import *
 from name_fix import *
 import sys
-
-
-with open('name_locations.json', 'r') as config_file:
-    name_location_data = json.load(config_file)
     
 
 """
@@ -33,15 +29,8 @@ Recolor the team area to the team colors
 
 
 def recolor_team_area(img, home_color, away_color):
-    if home_color == "red" or home_color == "black":
-        home_hex = "FF2500"
-    else:
-        home_hex = home_color.split("#")[1]
-
-    if away_color == "red" or away_color == "black":
-        away_hex = "000000"
-    else:
-        away_hex = away_color.split("#")[1]
+    home_hex = home_color.split("#")[1]
+    away_hex = away_color.split("#")[1]
 
     home_rgb = convert_to_rgb(home_hex)
     away_rgb = convert_to_rgb(away_hex)
@@ -78,47 +67,21 @@ def add_team_names(img, home_team, away_team):
 
     draw = ImageDraw.Draw(img)
 
-    if home_team.lower() in name_location_data.keys():
+    if home_team_len >= 12:
+        home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
+    elif home_team_len > 10:
+        home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
+    else:
         home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
-        x = int(name_location_data[home_team.lower()]["home x"])
-        if home_team_len >= 12:
-            home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
-        draw.text((x, 70), home_team, (255, 255, 255), font=home_font)
-    else:
-        if home_team_len >= 12:
-            home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
-            home_shift = (home_team_len - 7) * 8
-        elif home_team_len > 10:
-            home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
-            home_shift = (home_team_len - 7) * 8
-        elif home_team_len < 5:
-            home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
-            home_shift = (home_team_len - 7) * 23
-        else:
-            home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
-            home_shift = (home_team_len - 7) * 15
-        draw.text((597 - home_shift, 70), home_team, (255, 255, 255), font=home_font)
+    draw.text((753, 70), home_team, (255, 255, 255), anchor="ra", font=home_font)
 
-    if away_team.lower() in name_location_data.keys():
-        away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
-        x = int(name_location_data[away_team.lower()]["away x"])
-        if away_team_len >= 12:
-            away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
-        draw.text((x, 70), away_team, (255, 255, 255), font=away_font)
+    if away_team_len >= 12:
+        away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
+    elif away_team_len > 10:
+        away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
     else:
-        if away_team_len >= 12:
-            away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
-            away_shift = (away_team_len - 10) * 2
-        elif away_team_len > 10:
-            away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
-            away_shift = (away_team_len - 10) * 6
-        elif away_team_len < 5:
-            away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
-            away_shift = (away_team_len - 10) * 1
-        else:
-            away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
-            away_shift = (away_team_len - 10) * 15
-        draw.text((70 - away_shift, 70), away_team, (255, 255, 255),font=away_font)
+        away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
+    draw.text((63, 70), away_team, (255, 255, 255), anchor="la", font=away_font)
 
     return img
 
@@ -131,23 +94,9 @@ Add team names to the score bug
 def add_score(img, home_score, away_score):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("GazRg-BoldItalic.ttf", 100)
-    hundred_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 80)
 
-    if home_score < 20:
-        draw.text((426, 50), str(home_score), (255, 255, 255), font=font)
-    elif home_score >= 100:
-        draw.text((411, 60), str(home_score), (255, 255, 255), font=hundred_font)
-    else:
-        draw.text((421, 50), str(home_score), (255, 255, 255), font=font)
-
-    if away_score < 10:
-        draw.text((322, 50), str(away_score), (255, 255, 255), font=font)
-    elif away_score >= 100:
-        draw.text((275, 60), str(away_score), (255, 255, 255), font=hundred_font)
-    elif away_score < 20:
-        draw.text((292, 50), str(away_score), (255, 255, 255), font=font)
-    else:
-        draw.text((270, 50), str(away_score), (255, 255, 255), font=font)
+    draw.text((421, 50), str(home_score), (255, 255, 255), anchor="la", font=font)
+    draw.text((380, 50), str(away_score), (255, 255, 255), anchor="ra", font=font)
 
     return img
 
@@ -161,9 +110,11 @@ def add_possession(img, home_team, away_team, possession, home_score, away_score
     draw = ImageDraw.Draw(img)
     if possession == home_team:
         if home_score < 10:
-            draw.ellipse((496, 105, 506, 115), fill=(255,255,255,255))
+            draw.ellipse((496, 105, 506, 115), fill=(255, 255, 255, 255))
+        elif home_score >= 20:
+            draw.ellipse((534, 105, 544, 115), fill=(255, 255, 255, 255))
         else:
-            draw.ellipse((546, 105, 556, 115), fill=(255, 255, 255, 255))
+            draw.ellipse((520, 105, 530, 115), fill=(255, 255, 255, 255))
     elif possession == away_team:
         if away_score < 10:
             draw.ellipse((297, 105, 307, 115), fill=(255, 255, 255, 255))
@@ -288,11 +239,8 @@ def add_records(img, home_record, away_record):
     home_wins = int(home_record.split("-")[0].split("(")[1])
     home_losses = int(home_record.split("-")[1].split(")")[0])
 
-    if home_wins > 10 or home_losses > 10:
-        draw.text((669, 118), home_record, (255, 255, 255), font=font)
-    else:
-        draw.text((688, 118), home_record, (255, 255, 255), font=font)
-    draw.text((60, 118), away_record, (255, 255, 255), font=font)
+    draw.text((749, 118), home_record, (255, 255, 255), anchor="ra", font=font)
+    draw.text((55, 118), away_record, (255, 255, 255), anchor="la", font=font)
 
     return img
 
@@ -321,7 +269,7 @@ def draw_scorebug(cur_clock, cur_down_and_distance, cur_possession, cur_yard_lin
     img = Image.open('scorebug.png')
 
     # Get team colors for plots
-    color_dict = get_team_colors(home_team, away_team)
+    color_dict = get_scorebug_colors(home_team, away_team)
     if "The following error occurred:" not in color_dict:
         home_color = color_dict[1]
         away_color = color_dict[2]
@@ -377,7 +325,7 @@ def draw_final_scorebug(vegas_odds, home_team, away_team, home_score, away_score
     img = Image.open('scorebug.png')
 
     # Get team colors for plots
-    color_dict = get_team_colors(home_team, away_team)
+    color_dict = get_scorebug_colors(home_team, away_team)
     if "The following error occurred:" not in color_dict:
         home_color = color_dict[1]
         away_color = color_dict[2]
