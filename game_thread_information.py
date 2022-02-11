@@ -80,7 +80,7 @@ Iterate through Reddit to find the game threads
 
 
 def search_for_game_thread(r, home_team, away_team, season, request, postseason):
-    search_item = "\"Game Thread\" \"" + home_team + "\" \"" + away_team + "\""
+    search_item = "\"Game Thread\" \"Bowl\" \"Playoffs\" \"" + home_team + "\" \"" + away_team + "\""
     print("Search Query: " + search_item)
 
     for submission in r.subreddit("FakeCollegeFootball").search(search_item, sort='new'):
