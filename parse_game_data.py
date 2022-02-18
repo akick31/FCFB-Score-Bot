@@ -29,7 +29,7 @@ Parse the home team user from the game thread
 
 
 def parse_home_user(submission_body):
-    if "Game Start Time" in submission_body:
+    if "**Game Start Time**" in submission_body and "**Location**" in submission_body and "**Watch**" in submission_body:
         home_user = submission_body.split("___")[0].split("\n")[13].split("|")[1].strip()
     else:
         home_user = submission_body.split("___")[0].split("\n")[11].split("|")[1].strip()
@@ -43,7 +43,7 @@ Parse the away team user from the game thread
 
 
 def parse_away_user(submission_body):
-    if "Game Start Time" in submission_body:
+    if "**Game Start Time**" in submission_body and "**Location**" in submission_body and "**Watch**" in submission_body:
         away_user = submission_body.split("___")[0].split("\n")[12].split("|")[1].strip()
     else:
         away_user = submission_body.split("___")[0].split("\n")[10].split("|")[1].strip()
