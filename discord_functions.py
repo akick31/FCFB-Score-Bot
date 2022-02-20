@@ -409,17 +409,17 @@ def login_discord(r):
         nfcaa_office = discord.utils.find(lambda r: r.name == 'NFCAA Office', message.guild.roles)
         fbs_commissioner = discord.utils.find(lambda r: r.name == 'FBS Conference Commissioner', message.guild.roles)
         fcs_commissioner = discord.utils.find(lambda r: r.name == 'FCS Conference Commissioner', message.guild.roles)
-        roles = message.author.roles
-
-        if nfcaa_office in roles or fbs_commissioner in roles or fcs_commissioner in roles:
-            if message_content.startswith('$start_games'):
-                if config_data['week_run'] == "YES":
-                    await message.channel.send("The games have already been started for this week, please verify you want to start and then reset this by using command $reset_week before starting the games again")
-                else:
-                    await handle_start_games_command(r, message)
-                    config_data['week_run'] = "YES"
-            elif message_content.startswith('$reset_week'):
-                await handle_reset_week_command(config_data, message)
+        if message.guild is not None and message.author is discord.Member:
+            roles = message.author.roles
+            if nfcaa_office in roles or fbs_commissioner in roles or fcs_commissioner in roles:
+                if message_content.startswith('$start_games'):
+                    if config_data['week_run'] == "YES":
+                        await message.channel.send("The games have already been started for this week, please verify you want to start and then reset this by using command $reset_week before starting the games again")
+                    else:
+                        await handle_start_games_command(r, message)
+                        config_data['week_run'] = "YES"
+                elif message_content.startswith('$reset_week'):
+                    await handle_reset_week_command(config_data, message)
 
                 
     @client.event
