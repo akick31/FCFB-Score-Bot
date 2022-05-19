@@ -20,7 +20,7 @@ file_location = "FCSElo.xlsx"
 fcs_excel = xlrd.open_workbook(file_location)
 sheet = fcs_excel.sheet_by_name('sheet')
 
-sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1Xx6l7oLRZe8Y0Ia1pHDSeCYjXg260skf8YMNoXkp7Hc/edit#gid=0')
+sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1-8-X9arHYd4r_GlTjmsjVACzxyP9fcHnWqYE1LPrcYA/edit#gid=0')
 standingsWorksheet = sh3.worksheet("Standings")
 rankingsWorksheet = sh3.worksheet("Rankings")
 composite_worksheet = sh3.worksheet("Composite")

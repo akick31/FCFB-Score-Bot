@@ -72,15 +72,8 @@ async def handle_score_command(r, message):
         away_team = parse_season_dict[1]
         season = parse_season_dict[2].lower()
         postseason = parse_season_dict[3]
-        
-        # Fix the inputted user team for naming inconsistencies
-        home_team = fix_user_input_teams(home_team)
-        away_team = fix_user_input_teams(away_team)
     else:
         home_team = message_content.split("$score")[1].strip()
-        
-        # Fix the inputted user team for naming inconsistencies
-        home_team = fix_user_input_teams(home_team)
 
         opponent = search_for_team_game_thread(r, home_team)
         # opponent[1] is team, opponent[2] is the opponent
@@ -90,15 +83,15 @@ async def handle_score_command(r, message):
             return
         else:
             away_team = opponent[2]
-            
-            # Fix the inputted user team for naming inconsistencies
-            away_team = fix_user_input_teams(away_team)
-            
             season = season_info_data['current_season']
             postseason = 0
             
     looking_for_thread = await message.channel.send("Looking for the game thread...")
     print("LOOKING FOR THREAD WITH THE FOLLOWING MATCH UP: " + home_team + " vs " + away_team)
+
+    # Fix the inputted user team for naming inconsistencies
+    home_team = fix_user_input_teams(home_team)
+    away_team = fix_user_input_teams(away_team)
     
     submission = search_for_game_thread(r, home_team, away_team, season, "$score", postseason)
     if submission == "NONE":

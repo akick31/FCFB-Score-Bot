@@ -7,8 +7,6 @@
   },
   "user_input_fixes": {
     "miami": "miami (fl)",
-	"miami, oh": "miami (oh)",
-	"miami oh": "miami (oh)",
     "southern miss": "southern mississippi"
   },
   "shorten_names": {
