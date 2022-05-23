@@ -4,7 +4,7 @@ import datetime
 from parse_game_data import *
 from handle_dates import *
 
-with open('season_information.json', 'r') as config_file:
+with open('/home/ubuntu/FCFB/FCFB-Score-Bot/season_information.json', 'r') as config_file:
     season_info_data = json.load(config_file)
 
 """

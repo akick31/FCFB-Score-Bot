@@ -1,7 +1,7 @@
 import datetime
 import json
 
-with open('season_information.json', 'r') as config_file:
+with open('/home/ubuntu/FCFB/FCFB-Score-Bot/season_information.json', 'r') as config_file:
     season_info_data = json.load(config_file)
 
 

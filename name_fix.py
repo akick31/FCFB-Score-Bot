@@ -1,6 +1,6 @@
 import json
 
-with open('name_fix.json', 'r') as config_file:
+with open('/home/ubuntu/FCFB/FCFB-Score-Bot/name_fix.json', 'r') as config_file:
     name_fix_data = json.load(config_file)
 
 

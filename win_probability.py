@@ -14,7 +14,7 @@ Calculate the win probability for various scenarios
 """
 
 model_xgb = xgb.XGBRegressor()
-model_xgb.load_model('wpmodel.json')
+model_xgb.load_model('/home/ubuntu/FCFB/FCFB-Score-Bot/wpmodel.json')
 
 data = {
   'down': [4],
