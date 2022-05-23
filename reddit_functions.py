@@ -1,9 +1,10 @@
-import praw
+import asyncpraw
 import discord
 import json
 from parse_game_data import *
 from win_probability import *
 from scorebug_drawer import *
+from aiohttp import ClientSession
 
 
 with open('/home/ubuntu/FCFB/FCFB-Score-Bot/config.json', 'r') as config_file:
@@ -144,7 +145,7 @@ async def craft_game_final_score_comment(message, submission, home_team, away_te
     embed.add_field(name="**Discuss**", value="[Post Game Thread](" + submission.url + ")", inline=False)
     await message.channel.send(embed=embed, file=file)
 
-    print("Comment posted for " + home_team + " vs " + away_team + "\n")
+    print("Comment posted for " + home_team + " vs " + away_team + "\n\n")
 
 
 """
@@ -154,7 +155,7 @@ Login to reddit
 
 
 def login_reddit():
-    r = praw.Reddit(user_agent=config_data['user_agent'],
+    r = asyncpraw.Reddit(user_agent=config_data['user_agent'],
                     client_id=config_data['client_id'],
                     client_secret=config_data['client_secret'],
                     username=config_data['username'],

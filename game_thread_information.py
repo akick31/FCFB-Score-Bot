@@ -1,4 +1,4 @@
-import praw
+import asyncpraw
 import requests
 import datetime
 from parse_game_data import *
@@ -79,14 +79,15 @@ Iterate through Reddit to find the game threads
 """
 
 
-def search_for_game_thread(r, home_team, away_team, season, request, postseason):
+async def search_for_game_thread(r, home_team, away_team, season, request, postseason):
     if postseason != 0:
         search_item = "\"Game Thread\" \"Bowl\" \"Playoffs\" \"" + home_team + "\" \"" + away_team + "\""
     else:
         search_item = "\"Game Thread\"" + home_team + "\" \"" + away_team + "\""
     print("Search Query: " + search_item)
 
-    for submission in r.subreddit("FakeCollegeFootball").search(search_item, sort='new'):
+    subreddit = await r.subreddit("FakeCollegeFootball")
+    async for submission in subreddit.search(search_item, sort='new'):
         # Get game thread submission day
         game_time = datetime.datetime.fromtimestamp(int(submission.created_utc))
         home_team = home_team.lower()
@@ -105,8 +106,9 @@ Iterate through Reddit to find the game thread and return a dictionary of the tw
 """
 
 
-def search_for_team_game_thread(r, team):
-    for submission in r.subreddit("FakeCollegeFootball").search(team, sort='new'):
+async def search_for_team_game_thread(r, team):
+    subreddit = await r.subreddit("FakeCollegeFootball")
+    async for submission in subreddit.search(team, sort='new'):
         if submission.link_flair_text == "Game Thread":
             away = parse_away_team(submission.selftext)
             home = parse_home_team(submission.selftext)

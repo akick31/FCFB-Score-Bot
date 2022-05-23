@@ -8,6 +8,7 @@ Created on Wed May 13 19:38:06 2020
 
 from reddit_functions import *
 from discord_functions import *
+from aiohttp import ClientSession
 
 
 # Main method

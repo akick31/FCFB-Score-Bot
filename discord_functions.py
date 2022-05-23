@@ -1,4 +1,4 @@
-import praw
+import asyncpraw
 import discord
 import json
 import datetime
@@ -13,6 +13,7 @@ from thread_crawler import *
 from win_probability import *
 from sheets_functions import *
 from reddit_functions import *
+from aiohttp import ClientSession
 
 with open('/home/ubuntu/FCFB/FCFB-Score-Bot/season_information.json', 'r') as config_file:
     season_info_data = json.load(config_file)
@@ -82,7 +83,7 @@ async def handle_score_command(r, message):
         # Fix the inputted user team for naming inconsistencies
         home_team = fix_user_input_teams(home_team)
 
-        opponent = search_for_team_game_thread(r, home_team)
+        opponent = await search_for_team_game_thread(r, home_team)
         # opponent[1] is team, opponent[2] is the opponent
         if opponent[1] == "NONE":
             await message.channel.send("Could not find opponent for " + home_team + ". No game thread found.")
@@ -100,7 +101,7 @@ async def handle_score_command(r, message):
     looking_for_thread = await message.channel.send("Looking for the game thread...")
     print("LOOKING FOR THREAD WITH THE FOLLOWING MATCH UP: " + home_team + " vs " + away_team)
     
-    submission = search_for_game_thread(r, home_team, away_team, season, "$score", postseason)
+    submission = await search_for_game_thread(r, home_team, away_team, season, "$score", postseason)
     if submission == "NONE":
         await message.channel.send("No game thread found for " + home_team + " vs " + away_team)
         print("No game thread found for " + home_team + " vs " + away_team + "\n")
@@ -173,7 +174,7 @@ async def handle_plot_command(r, message):
         postseason = parse_season_dict[3]
     else:
         home_team = message_content.split("$plot")[1].strip()
-        opponent = search_for_team_game_thread(r, home_team)
+        opponent = await search_for_team_game_thread(r, home_team)
         # opponent[1] is team, opponent[2] is the opponent
         if opponent[1] == "NONE":
             await message.channel.send("Could not find opponent for " + home_team + ". No game thread found.")
@@ -191,7 +192,7 @@ async def handle_plot_command(r, message):
     away_team = fix_user_input_teams(away_team)
 
     # Look for game thread
-    submission = search_for_game_thread(r, home_team, away_team, season, "$plot", postseason)
+    submission = await search_for_game_thread(r, home_team, away_team, season, "$plot", postseason)
     if submission == "NONE":
         await message.channel.send("No game thread found for " + home_team + " vs " + away_team)
         print("No game thread found for " + home_team + " vs " + away_team + "\n")
@@ -233,7 +234,7 @@ async def handle_plot_command(r, message):
                         # Send the win probability plot
                         with open('/home/ubuntu/FCFB/FCFB-Score-Bot/output_win_probability.png', 'rb') as fp:
                             await message.channel.send(file=discord.File(fp, '/home/ubuntu/FCFB/FCFB-Score-Bot/new_win_probability.png'))
-                        print("Plot posted for " + home_team + " vs " + away_team + "\n")
+                        print("Plot posted for " + home_team + " vs " + away_team + "\n\n")
                     else:
                         await message.channel.send("Could not generate plot for " + home_team + " vs " + away_team)
                         print("Could not post plot for " + home_team + " vs " + away_team + "\n")
@@ -256,11 +257,11 @@ async def handle_plot_command(r, message):
                         with open('/home/ubuntu/FCFB/FCFB-Score-Bot/output_win_probability.png', 'rb') as fp:
                             await message.channel.send(file=discord.File(fp, '/home/ubuntu/FCFB/FCFB-Score-Bot/new_win_probability.png'))
                         await old_thread.delete()
-                        print("Old plot posted for " + home_team + " vs " + away_team + "\n")
+                        print("Old plot posted for " + home_team + " vs " + away_team + "\n\n")
                     else:
                         await message.channel.send("This game is too old to plot the data. I can only plot Season I, " +
                                                    "Week 11 games onward")
-                        print("Could not post old plot for " + home_team + " vs " + away_team + "\n")
+                        print("Could not post old plot for " + home_team + " vs " + away_team + "\n\n")
             else:
                 await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
         else:
@@ -334,7 +335,7 @@ async def handle_opponent_command(r, message):
         print("Could not find opponent for " + team + "\n")
     else:
         await message.channel.send(opponent[1] + " is playing " + opponent[2])
-        print("Opponent posted for " + team + "\n")
+        print("Opponent posted for " + team + "\n\n")
     await looking_for_thread.delete()
 
 
@@ -401,18 +402,23 @@ def login_discord(r):
         
         if message_content.startswith('$score'):
             await handle_score_command(r, message)
+            await r.close()
         
         elif message_content.startswith('$plot'):
             await handle_plot_command(r, message)
+            await r.close()
             
         elif message_content.startswith('$standing'):
             await handle_standings_command(r, message)
+            await r.close()
             
         elif message_content.startswith('$rankings'):
             await handle_rankings_command(r, message)
+            await r.close()
 
         elif message_content.startswith('$opponent'):
             await handle_opponent_command(r, message)
+            await r.close()
 
         nfcaa_office = discord.utils.find(lambda r: r.name == 'NFCAA Office', message.guild.roles)
         fbs_commissioner = discord.utils.find(lambda r: r.name == 'FBS Conference Commissioner', message.guild.roles)
@@ -428,7 +434,7 @@ def login_discord(r):
                         config_data['week_run'] = "YES"
                 elif message_content.startswith('$reset_week'):
                     await handle_reset_week_command(config_data, message)
-
+            await r.close()
                 
     @client.event
     async def on_ready():
