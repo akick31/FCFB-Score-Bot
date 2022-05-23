@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/akick31/FCFB-Score-Bot/issues"
   },
-  "homepage": "https://github.com/akick31/FCFB-Score-Bot#readme"
+  "homepage": "https://github.com/akick31/FCFB-Score-Bot#readme",
+  "dependencies": {
+    "pm2": "^5.2.0"
+  }
 }
