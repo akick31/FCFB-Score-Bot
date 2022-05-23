@@ -1,0 +1,32 @@
+{
+  "reddit_names": {
+    "UMass": "Massachusetts",
+    "Southern Mississippi": "Southern Miss",
+    "Miami (FL)": "Miami",
+    "Miami (OH)": "Miami, OH"
+  },
+  "user_input_fixes": {
+    "miami": "miami (fl)",
+    "southern miss": "southern mississippi"
+  },
+  "shorten_names": {
+    "KANSAS ST": "K-STATE",
+    "LOUISIANA TECH": "LA TECH",
+    "FLORIDA ATLANTIC": "FAU",
+    "LOUISIANA-MONROE": "ULM",
+    "TEXAS SOUTHERN": "TX SOUTHERN",
+    "WESTERN CAROLINA": "W. CAROLINA",
+    "CENTRAL CONNECTICUT": "C. CONNECTICUT",
+    "ARKANSAS-PINE BLUFF": "UAPB",
+    "WESTERN ILLINOIS": "W. ILLINOIS",
+    "EASTERN ILLINOIS": "E. ILLINOIS",
+    "NORTHERN IOWA": "UNI",
+    "WESTERN KENTUCKY": "WKU",
+    "EASTERN CAROLINA": "ECU",
+    "SOUTHEAST MISSOURI": "SE MISSOURI",
+    "SOUTH DAKOTA STATE": "SDSU",
+    "CENTRAL MICHIGAN": "C. MICHIGAN",
+    "EAST TENNESSEE ST": "ETSU",
+    "NORTHWESTERN": "N'WESTERN"
+  }
+}

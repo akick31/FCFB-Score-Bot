@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 0|0|1|420|35|away|1|10|235|218|AZhawk|DaveyClarkman4Prez|KICKOFF_NORMAL|KICK|KICK|60|3|0
 0|0|1|417|5|home|1|10|606|623|DaveyClarkman4Prez|AZhawk|PASS|TOUCHDOWN|TOUCHDOWN|95|12|0
 6|0|1|405|97|home|1|10|320|971|DaveyClarkman4Prez|AZhawk|PAT|PAT|PAT||0|0
@@ -137,4 +138,29 @@
 42|45|4|91|55|away|1|10|531|912|AZhawk|DaveyClarkman4Prez|RUN|GAIN|GAIN|2|3|0
 42|45|4|88|57|away|2|8|678|369|AZhawk|DaveyClarkman4Prez|RUN|GAIN|GAIN|3|4|0
 42|45|4|84|60|away|3|5|135|1333|AZhawk|DaveyClarkman4Prez|RUN|GAIN|GAIN|3|4|0
+=======
+0|0|1|420|35|home|1|10|1323|905|zen_sunshine|pm_me_cute_sloths_|KICKOFF_NORMAL|TOUCHBACK|TOUCHBACK||0|0
+0|0|1|420|25|away|1|10|819|280|pm_me_cute_sloths_|zen_sunshine|RUN|GAIN|GAIN|0|2|0
+0|0|1|418|25|away|2|10|18|640|pm_me_cute_sloths_|zen_sunshine|RUN|GAIN|GAIN|0|2|15
+0|0|1|401|25|away|3|10|836|545|pm_me_cute_sloths_|zen_sunshine|RUN|GAIN|GAIN|5|5|7
+0|0|1|389|30|away|4|5|916|1403|pm_me_cute_sloths_|zen_sunshine|PUNT|PUNT|PUNT|35|15|7
+0|0|1|367|35|home|1|10|492|505|zen_sunshine|pm_me_cute_sloths_|PASS|TOUCHDOWN|TOUCHDOWN|65|11|0
+6|0|1|356|97|home|1|10|1075|375|zen_sunshine|pm_me_cute_sloths_|PAT|PAT|PAT||0|0
+7|0|1|356|35|home|1|10|209|577|zen_sunshine|pm_me_cute_sloths_|KICKOFF_NORMAL|TOUCHBACK|TOUCHBACK||0|0
+7|0|1|356|25|away|1|10|1235|377|pm_me_cute_sloths_|zen_sunshine|RUN|GAIN|GAIN|0|2|0
+7|0|1|354|25|away|2|10|715|842|pm_me_cute_sloths_|zen_sunshine|RUN|GAIN|GAIN|9|6|15
+7|0|1|333|34|away|3|1|481|44|pm_me_cute_sloths_|zen_sunshine|RUN|GAIN|GAIN|2|3|15
+7|0|1|315|36|away|1|10|645|235|pm_me_cute_sloths_|zen_sunshine|RUN|GAIN|GAIN|3|4|15
+7|0|1|296|39|away|2|7|1196|1269|pm_me_cute_sloths_|zen_sunshine|RUN|GAIN|GAIN|11|6|7
+7|0|1|283|50|away|1|10|1045|960|pm_me_cute_sloths_|zen_sunshine|RUN|GAIN|GAIN|11|6|15
+7|0|1|262|61|away|1|10|527|522|pm_me_cute_sloths_|zen_sunshine|RUN|TOUCHDOWN|TOUCHDOWN|39|13|7
+7|6|1|242|97|away|1|10|1|711|pm_me_cute_sloths_|zen_sunshine|PAT|PAT|PAT||0|0
+7|7|1|242|35|away|1|10|1333|1111|pm_me_cute_sloths_|zen_sunshine|KICKOFF_NORMAL|KICK|KICK|45|5|0
+7|7|1|237|20|home|1|10|666|104|zen_sunshine|pm_me_cute_sloths_|PASS|INCOMPLETE|GAIN|0|5|0
+7|7|1|232|20|home|2|10|177|333|zen_sunshine|pm_me_cute_sloths_|PASS|GAIN|GAIN|11|7|0
+7|7|1|225|31|home|1|10|472|1303|zen_sunshine|pm_me_cute_sloths_|PASS|GAIN|GAIN|-1|4|10
+7|7|1|211|30|home|2|11|249|1177|zen_sunshine|pm_me_cute_sloths_|PASS|INCOMPLETE|GAIN|0|5|10
+7|7|1|196|30|home|3|11|1054|1303|zen_sunshine|pm_me_cute_sloths_|PASS|GAIN|GAIN|7|6|0
+7|7|1|190|37|home|4|4|62|899|zen_sunshine|pm_me_cute_sloths_|PUNT|PUNT|PUNT|20|15|10
+>>>>>>> fc08d1834828820fa06a447399d078cce40334d7
 --------------------------------------------------------------------------------

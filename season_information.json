@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "current_season": "s7",
     "seasons":{
@@ -79,4 +80,87 @@
             "postseason_start_year": "N/A"
         }
     }
+=======
+{
+    "current_season": "s7",
+    "seasons":{
+        "s1": {
+            "start_month": "1",
+            "start_day": "1",
+            "start_year": "2018",
+            "end_month": "11",
+            "end_day": "5",
+            "end_year": "2018",
+            "postseason_start_month": "9",
+            "postseason_start_day": "20",
+            "postseason_start_year": "2018"
+        },
+        "s2": {
+            "start_month": "11",
+            "start_day": "20",
+            "start_year": "2019",
+            "end_month": "6",
+            "end_day": "22",
+            "end_year": "2019",
+            "postseason_start_month": "5",
+            "postseason_start_day": "24",
+            "postseason_start_year": "2019"
+        },
+        "s3": {
+            "start_month": "7",
+            "start_day": "20",
+            "start_year": "2019",
+            "end_month": "2",
+            "end_day": "15",
+            "end_year": "2020",
+            "postseason_start_month": "1",
+            "postseason_start_day": "7",
+            "postseason_start_year": "2020"
+        },
+        "s4": {
+            "start_month": "3",
+            "start_day": "10",
+            "start_year": "2020",
+            "end_month": "10",
+            "end_day": "22",
+            "end_year": "2020",
+            "postseason_start_month": "N/A",
+            "postseason_start_day": "N/A",
+            "postseason_start_year": "N/A"
+        },
+        "s5": {
+            "start_month": "12",
+            "start_day": "2",
+            "start_year": "2020",
+            "end_month": "7",
+            "end_day": "31",
+            "end_year": "2021",
+            "postseason_start_month": "N/A",
+            "postseason_start_day": "N/A",
+            "postseason_start_year": "N/A"
+        },
+        "s6": {
+            "start_month": "8",
+            "start_day": "1",
+            "start_year": "2021",
+            "end_month": "3",
+            "end_day": "25",
+            "end_year": "2022",
+            "postseason_start_month": "1",
+            "postseason_start_day": "24",
+            "postseason_start_year": "2022"
+        },
+		"s7": {
+            "start_month": "5",
+            "start_day": "1",
+            "start_year": "2022",
+            "end_month": "N/A",
+            "end_day": "N/A",
+            "end_year": "N/A",
+            "postseason_start_month": "N/A",
+            "postseason_start_day": "N/A",
+            "postseason_start_year": "N/A"
+        }
+    }
+>>>>>>> fc08d1834828820fa06a447399d078cce40334d7
 }
