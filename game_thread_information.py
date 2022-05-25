@@ -147,7 +147,7 @@ def save_github_data(submission_body, season):
     url = parse_url_from_game_thread(submission_body, season)
     if url != "NO PLAYS":
         data = parse_data_from_github(url)
-        text_file = open("data.txt", "w")
+        text_file = open("/home/ubuntu/FCFB/FCFB-Score-Bot/data.txt", "w")
         text_file.write(data)
         text_file.close()
     return url

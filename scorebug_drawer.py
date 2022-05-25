@@ -112,7 +112,7 @@ def add_possession(img, home_team, away_team, possession, home_score, away_score
         if home_score < 10:
             draw.ellipse((496, 105, 506, 115), fill=(255, 255, 255, 255))
         elif 20 <= home_score < 30:
-            draw.ellipse((534, 105, 544, 115), fill=(255, 255, 255, 255))
+            draw.ellipse((539, 105, 549, 115), fill=(255, 255, 255, 255))
         elif home_score >= 30:
             draw.ellipse((535, 105, 545, 115), fill=(255, 255, 255, 255))
         else:
