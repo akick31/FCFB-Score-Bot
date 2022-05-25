@@ -1,4 +1,4 @@
-import asyncpraw
+import praw
 import discord
 import json
 from parse_game_data import *
@@ -89,8 +89,7 @@ async def craft_ongoing_game_comment(message, submission, cur_clock, cur_down, c
     embed.add_field(name="**Ball Location**", value=cur_yard_line, inline=False)
     await message.channel.send(embed=embed, file=file)
 
-    print("Comment posted for " + home_team + " vs " + away_team + "\n")
-
+    print("Comment posted for " + home_team + " vs " + away_team + "\n\n")
 
 """
 Get the home record from the title
@@ -147,6 +146,15 @@ async def craft_game_final_score_comment(message, submission, home_team, away_te
 
     print("Comment posted for " + home_team + " vs " + away_team + "\n\n")
 
+"""
+Start Reddit session
+
+"""
+
+
+def start_session():
+    session = ClientSession(trust_env=True)
+    return session
 
 """
 Login to reddit
@@ -155,10 +163,11 @@ Login to reddit
 
 
 def login_reddit():
-    r = asyncpraw.Reddit(user_agent=config_data['user_agent'],
+    r = praw.Reddit(user_agent=config_data['user_agent'],
                     client_id=config_data['client_id'],
                     client_secret=config_data['client_secret'],
                     username=config_data['username'],
                     password=config_data['password'],
-                    subreddit=config_data['subreddit'])
+                    subreddit=config_data['subreddit'],
+                    check_for_async=False)
     return r

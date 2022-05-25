@@ -27,19 +27,19 @@ def get_team_colors(home_team, away_team):
     color_comparison = compare_color(home_color, away_color)
 
     # Try to get secondary colors
-    if color_comparison[1] == "Black":
+    if color_comparison[1] == "#000000":
         home_color = get_secondary_color(home_team)
         away_color = get_secondary_color(away_team)
         color_comparison = compare_color(home_color, away_color)
-        if color_comparison[1] == "Black":
+        if color_comparison[1] == "#000000":
             home_color = get_primary_color(home_team)
             away_color = get_secondary_color(away_team)
             color_comparison = compare_color(home_color, away_color)
-            if color_comparison[1] == "Black":
+            if color_comparison[1] == "#000000":
                 home_color = get_secondary_color(home_team)
                 away_color = get_primary_color(away_team)
                 color_comparison = compare_color(home_color, away_color)
-                if color_comparison[1] == "Black":
+                if color_comparison[1] == "#000000":
                     color_comparison[1] = "#000000"
                     color_comparison[2] = "#FF0000"
 
@@ -58,7 +58,7 @@ def get_primary_color(team):
     elif team in fcs_color_data["primary_colors"]:
         color = fcs_color_data["primary_colors"][team]
     else:
-        color = "black"
+        color = "#000000"
         print("Could not find color for " + team)
     return color
 
@@ -75,7 +75,7 @@ def get_secondary_color(team):
     elif team in fcs_color_data["secondary_colors"]:
         color = fcs_color_data["secondary_colors"][team]
     else:
-        color = "black"
+        color = "#000000"
         print("Could not find color for " + team)
     return color
 
@@ -86,11 +86,11 @@ Compare team colors and if they're within a threshold, use black and red
 
 
 def compare_color(home_color, away_color):
-    if home_color != "black" and home_color is not None:
+    if home_color != "#000000" and home_color is not None:
         home_hex = home_color.split("#")[1]
     else:
         home_hex = "000000"
-    if away_color != "black" and away_color is not None:
+    if away_color != "#000000" and away_color is not None:
         away_hex = away_color.split("#")[1]
     else:
         away_hex = "000000"
@@ -102,4 +102,4 @@ def compare_color(home_color, away_color):
     if abs(home_decimal-away_decimal) > 330000:
         return {1: home_color, 2: away_color}
     else:
-        return {1: "Black", 2: "Red"}
+        return {1: "#000000", 2: "#ff0000"}
