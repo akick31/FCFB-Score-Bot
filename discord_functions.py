@@ -13,7 +13,6 @@ from thread_crawler import *
 from win_probability import *
 from sheets_functions import *
 from reddit_functions import *
-from aiohttp import ClientSession
 
 with open('/home/ubuntu/FCFB/FCFB-Score-Bot/season_information.json', 'r') as config_file:
     season_info_data = json.load(config_file)
@@ -397,7 +396,7 @@ def login_discord(r):
     client = discord.Client()
 
     @client.event
-    async def on_message(message):
+    async def on_message(message): 
         message_content = message.content.lower()
         
         if message_content.startswith('$score'):
