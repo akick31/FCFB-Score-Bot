@@ -17,10 +17,14 @@ Get information to make a post for ongoing games on Reddit
 """
 
 
-async def get_ongoing_game_information(message, submission, home_vegas_odds, away_vegas_odds, home_team, away_team, home_score, away_score):
+async def get_ongoing_game_information(database, message, submission, home_vegas_odds, away_vegas_odds, home_team, away_team, home_score, away_score):
     # Get win probability
     cur_possession = parse_possession(submission.selftext)
-    win_probability_result = get_in_game_win_probability(home_team, away_team)
+    
+    win_probability_result = get_in_game_win_probability(database, home_team, away_team)
+    if win_probability_result is None:
+        await message.channel.send("**Win probability retrieval error, please check logs for more information**")
+    
     offense_win_probability = win_probability_result[1]
     last_play_possession_change = win_probability_result[2]
 

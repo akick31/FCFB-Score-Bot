@@ -13,6 +13,7 @@ from thread_crawler import *
 from win_probability import *
 from sheets_functions import *
 from reddit_functions import *
+from database_functions import *
 
 with open('/home/ubuntu/FCFB/FCFB-Score-Bot/season_information.json', 'r') as config_file:
     season_info_data = json.load(config_file)
@@ -57,7 +58,7 @@ ongoing game or post a past game
 """
 
 
-async def handle_score_command(r, message):
+async def handle_score_command(r, message, database):
     message_content = message.content.lower()
     print(message_content)
 
@@ -117,8 +118,8 @@ async def handle_score_command(r, message):
         away_team = handle_naming_inconsistencies(away_team)
 
         # Get the vegas odds
-        vegas_odds_dict = get_vegas_odds(home_team, away_team)
-        if "The following error occurred:" not in vegas_odds_dict:
+        vegas_odds_dict = get_vegas_odds(home_team, away_team, database)
+        if vegas_odds_dict is not None:
             home_vegas_odds = vegas_odds_dict[1]
             away_vegas_odds = vegas_odds_dict[2]
 
@@ -138,14 +139,14 @@ async def handle_score_command(r, message):
                                                          home_score, away_score, home_record, away_record)
             else:
                 if season == season_info_data['current_season']:
-                    await get_ongoing_game_information(message, submission, home_vegas_odds, away_vegas_odds,
+                    await get_ongoing_game_information(database, message, submission, home_vegas_odds, away_vegas_odds,
                                                        home_team, away_team, home_score, away_score)
 
                 else:
                     await craft_game_final_score_comment(message, submission, home_team, away_team, "NONE",
                                                          home_score, away_score, home_record, away_record)
         else:
-            await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
+            await message.channel.send("The following error occurred: vegas odds retrieval error")
 
     await looking_for_thread.delete()
 
@@ -157,7 +158,7 @@ ongoing game or post a past game
 """
 
 
-async def handle_plot_command(r, message):
+async def handle_plot_command(r, message, database):
     message_content = message.content.lower()
 
     if "vs" in message_content:
@@ -212,9 +213,9 @@ async def handle_plot_command(r, message):
         if "The following error occurred:" not in color_dict:
             home_color = color_dict[1]
             away_color = color_dict[2]
-            vegas_odds_dict = get_vegas_odds(home_team, away_team)
+            vegas_odds_dict = get_vegas_odds(home_team, away_team, database)
             # Get the vegas odds
-            if "The following error occurred:" not in vegas_odds_dict:
+            if vegas_odds_dict is not None:
                 home_vegas_odds = vegas_odds_dict[1]
                 away_vegas_odds = vegas_odds_dict[2]
                 season_num = int(season.split("s")[1])
@@ -262,7 +263,7 @@ async def handle_plot_command(r, message):
                                                    "Week 11 games onward")
                         print("Could not post old plot for " + home_team + " vs " + away_team + "\n\n")
             else:
-                await message.channel.send("**Vegas odds retrieval error**\n\n" + vegas_odds_dict)
+                await message.channel.send("**Vegas odds retrieval error, please check logs for more information**")
         else:
             await message.channel.send("**Color retrieval error**\n\n" + color_dict)
 
@@ -277,7 +278,8 @@ Handle when the user requests the conference standings
 """
 
 
-async def handle_standings_command(r, message):
+async def handle_standings_command(r, message, database):
+    print("Getting rankings information")
     message_content = message.content.lower()
     if "$standing " in message_content:
         conference = message_content.split("$standing")[1].strip()
@@ -286,6 +288,7 @@ async def handle_standings_command(r, message):
 
     post = get_standings_data(conference)
     await message.channel.send(post)
+    print("Posted result of the standings command!")
 
 
 """
@@ -294,7 +297,8 @@ Handle when the user requests a ranking
 """
 
 
-async def handle_rankings_command(r, message):
+async def handle_rankings_command(r, message, database):
+    print("Getting rankings information")
     message_content = message.content.lower()
     request = message_content.split("$rankings")[1].strip()
 
@@ -307,17 +311,17 @@ async def handle_rankings_command(r, message):
                                    "- Adjusted Speed (FBS Only)\n" + "- Raw Speed (FBS Only)\n" +
                                    "**If you want a ranking added, please contact Dick**")
     else:
-        post = get_rankings_data(r, request)
+        post = get_rankings_data(r, request, database)
         await message.channel.send(post)
-
-
+        print("Posted result of the rankings command!")
+        
 """
 Handle when the user requests a team's opponent
 
 """
 
 
-async def handle_opponent_command(r, message):
+async def handle_opponent_command(r, message, database):
     message_content = message.content.lower()
     team = message_content.split("$opponent")[1].strip()
 
@@ -400,19 +404,44 @@ def login_discord(r):
         message_content = message.content.lower()
         
         if message_content.startswith('$score'):
-            await handle_score_command(r, message)
+            database = connect_to_database()
+            if database == None:
+                await message.channel.send("Cannot connect to database, please try again later.")
+            else:
+                await handle_score_command(r, message, database)
+                close_database(database)
         
         elif message_content.startswith('$plot'):
-            await handle_plot_command(r, message)
+            database = connect_to_database()
+            if database == None:
+                await message.channel.send("Cannot connect to database, please try again later.")
+            else:
+                await handle_plot_command(r, message, database)
+                close_database(database)
             
         elif message_content.startswith('$standing'):
-            await handle_standings_command(r, message)
+            database = connect_to_database()
+            if database == None:
+                await message.channel.send("Cannot connect to database, please try again later.")
+            else:
+                await handle_standings_command(r, message, database)
+                close_database(database)
             
         elif message_content.startswith('$rankings'):
-            await handle_rankings_command(r, message)
+            database = connect_to_database()
+            if database == None:
+                await message.channel.send("Cannot connect to database, please try again later.")
+            else:
+                await handle_rankings_command(r, message, database)
+                close_database(database)
 
         elif message_content.startswith('$opponent'):
-            await handle_opponent_command(r, message)
+            database = connect_to_database()
+            if database == None:
+                await message.channel.send("Cannot connect to database, please try again later.")
+            else:
+                await handle_opponent_command(r, message, database)
+                close_database(database)
 
         nfcaa_office = discord.utils.find(lambda r: r.name == 'NFCAA Office', message.guild.roles)
         fbs_commissioner = discord.utils.find(lambda r: r.name == 'FBS Conference Commissioner', message.guild.roles)

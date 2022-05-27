@@ -1,7 +1,9 @@
 import gspread
 import xlrd
+import discord
 from oauth2client.service_account import *
 from poll_data import *
+from database_functions import *
 
 """
 Handle contacting Google Sheets and getting information from the document
@@ -13,12 +15,6 @@ scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 credentials = ServiceAccountCredentials.from_json_keyfile_name('/home/ubuntu/FCFB/FCFB-Spread-Bot/FCFBRollCallBot-2d263a255851.json', scope)
 gc = gspread.authorize(credentials)
-sh = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZFi4MqxWX84-VdIiWjJmuvB8f80lfKNkffeKcdJKtAU/edit#gid=1106595477')
-fbs_worksheet = sh.worksheet("Season 7 Rankings (All-Time)")
-
-file_location = "/home/ubuntu/FCFB/FCFB-Score-Bot/FCSElo.xlsx"
-fcs_excel = xlrd.open_workbook(file_location)
-sheet = fcs_excel.sheet_by_name('sheet')
 
 sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1Xx6l7oLRZe8Y0Ia1pHDSeCYjXg260skf8YMNoXkp7Hc/edit#gid=0')
 standingsWorksheet = sh3.worksheet("Standings")
@@ -36,37 +32,6 @@ speed_worksheet = sh6.worksheet("Quickest Team Ranking")
 
 sh7 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1nCoC6j9GbA3AqJbQ5rCZQICrWEVRdvDqXe5ZJnjAGXU/edit#gid=155279901')
 start_games_worksheet = sh7.worksheet("Weekly Blocks")
-
-
-"""
-Get Elo data from both FBS and FCS sheets
-
-"""
-
-
-def get_elo_data():
-    try:
-        team_elo_column = []
-        elo_data_column = []
-        fbs_column = fbs_worksheet.col_values(2)
-        fbs_column.pop(0)
-        fcs_column = get_excel_data(3)
-        fcs_column.pop(0)
-        team_elo_column.extend(fbs_column)
-        team_elo_column.extend(fcs_column)
-
-        fbs_elo_column = fbs_worksheet.col_values(3)
-        fbs_elo_column.pop(0)
-        fcs_elo_column = get_excel_data(0)
-        fcs_elo_column.pop(0)
-        elo_data_column.extend(fbs_elo_column)
-        elo_data_column.extend(fcs_elo_column)
-        
-        return {1: team_elo_column, 2: elo_data_column}
-    except Exception as e:
-        return_statement = "The following error occured: " + str(e)
-        return return_statement
-
    
     
 """
@@ -726,7 +691,7 @@ def get_standings_data(conference):
         else:
             return "Conference not found"
     except Exception as e:
-        return_statement = "The following error occured: " + str(e)
+        return_statement = "The following error occurred: " + str(e)
         return return_statement
  
  
@@ -793,7 +758,7 @@ def parse_composite_data(num_col, team_col, value_col, post):
             i = i + 1
         return post
     except Exception as e:
-        return_statement = "The following error occured: " + str(e)
+        return_statement = "The following error occurred: " + str(e)
         return return_statement
 
 
@@ -824,7 +789,7 @@ Get the rankings data to post on Discord
 """      
 
 
-def get_rankings_data(r, request):
+def get_rankings_data(r, request, database):
     try:
         if request.lower() == "fbs coaches" or request.lower() == "fbs coaches poll":
             return get_coaches_poll_data(r, "FBS")
@@ -837,29 +802,19 @@ def get_rankings_data(r, request):
             return "Please be more specific"
         if "committee" in request.lower() or "playoff" in request.lower():
             return "This request is not available right now"
+        
         if request.lower() == "fbs elo":
-            fbs_column = fbs_worksheet.col_values(2)
-            fbs_elo_column = fbs_worksheet.col_values(3)
-            i = 1
-            post = "-----------------------\n**FBS Elo Rankings**\n-----------------------\n"
-            for team in fbs_column[1:26]:
-                elo = fbs_elo_column[i]
-                post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
-                i = i + 1
-            return post
+            post = "```FBS ELO Rankings\n"
+            table_name = "FBS_ELO"
+            embed=discord.Embed(
+                title="FBS ELO",
+                color=discord.Color.green()
+            )
+            return get_elo_rankings(database, post, table_name)
         if request.lower() == "fcs elo":
-            fcs_column = get_excel_data(3)
-            fcs_elo_column = get_excel_data(0)
-            i = 1
-            post = "-----------------------\n**FCS Elo Rankings**\n-----------------------\n"
-            for team in fcs_column[1:26]:
-                if "(" in team:
-                    team = team.split("(")[0]
-                    team = team.strip()
-                elo = fcs_elo_column[i]
-                post = post + "#" + str(i) + " " + team.strip() + " " + elo.strip() + "\n"
-                i = i + 1
-            return post
+            post = "```FCS ELO Rankings\n"
+            table_name = "FCS_ELO"
+            return get_elo_rankings(database, post, table_name)
         if request.lower() == "mov":
             post = "-----------------------\n**FBS MoV Rankings**\n-----------------------\n"
             return parse_rankings_worksheet(2, 3, 4, post)
@@ -892,7 +847,8 @@ def get_rankings_data(r, request):
             return parse_speed_data(10, 11, 12, post)
         return "Invalid command. Please try again."
     except Exception as e:
-        return_statement = "**Rankings retrieval error**\n\nThe following error occured: " + str(e)
+        return_statement = "The following error occurred: " + str(e)
+        print(return_statement)
         return return_statement
 
 
@@ -921,7 +877,7 @@ def parse_game_start_commands():
         commands = start_games_worksheet.col_values(2)
         return commands
     except Exception as e:
-        return_statement = "The following error occured: " + str(e)
+        return_statement = "The following error occurred: " + str(e)
         return return_statement
             
         
