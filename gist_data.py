@@ -30,7 +30,7 @@ Iterate through Gist data and post plots for that data for a game
 """
 
 
-def iterate_through_game_gist(home_team, away_team, home_color, away_color):
+def iterate_through_game_gist(database, home_team, away_team, home_color, away_color):
     home_score = []
     away_score = []
     home_win_probability = []

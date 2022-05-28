@@ -225,7 +225,7 @@ async def handle_plot_command(r, message, database):
                     # If there is a GitHub URL as plays have been called
                     if url != "NO PLAYS":
                         # Iterate through the data and plot the graphs
-                        iterate_through_game_gist(home_team, away_team, home_color, away_color)
+                        iterate_through_game_gist(database, home_team, away_team, home_color, away_color)
 
                         # Send score plot
                         with open('/home/ubuntu/FCFB/FCFB-Score-Bot/output.png', 'rb') as fp:
@@ -386,6 +386,24 @@ async def handle_reset_week_command(config_data, message):
 
 
 """
+Handle resetting the week flag in config.json
+
+"""
+
+
+async def handle_team_command(config_data, message, database):
+    message_content = message.content.lower()
+    team = message_content.split("$team")[1].strip()
+        
+    # Fix the inputted user team for naming inconsistencies
+    team = fix_user_input_teams(team)
+
+    information_output = get_team_information(database, team)
+    await message.channel.send(information_output)
+    return
+
+
+"""
 Login to Discord and run the bot
 
 """
@@ -441,6 +459,14 @@ def login_discord(r):
                 await message.channel.send("Cannot connect to database, please try again later.")
             else:
                 await handle_opponent_command(r, message, database)
+                close_database(database)
+
+        elif message_content.startswith('$team'):
+            database = connect_to_database()
+            if database == None:
+                await message.channel.send("Cannot connect to database, please try again later.")
+            else:
+                await handle_team_command(r, message, database)
                 close_database(database)
 
         nfcaa_office = discord.utils.find(lambda r: r.name == 'NFCAA Office', message.guild.roles)

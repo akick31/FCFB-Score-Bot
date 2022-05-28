@@ -39,6 +39,7 @@ Close the database
 
 
 def close_database(database):
+    database.commit()
     database.close()
 
 
@@ -120,41 +121,150 @@ Get specific team information
 
 def get_team_division(database, team):
     cursor = database.cursor(buffered=True)
+    team = team.strip()
 
     cursor.execute("""SELECT name FROM FBS_teams""")
     fbs_teams = cursor.fetchall()
-    if team in fbs_teams:
-        cursor.close()
-        return "FBS"
+    for fbs_team in fbs_teams:
+        if team == fbs_team[0].lower():
+            cursor.close()
+            return "FBS"
     
     cursor.execute("""SELECT name FROM FCS_teams""")
-    fbs_teams = cursor.fetchall()
-    if team in fbs_teams:
-        cursor.close()
-        return "FCS"
-    else
+    fcs_teams = cursor.fetchall()
+    for fcs_team in fcs_teams:
+        if team == fcs_team[0].lower():
+            cursor.close()
+            return "FCS"
+    else:
         cursor.close()
         return None
 
 
 """
-Get specific team information
+Get team win information
 
 """
 
 
 
-def get_fbs_team_specific_information(database, team, information):
+def get_team_wins(database, team, division):
     cursor = database.cursor(buffered=True)
 
-    sql = """SELECT %s FROM FBS_teams WHERE name = %s"""
-    val = (information, team)
-    cursor.execute(sql, val)
-    information = cursor.fetchall()
-    
+    if division == "FBS":
+        cursor.execute(""" SELECT wins FROM FBS_teams WHERE name = '""" + team + "'")
+    elif division == "FCS":
+        cursor.execute(""" SELECT wins FROM FCS_teams WHERE name = '""" + team + "'")
+    information_requested = cursor.fetchall()
+
     cursor.close()
-    print("SUCCESS! Fetched " + information + "from database")
-    return information
+    print("Success! Fetched wins from database!")
+    return information_requested[0]
+
+
+"""
+Get team loss information
+
+"""
+
+
+
+def get_team_losses(database, team, division):
+    cursor = database.cursor(buffered=True)
+
+    if division == "FBS":
+        cursor.execute(""" SELECT losses FROM FBS_teams WHERE name = '""" + team + "'")
+    elif division == "FCS":
+        cursor.execute(""" SELECT losses FROM FCS_teams WHERE name = '""" + team + "'")
+    information_requested = cursor.fetchall()
+
+    cursor.close()
+    print("Success! Fetched losses from database!")
+    return information_requested[0]
+
+
+"""
+Get team coach information
+
+"""
+
+
+
+def get_team_current_coach(database, team, division):
+    cursor = database.cursor(buffered=True)
+
+    if division == "FBS":
+        cursor.execute(""" SELECT current_coach FROM FBS_teams WHERE name = '""" + team + "'")
+    elif division == "FCS":
+        cursor.execute(""" SELECT current_coach FROM FCS_teams WHERE name = '""" + team + "'")
+    information_requested = cursor.fetchall()
+
+    cursor.close()
+    print("Success! Fetched current_coach from database!")
+    return information_requested[0]
+
+
+"""
+Get number of coaches a team has had
+
+"""
+
+
+
+def get_team_number_of_coaches(database, team, division):
+    cursor = database.cursor(buffered=True)
+
+    if division == "FBS":
+        cursor.execute(""" SELECT number_of_coaches FROM FBS_teams WHERE name = '""" + team + "'")
+    elif division == "FCS":
+        cursor.execute(""" SELECT number_of_coaches FROM FCS_teams WHERE name = '""" + team + "'")
+    information_requested = cursor.fetchall()
+
+    cursor.close()
+    print("Success! Fetched number_of_coaches from database!")
+    return information_requested[0]
+
+
+"""
+Get winningest coach at a team
+
+"""
+
+
+
+def get_team_winningest_coach(database, team, division):
+    cursor = database.cursor(buffered=True)
+
+    if division == "FBS":
+        cursor.execute(""" SELECT winningest_coach FROM FBS_teams WHERE name = '""" + team + "'")
+    elif division == "FCS":
+        cursor.execute(""" SELECT winningest_coach FROM FCS_teams WHERE name = '""" + team + "'")
+    information_requested = cursor.fetchall()
+
+    cursor.close()
+    print("Success! Fetched winningest_coach from database!")
+    return information_requested[0]
+
+
+"""
+Get longest tenured coach at a team
+
+"""
+
+
+
+def get_team_longest_serving_coach(database, team, division):
+    cursor = database.cursor(buffered=True)
+
+    if division == "FBS":
+        cursor.execute(""" SELECT longest_serving_coach FROM FBS_teams WHERE name = '""" + team + "'")
+    elif division == "FCS":
+        cursor.execute(""" SELECT longest_serving_coach FROM FCS_teams WHERE name = '""" + team + "'")
+    information_requested = cursor.fetchall()
+
+    cursor.close()
+    print("Success! Fetched longest_serving_coach from database!")
+    return information_requested[0]
 
 
 """
@@ -164,14 +274,19 @@ Get all team information and post it as an embed
 
 
 
-def get_fbs_team_all_information(database, team, information):
-    cursor = database.cursor(buffered=True)
-
-    sql = """SELECT %s FROM FBS_teams WHERE name = %s"""
-    val = (information, team)
-    cursor.execute(sql, val)
-    information = cursor.fetchall()
+def get_team_information(database, team):
+    division = get_team_division(database, team)
+    if division == "FCS":
+        return "Our apologies, FCS teams are not currently supported. Please try again later"
+    elif division != "FBS":
+        return "Error: Could not find team in FBS or FCS subdivisions, are you sure you typed the name correctly?"
     
-    cursor.close()
-    print("SUCCESS! Fetched " + information + "from database")
-    return information
+    current_coach = get_team_current_coach(database, team, division)
+    number_of_coaches = get_team_number_of_coaches(database, team, division)
+    winningest_coach = get_team_winningest_coach(database, team, division)
+    longest_serving_coach = get_team_longest_serving_coach(database, team, division)
+    wins = get_team_wins(database, team, division)
+    losses = get_team_losses(database, team, division)
+
+    print("SUCCESS! Fetched all team information from database!")
+    return wins
