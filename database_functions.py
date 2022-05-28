@@ -51,7 +51,7 @@ Put together a team's record in a string for viewing
 
 
 def get_record(wins, losses):
-    return ("(" + str(wins) + "-" + str(losses) + ")")
+    return (str(wins) + "-" + str(losses))
 
 
 
