@@ -400,7 +400,7 @@ async def handle_team_command(config_data, message, database):
 
     information_list = get_team_information(database, fixed_team)
     embed = discord.Embed(
-        title="Iowa State", description="All-Time Information", color=green)
+        title="Iowa State", description="All-Time Information", color=0x00b300)
     embed.add_field(name="Current Coach", value=information_list[0], inline=True)
     embed.add_field(name="Number of Coaches", value=information_list[1], inline=True)
     embed.add_field(name="Winningest Coach", value=information_list[2], inline=True)
