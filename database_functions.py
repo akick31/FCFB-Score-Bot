@@ -945,7 +945,7 @@ def get_team_information(database, team):
         return "Error: Could not find team in FBS or FCS subdivisions, are you sure you typed the name correctly?"
     
     # Gather all the information from the DB
-    current_coach = get_team_current_coach(database, team, division)
+    current_coach = get_team_current_coach(database, team, division)[0]
     number_of_coaches = get_team_number_of_coaches(database, team, division)
     winningest_coach = get_team_winningest_coach(database, team, division)
     longest_serving_coach = get_team_longest_serving_coach(database, team, division)
@@ -999,5 +999,5 @@ def get_team_information(database, team):
     conference_championship_win_percentage, playoff_appearances, playoff_record,
     playoff_win_percentage, national_championship_wins]
 
-    print("SUCCESS! Fetched all team information from database!")
+    print("Success! Fetched all team information from database!")
     return information_list
