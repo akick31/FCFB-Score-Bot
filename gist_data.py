@@ -43,12 +43,10 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
 
     home_elo = 0
     away_elo = 0
-    elo_dictionary = get_elo_data()
-    if elo_dictionary != "There was an error in contacting Google Sheets, please try again.":
-        team_elo_column = elo_dictionary[1]
-        elo_data_column = elo_dictionary[2]
-        home_elo = get_elo(home_team, team_elo_column, elo_data_column)
-        away_elo = get_elo(away_team, team_elo_column, elo_data_column)
+    home_elo = get_elo(database, home_team)
+    away_elo = get_elo(database, away_team)
+    if home_elo == None or away_elo == None:
+        return None
     
     # Iterate through playlist file
     with open('/home/ubuntu/FCFB/FCFB-Score-Bot/data.txt', 'r+') as csvfile:

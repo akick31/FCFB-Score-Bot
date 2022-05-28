@@ -58,6 +58,7 @@ def get_elo(database, team):
     for row in fbs_elo:
         if row[0] == team:
             cursor.close()
+            print("SUCCESS! Fetched ELO from database")
             return row[1]
     cursor.close()
 
@@ -68,6 +69,7 @@ def get_elo(database, team):
     for row in fcs_elo:
         if row[0] == team:
             cursor.close()
+            print("SUCCESS! Fetched ELO from database")
             return row[1]
 
     print("Error: Could not find ELO for " + team)
@@ -103,5 +105,73 @@ def get_elo_rankings(database, post, table_name):
             post = post + tabulate(post_data, headers=["Rank", "Team", "ELO", " ± "], tablefmt="pretty", colalign=("center", "left", "center", "center")) + "\n```"
             return post
     
+    print("SUCCESS! Fetched ELO rankings from database")
     cursor.close()
     return None
+
+
+
+"""
+Get specific team information
+
+"""
+
+
+
+def get_team_division(database, team):
+    cursor = database.cursor(buffered=True)
+
+    cursor.execute("""SELECT name FROM FBS_teams""")
+    fbs_teams = cursor.fetchall()
+    if team in fbs_teams:
+        cursor.close()
+        return "FBS"
+    
+    cursor.execute("""SELECT name FROM FCS_teams""")
+    fbs_teams = cursor.fetchall()
+    if team in fbs_teams:
+        cursor.close()
+        return "FCS"
+    else
+        cursor.close()
+        return None
+
+
+"""
+Get specific team information
+
+"""
+
+
+
+def get_fbs_team_specific_information(database, team, information):
+    cursor = database.cursor(buffered=True)
+
+    sql = """SELECT %s FROM FBS_teams WHERE name = %s"""
+    val = (information, team)
+    cursor.execute(sql, val)
+    information = cursor.fetchall()
+    
+    cursor.close()
+    print("SUCCESS! Fetched " + information + "from database")
+    return information
+
+
+"""
+Get all team information and post it as an embed
+
+"""
+
+
+
+def get_fbs_team_all_information(database, team, information):
+    cursor = database.cursor(buffered=True)
+
+    sql = """SELECT %s FROM FBS_teams WHERE name = %s"""
+    val = (information, team)
+    cursor.execute(sql, val)
+    information = cursor.fetchall()
+    
+    cursor.close()
+    print("SUCCESS! Fetched " + information + "from database")
+    return information
