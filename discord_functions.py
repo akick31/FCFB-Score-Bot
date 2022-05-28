@@ -396,10 +396,10 @@ async def handle_team_command(config_data, message, database):
     team = message_content.split("$team")[1].strip()
         
     # Fix the inputted user team for naming inconsistencies
-    team = fix_user_input_teams(team)
+    fixed_team = fix_user_input_teams(team)
 
-    information_output = get_team_information(database, team)
-    await message.channel.send(information_output)
+    information_list = get_team_information(database, fixed_team)
+    await message.channel.send(information_list)
     return
 
 
