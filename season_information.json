@@ -1,5 +1,5 @@
 {
-    "current_season": "s7",
+    "current_season": "s8",
     "seasons":{
         "s1": {
             "start_month": "1",
@@ -71,6 +71,17 @@
             "start_month": "5",
             "start_day": "1",
             "start_year": "2022",
+            "end_month": "1",
+            "end_day": "5",
+            "end_year": "2023",
+            "postseason_start_month": "11",
+            "postseason_start_day": "1",
+            "postseason_start_year": "2023"
+        },
+        "s8": {
+            "start_month": "2",
+            "start_day": "21",
+            "start_year": "2023",
             "end_month": "N/A",
             "end_day": "N/A",
             "end_year": "N/A",
