@@ -14,7 +14,7 @@ scope = ['https://spreadsheets.google.com/feeds',
 credentials = ServiceAccountCredentials.from_json_keyfile_name('/home/ubuntu/FCFB/FCFB-Spread-Bot/FCFBRollCallBot-2d263a255851.json', scope)
 gc = gspread.authorize(credentials)
 sh = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZFi4MqxWX84-VdIiWjJmuvB8f80lfKNkffeKcdJKtAU/edit#gid=1106595477')
-fbs_worksheet = sh.worksheet("Season 8 Rankings (All-Time)")
+fbs_worksheet = sh.worksheet("Season 7 Rankings (All-Time)")
 
 file_location = "/home/ubuntu/FCFB/FCFB-Score-Bot/FCSElo.xlsx"
 fcs_excel = xlrd.open_workbook(file_location)
