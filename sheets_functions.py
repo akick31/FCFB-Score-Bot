@@ -107,21 +107,22 @@ Get the AAC standings from CHEFF
 
 
 def parse_aac():
-    post = "----------------------\n**American**\n----------------------\n----------------------\nEast\n----------------------\n"
-    team_column = standingsWorksheet.col_values(9)
-    team_conference_column = standingsWorksheet.col_values(10)
-    team_overall_column = standingsWorksheet.col_values(11)
-    for i in range(6, 12):
+    post = ("----------------------\n**American**\n----------------------\n" +
+           "----------------------\nEast\n----------------------\n")
+    team_column = standingsWorksheet.col_values(2)
+    team_conference_column = standingsWorksheet.col_values(3)
+    team_overall_column = standingsWorksheet.col_values(4)
+    for i in range(17, 24):
         team = team_column[i].strip()
         conference_record = team_conference_column[i].strip()
         overall_record = team_overall_column[i].strip()
         post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
     post = post + "\n----------------------\nWest\n----------------------\n"
-    team_column = standingsWorksheet.col_values(12)
-    team_conference_column = standingsWorksheet.col_values(13)
-    team_overall_column = standingsWorksheet.col_values(14)
-    for i in range(6, 12):
+    team_column = standingsWorksheet.col_values(5)
+    team_conference_column = standingsWorksheet.col_values(6)
+    team_overall_column = standingsWorksheet.col_values(7)
+    for i in range(17, 24):
         team = team_column[i].strip()
         conference_record = team_conference_column[i].strip()
         overall_record = team_overall_column[i].strip()
@@ -199,27 +200,26 @@ Get the CUSA standings from CHEFF
 
 
 def parse_cusa():
-    post = ("----------------------\n**Conference USA**\n----------------------\n" +
-           "----------------------\nEast\n----------------------\n")
+    post = "----------------------\n**Conference USA**\n----------------------\n"
     team_column = standingsWorksheet.col_values(2)
     team_conference_column = standingsWorksheet.col_values(3)
     team_overall_column = standingsWorksheet.col_values(4)
-    for i in range(17, 24):
+    for i in range(38, 43):
         team = team_column[i].strip()
         conference_record = team_conference_column[i].strip()
         overall_record = team_overall_column[i].strip()
         post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
-    post = post + "\n----------------------\nWest\n----------------------\n"
     team_column = standingsWorksheet.col_values(5)
     team_conference_column = standingsWorksheet.col_values(6)
     team_overall_column = standingsWorksheet.col_values(7)
-    for i in range(17, 24):
+    for i in range(38, 43):
         team = team_column[i].strip()
         conference_record = team_conference_column[i].strip()
         overall_record = team_overall_column[i].strip()
         post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
+
     return post
 
 
@@ -354,25 +354,29 @@ Get the Big 12 standings from CHEFF
 
 
 def parse_big12():
-    post = "----------------------\n**Big 12**\n----------------------\n"
-    team_column = standingsWorksheet.col_values(2)
-    team_conference_column = standingsWorksheet.col_values(3)
-    team_overall_column = standingsWorksheet.col_values(4)
-    for i in range(38, 43):
+    post = ("----------------------\n**Big 12**\n----------------------\n" +
+           "----------------------\nFounders\n----------------------\n")
+    team_column = standingsWorksheet.col_values(9)
+    team_conference_column = standingsWorksheet.col_values(10)
+    team_overall_column = standingsWorksheet.col_values(11)
+    for i in range(6, 12):
         team = team_column[i].strip()
         conference_record = team_conference_column[i].strip()
         overall_record = team_overall_column[i].strip()
         post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
         i += 1
-    team_column = standingsWorksheet.col_values(5)
-    team_conference_column = standingsWorksheet.col_values(6)
-    team_overall_column = standingsWorksheet.col_values(7)
-    for i in range(38, 43):
-        team = team_column[i].strip()
-        conference_record = team_conference_column[i].strip()
-        overall_record = team_overall_column[i].strip()
-        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
-        i += 1
+
+    post = post + "\n----------------------\nFrontier\n----------------------\n"
+    team_column = standingsWorksheet.col_values(12)
+        team_conference_column = standingsWorksheet.col_values(13)
+        team_overall_column = standingsWorksheet.col_values(14)
+        for i in range(6, 12):
+            team = team_column[i].strip()
+            conference_record = team_conference_column[i].strip()
+            overall_record = team_overall_column[i].strip()
+            post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
+            i += 1
+
     return post
 
 
