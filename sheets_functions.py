@@ -368,14 +368,14 @@ def parse_big12():
 
     post = post + "\n----------------------\nFrontier\n----------------------\n"
     team_column = standingsWorksheet.col_values(12)
-        team_conference_column = standingsWorksheet.col_values(13)
-        team_overall_column = standingsWorksheet.col_values(14)
-        for i in range(6, 12):
-            team = team_column[i].strip()
-            conference_record = team_conference_column[i].strip()
-            overall_record = team_overall_column[i].strip()
-            post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
-            i += 1
+    team_conference_column = standingsWorksheet.col_values(13)
+    team_overall_column = standingsWorksheet.col_values(14)
+    for i in range(6, 12):
+        team = team_column[i].strip()
+        conference_record = team_conference_column[i].strip()
+        overall_record = team_overall_column[i].strip()
+        post = post + " " + team + " " + overall_record + " (" + conference_record + ")\n"
+        i += 1
 
     return post
 
