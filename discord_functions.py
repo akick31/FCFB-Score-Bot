@@ -14,7 +14,7 @@ from win_probability import *
 from sheets_functions import *
 from reddit_functions import *
 
-with open('/home/apkick/FCFB/FCFB-Score-Bot/season_information.json', 'r') as config_file:
+with open('season_information.json', 'r') as config_file:
     season_info_data = json.load(config_file)
 
 """
@@ -227,12 +227,12 @@ async def handle_plot_command(r, message):
                         iterate_through_game_gist(home_team, away_team, home_color, away_color)
 
                         # Send score plot
-                        with open('/home/apkick/FCFB/FCFB-Score-Bot/output.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, '/home/apkick/FCFB/FCFB-Score-Bot/new_filename.png'))
+                        with open('output.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_filename.png'))
 
                         # Send the win probability plot
-                        with open('/home/apkick/FCFB/FCFB-Score-Bot/output_win_probability.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, '/home/apkick/FCFB/FCFB-Score-Bot/new_win_probability.png'))
+                        with open('output_win_probability.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
                         print("Plot posted for " + home_team + " vs " + away_team + "\n\n")
                     else:
                         await message.channel.send("Could not generate plot for " + home_team + " vs " + away_team)
@@ -249,12 +249,12 @@ async def handle_plot_command(r, message):
                                                    "not use the current win probability model, so it is slightly inaccurate.")
                         thread_crawler(home_team, away_team, home_vegas_odds, away_vegas_odds, home_color, away_color, season, submission)
                         # Send score plot
-                        with open('/home/apkick/FCFB/FCFB-Score-Bot/output.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, '/home/apkick/FCFB/FCFB-Score-Bot/new_filename.png'))
+                        with open('output.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_filename.png'))
 
                         # Send the win probability plot
-                        with open('/home/apkick/FCFB/FCFB-Score-Bot/output_win_probability.png', 'rb') as fp:
-                            await message.channel.send(file=discord.File(fp, '/home/apkick/FCFB/FCFB-Score-Bot/new_win_probability.png'))
+                        with open('output_win_probability.png', 'rb') as fp:
+                            await message.channel.send(file=discord.File(fp, 'new_win_probability.png'))
                         await old_thread.delete()
                         print("Old plot posted for " + home_team + " vs " + away_team + "\n\n")
                     else:
@@ -388,7 +388,7 @@ Login to Discord and run the bot
 
 
 def login_discord(r):
-    with open('/home/apkick/FCFB/FCFB-Score-Bot/config.json', 'r') as config_file:
+    with open('config.json', 'r') as config_file:
         config_data = json.load(config_file)
 
     token = config_data['discord_token']

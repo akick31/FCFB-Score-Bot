@@ -68,19 +68,19 @@ def add_team_names(img, home_team, away_team):
     draw = ImageDraw.Draw(img)
 
     if home_team_len >= 12:
-        home_font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 30)
+        home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
     elif home_team_len > 10:
-        home_font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 34)
+        home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
     else:
-        home_font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 40)
+        home_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
     draw.text((753, 70), home_team, (255, 255, 255), anchor="ra", font=home_font)
 
     if away_team_len >= 12:
-        away_font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 30)
+        away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
     elif away_team_len > 10:
-        away_font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 34)
+        away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 34)
     else:
-        away_font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 40)
+        away_font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
     draw.text((63, 70), away_team, (255, 255, 255), anchor="la", font=away_font)
 
     return img
@@ -93,7 +93,7 @@ Add team names to the score bug
 
 def add_score(img, home_score, away_score):
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 100)
+    font = ImageFont.truetype("GazRg-BoldItalic.ttf", 100)
 
     draw.text((421, 50), str(home_score), (255, 255, 255), anchor="la", font=font)
     draw.text((380, 50), str(away_score), (255, 255, 255), anchor="ra", font=font)
@@ -135,7 +135,7 @@ Add quarter to the score bug
 
 def add_quarter(img, quarter):
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 40)
+    font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
 
     draw.text((67, 161), quarter, (255, 255, 255), font=font)
 
@@ -149,7 +149,7 @@ Add clock to the score bug
 
 def add_clock(img, clock):
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 40)
+    font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
 
     draw.text((200, 161), clock, (255, 255, 255), font=font)
 
@@ -163,7 +163,7 @@ Add down and distance to the score bug
 
 def add_down_and_distance(img, down_and_distance):
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 40)
+    font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
 
     draw.text((560, 161), down_and_distance, (255, 255, 255), font=font)
 
@@ -180,7 +180,7 @@ def add_waiting_on(img, waiting_on):
     waiting_on_len = len(waiting_on)
 
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 20)
+    font = ImageFont.truetype("GazRg-BoldItalic.ttf", 20)
 
     if waiting_on_len > 10:
         shift = (waiting_on_len - 7) * 4
@@ -208,7 +208,7 @@ def add_odds(img, vegas_odds, team, home_team, away_team, shortened_home_team, s
     away_team_len = len(shortened_away_team)
 
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 25)
+    font = ImageFont.truetype("GazRg-BoldItalic.ttf", 25)
 
     if team == home_team:
         if home_team_len > 10:
@@ -237,7 +237,7 @@ Add records to the score bug
 
 def add_records(img, home_record, away_record):
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 30)
+    font = ImageFont.truetype("GazRg-BoldItalic.ttf", 30)
     home_wins = int(home_record.split("-")[0].split("(")[1])
     home_losses = int(home_record.split("-")[1].split(")")[0])
 
@@ -254,7 +254,7 @@ Add final to the score bug
 
 def add_final(img):
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("/home/apkick/FCFB/FCFB-Score-Bot/GazRg-BoldItalic.ttf", 40)
+    font = ImageFont.truetype("GazRg-BoldItalic.ttf", 40)
 
     draw.text((350, 161), "FINAL", (255, 217, 0), font=font)
 
@@ -268,7 +268,7 @@ Draw the score bug
 
 def draw_scorebug(cur_clock, cur_down_and_distance, cur_possession, cur_yard_line, vegas_odds, home_team,
                   away_team, home_score, away_score, waiting_on, home_record, away_record):
-    img = Image.open('/home/apkick/FCFB/FCFB-Score-Bot/scorebug.png')
+    img = Image.open('scorebug.png')
 
     # Get team colors for plots
     color_dict = get_team_colors(home_team, away_team)
@@ -312,7 +312,7 @@ def draw_scorebug(cur_clock, cur_down_and_distance, cur_possession, cur_yard_lin
         # else:
         #    img = add_odds(img, vegas_odds, away_team, home_team, away_team, shortened_home_team, shortened_away_team)
 
-        img.save('/home/apkick/FCFB/FCFB-Score-Bot/scorebug_new.png')
+        img.save('scorebug_new.png')
         
     else:
         print("Color retrieval error: " + color_dict)
@@ -324,7 +324,7 @@ Draw the score bug
 
 
 def draw_final_scorebug(vegas_odds, home_team, away_team, home_score, away_score, home_record, away_record):
-    img = Image.open('/home/apkick/FCFB/FCFB-Score-Bot/scorebug.png')
+    img = Image.open('scorebug.png')
 
     # Get team colors for plots
     color_dict = get_team_colors(home_team, away_team)
@@ -352,7 +352,7 @@ def draw_final_scorebug(vegas_odds, home_team, away_team, home_score, away_score
         # else:
         #   img = add_odds(img, vegas_odds, away_team, home_team, away_team, shortened_home_team, shortened_away_team)
 
-        img.save('/home/apkick/FCFB/FCFB-Score-Bot/scorebug_final.png')
+        img.save('scorebug_final.png')
 
     else:
         print("Color retrieval error: " + color_dict)

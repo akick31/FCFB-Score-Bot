@@ -1,6 +1,6 @@
 import json
 
-with open('/home/apkick/FCFB/FCFB-Score-Bot/name_fix.json', 'r') as config_file:
+with open('name_fix.json', 'r') as config_file:
     name_fix_data = json.load(config_file)
 
 

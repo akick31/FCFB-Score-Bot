@@ -51,11 +51,11 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
         away_elo = get_elo(away_team, team_elo_column, elo_data_column)
     
     # Iterate through playlist file
-    with open('/home/apkick/FCFB/FCFB-Score-Bot/data.txt', 'r+') as csvfile:
+    with open('data.txt', 'r+') as csvfile:
         counter = csv.reader(csvfile, delimiter= '|', lineterminator='\n')  
         row_count = sum(1 for row in counter)
         
-    with open('/home/apkick/FCFB/FCFB-Score-Bot/data.txt', 'r+') as csvfile:
+    with open('data.txt', 'r+') as csvfile:
         reader = csv.reader(csvfile, delimiter= '|', lineterminator='\n') 
         i = 1
         for row in reader:

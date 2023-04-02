@@ -4,7 +4,7 @@ import datetime
 from parse_game_data import *
 from handle_dates import *
 
-with open('/home/apkick/FCFB/FCFB-Score-Bot/season_information.json', 'r') as config_file:
+with open('season_information.json', 'r') as config_file:
     season_info_data = json.load(config_file)
 
 """
@@ -147,7 +147,7 @@ def save_github_data(submission_body, season):
     url = parse_url_from_game_thread(submission_body, season)
     if url != "NO PLAYS":
         data = parse_data_from_github(url)
-        text_file = open("/home/apkick/FCFB/FCFB-Score-Bot/data.txt", "w")
+        text_file = open("data.txt", "w")
         text_file.write(data)
         text_file.close()
     return url

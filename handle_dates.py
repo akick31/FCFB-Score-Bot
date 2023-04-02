@@ -1,7 +1,7 @@
 import datetime
 import json
 
-with open('/home/apkick/FCFB/FCFB-Score-Bot/season_information.json', 'r') as config_file:
+with open('season_information.json', 'r') as config_file:
     season_info_data = json.load(config_file)
 
 

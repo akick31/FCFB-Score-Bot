@@ -7,7 +7,7 @@ from scorebug_drawer import *
 from aiohttp import ClientSession
 
 
-with open('/home/apkick/FCFB/FCFB-Score-Bot/config.json', 'r') as config_file:
+with open('config.json', 'r') as config_file:
     config_data = json.load(config_file)
 
 
@@ -82,7 +82,7 @@ async def craft_ongoing_game_comment(message, submission, cur_clock, cur_down, c
     draw_scorebug(cur_clock, cur_down, cur_possession, cur_yard_line, odds, home_team, away_team,
                   home_score, away_score, waiting_on, home_record, away_record)
 
-    with open('/home/apkick/FCFB/FCFB-Score-Bot/scorebug_new.png', 'rb') as fp:
+    with open('scorebug_new.png', 'rb') as fp:
         file = discord.File(fp, 'posted_scorebug.png')
         embed.set_image(url="attachment://posted_scorebug.png")
 
@@ -137,7 +137,7 @@ async def craft_game_final_score_comment(message, submission, home_team, away_te
     embed = discord.Embed(title="**Post Game Information**", color=0x005EB8)
     draw_final_scorebug(odds, home_team, away_team, home_score, away_score, home_record, away_record)
 
-    with open('/home/apkick/FCFB/FCFB-Score-Bot/scorebug_final.png', 'rb') as fp:
+    with open('scorebug_final.png', 'rb') as fp:
         file=discord.File(fp, 'posted_final_scorebug.png')
         embed.set_image(url="attachment://posted_final_scorebug.png")
 
