@@ -11,7 +11,7 @@ Handle contacting Google Sheets and getting information from the document
 
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
-credentials = ServiceAccountCredentials.from_json_keyfile_name('/home/apkick/FCFB/FCFB-Spread-Bot/FCFBRollCallBot-2d263a255851.json', scope)
+credentials = ServiceAccountCredentials.from_json_keyfile_name('/home/apkick/FCFB/FCFB-Score-Bot/FCFBRollCallBot-2d263a255851.json', scope)
 gc = gspread.authorize(credentials)
 sh = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZFi4MqxWX84-VdIiWjJmuvB8f80lfKNkffeKcdJKtAU/edit#gid=1106595477')
 fbs_worksheet = sh.worksheet("Season 8 Rankings (All-Time)")
