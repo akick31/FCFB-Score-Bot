@@ -7,10 +7,10 @@ Handle the colors aspect of the bot
 @author: apkick
 """
 
-with open('/home/ubuntu/FCFB/FCFB-Score-Bot/fbs_color.json', 'r') as config_file:
+with open('/home/apkick/FCFB/FCFB-Score-Bot/fbs_color.json', 'r') as config_file:
     fbs_color_data = json.load(config_file)
 
-with open('/home/ubuntu/FCFB/FCFB-Score-Bot/fcs_color.json', 'r') as config_file:
+with open('/home/apkick/FCFB/FCFB-Score-Bot/fcs_color.json', 'r') as config_file:
     fcs_color_data = json.load(config_file)
 
 

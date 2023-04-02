@@ -14,7 +14,7 @@ Calculate the win probability for various scenarios
 """
 
 model_xgb = xgb.XGBRegressor()
-model_xgb.load_model('/home/ubuntu/FCFB/FCFB-Score-Bot/wpmodel.json')
+model_xgb.load_model('/home/apkick/FCFB/FCFB-Score-Bot/wpmodel.json')
 
 data = {
   'down': [4],
@@ -48,7 +48,7 @@ def get_in_game_win_probability(home_team, away_team):
         away_elo = get_elo(away_team, team_elo_column, elo_data_column)
     
     # Iterate through playlist file
-    with open('/home/ubuntu/FCFB/FCFB-Score-Bot/data.txt', 'r') as csvfile:
+    with open('/home/apkick/FCFB/FCFB-Score-Bot/data.txt', 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter='|', lineterminator='\n')
         i = 0
         last_play_possession_change = False

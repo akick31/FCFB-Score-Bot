@@ -42,7 +42,7 @@ def plot_win_probability_gist(home_team, away_team, home_win_probability, away_w
     ax2.axhline(y=50, ls='-', color = "black")
     ax1.legend(l1, [home_team], loc="upper left")
     ax2.legend(l2, [away_team], loc="lower left")
-    plt.savefig("/home/ubuntu/FCFB/FCFB-Score-Bot/output_win_probability.png")
+    plt.savefig("/home/apkick/FCFB/FCFB-Score-Bot/output_win_probability.png")
     plt.close()
 
 
@@ -72,7 +72,7 @@ def plot_score_gist(home_team, away_team, home_score, away_score, play_number, h
         plt.plot(play_number, away_score, color=away_color, label=away_team, linewidth=2)
         
     plt.legend(loc="upper left")
-    plt.savefig("/home/ubuntu/FCFB/FCFB-Score-Bot/output.png")
+    plt.savefig("/home/apkick/FCFB/FCFB-Score-Bot/output.png")
     plt.close()
 
 
@@ -97,7 +97,7 @@ def plot_win_probability_thread_crawler(home_team, away_team, home_win_probabili
     plt.ylim(-10, 110)
     plt.xticks([])
     plt.legend(loc="upper left")
-    plt.savefig("/home/ubuntu/FCFB/FCFB-Score-Bot/output_win_probability.png")
+    plt.savefig("/home/apkick/FCFB/FCFB-Score-Bot/output_win_probability.png")
     plt.close()
 
 
@@ -120,7 +120,7 @@ def plot_score_plot_thread_crawler(home_team, away_team, home_score, away_score,
     plt.plot(play_number, away_score, color = away_color, label = away_team)
     plt.xticks([])   
     plt.legend(loc="upper left")
-    plt.savefig("/home/ubuntu/FCFB/FCFB-Score-Bot/output.png")
+    plt.savefig("/home/apkick/FCFB/FCFB-Score-Bot/output.png")
     plt.close()
     
     
