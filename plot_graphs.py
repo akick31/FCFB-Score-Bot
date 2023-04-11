@@ -21,8 +21,8 @@ def plot_win_probability_gist(home_team, away_team, home_win_probability, away_w
     away_win_probability = np.array(away_win_probability)
 
     fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, gridspec_kw=dict(wspace=0.0, hspace=0, bottom=0.5 / (2 + 1), left=0.5 / (3)))
-    l1 = ax1.plot(play_number, home_win_probability, home_color, linewidth=2)
-    l2 = ax2.plot(play_number, away_win_probability, away_color, linewidth=2)
+    l1 = ax1.plot(play_number, home_win_probability, home_color, linewidth=1)
+    l2 = ax2.plot(play_number, away_win_probability, away_color, linewidth=1)
 
     ax2.invert_yaxis()
     lim = max(max(ax1.get_ylim()), max(ax2.get_ylim()))
@@ -30,7 +30,7 @@ def plot_win_probability_gist(home_team, away_team, home_win_probability, away_w
     ax2.set_ylim(lim, 50)
     plt.legend(l1+l2, [home_team, away_team])
 
-    plt.style.use('fivethirtyeight')
+    plt.style.use('seaborn-v0_8-whitegrid')
     plt.ylabel("Win Probability (%)")
     plt.xlabel("Play")
     top_ticks = [50, 60, 70, 80, 90, 100]
@@ -38,8 +38,6 @@ def plot_win_probability_gist(home_team, away_team, home_win_probability, away_w
     ax1.set_yticks(top_ticks)
     ax2.set_yticks(bottom_ticks)
     ax1.set_title("Win Probability", loc="center")
-    ax1.axhline(y=50, ls='-', color = "black")
-    ax2.axhline(y=50, ls='-', color = "black")
     ax1.legend(l1, [home_team], loc="upper left")
     ax2.legend(l2, [away_team], loc="lower left")
     plt.savefig("output_win_probability.png")
@@ -58,18 +56,18 @@ def plot_score_gist(home_team, away_team, home_score, away_score, play_number, h
     away_score = np.array(away_score)
 
     plt.figure()
-    plt.style.use('fivethirtyeight')
+    plt.style.use('seaborn-v0_8-whitegrid')
     plt.ylabel("Score")
     if ot_flag == 1:
         plt.xlabel("Play Number")
         plt.title("Score Plot (OT)")
-        plt.plot(play_number, home_score, color = home_color, label = home_team, linewidth=2)
-        plt.plot(play_number, away_score, color = away_color, label = away_team, linewidth=2)
+        plt.plot(play_number, home_score, color = home_color, label = home_team, linewidth=1)
+        plt.plot(play_number, away_score, color = away_color, label = away_team, linewidth=1)
     else:
         plt.xlabel("Play")
         plt.title("Score Plot")
-        plt.plot(play_number, home_score, color=home_color, label=home_team, linewidth=2)
-        plt.plot(play_number, away_score, color=away_color, label=away_team, linewidth=2)
+        plt.plot(play_number, home_score, color=home_color, label=home_team, linewidth=1)
+        plt.plot(play_number, away_score, color=away_color, label=away_team, linewidth=1)
         
     plt.legend(loc="upper left")
     plt.savefig("output.png")
@@ -88,7 +86,7 @@ def plot_win_probability_thread_crawler(home_team, away_team, home_win_probabili
     away_win_probability = np.array(away_win_probability)
     
     plt.figure()
-    plt.style.use('fivethirtyeight')
+    plt.style.use('fast')
     plt.ylabel("Win Probability (%)")
     plt.xlabel("")
     plt.title("Win Probability")
@@ -112,7 +110,7 @@ def plot_score_plot_thread_crawler(home_team, away_team, home_score, away_score,
     home_score = np.array(home_score)
     away_score = np.array(away_score)
 
-    plt.style.use('fivethirtyeight')
+    plt.style.use('fast')
     plt.ylabel("Score")
     plt.xlabel("")
     plt.title("Score Plot")
