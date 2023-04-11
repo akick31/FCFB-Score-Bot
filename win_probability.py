@@ -136,28 +136,91 @@ def get_in_game_win_probability(home_team, away_team):
 
                 elo_diff_time = (float(offense_elo) - float(defense_elo)) * math.exp(-2 * (1 - (seconds_left_game / 1680)))
 
-                # Set all the data in the dictionary
-                # If the home team has the ball on line 1, it means they kicked it off and deferred
                 if i == 1 and possession == "home":
-                    data["had_first_possession"] = [0]
+                    had_first_possession = 0
                 elif i == 1 and possession == "away":
-                    data["had_first_possession"] = [1]
-                data["margin"] = [margin]
-                data["down"] = [down]
-                data["distance"] = [distance]
-                data["position"] = [position]
-                data["seconds_left_game"] = [seconds_left_game]
-                data["seconds_left_half"] = [seconds_left_half]
-                data["half"] = [half]
-                data["elo_diff_time"] = [elo_diff_time]
+                    had_first_possession = 1
 
-                current_win_probability = calculate_win_probability_gist(data)
+                current_win_probability = get_win_probability(down, distance, position, margin, seconds_left_game,
+                                                              seconds_left_half, half, had_first_possession,
+                                                              elo_diff_time, str(play))
                 win_probability_list.append(current_win_probability)
 
                 i += 1
 
         return {1: win_probability_list[-1], 2: last_play_possession_change}
-    
+
+
+def get_win_probability(down, distance, position, margin, seconds_left_game, seconds_left_half, half,
+                        had_first_possession, elo_diff_time, play_type):
+    """
+    Get the win probability for the play
+
+    :param down:
+    :param distance:
+    :param position:
+    :param margin:
+    :param seconds_left_game:
+    :param seconds_left_half:
+    :param half:
+    :param had_first_possession:
+    :param elo_diff_time:
+    :param play_type:
+    :return:
+    """
+
+    if seconds_left_game == 0 and play_type != "PAT":
+        return 1 if margin > 0 else (0 if margin < 0 else 0.5)
+
+    if play_type == "PAT":
+        prob_if_success = get_win_probability(1, 10, 75, -(margin + 1), seconds_left_game, seconds_left_half, half,
+                                              1-had_first_possession, -elo_diff_time, 'RUN')
+        prob_if_fail = get_win_probability(1, 10, 75, -margin, seconds_left_game, seconds_left_half, half,
+                                           1-had_first_possession, -elo_diff_time, 'RUN')
+        prob_if_return = get_win_probability(1, 10, 75, -(margin - 2), seconds_left_game, seconds_left_half, half,
+                                             1-had_first_possession, -elo_diff_time, 'RUN')
+        return 1 - (((721 / 751) * prob_if_success) + ((27 / 751) * prob_if_fail) + ((3 / 751) * prob_if_return))
+    if play_type == 'TWO_POINT':
+        prob_if_success = get_win_probability(1, 10, 75, -(margin + 2), seconds_left_game, seconds_left_half, half,
+                                              1-had_first_possession, -elo_diff_time, 'RUN')
+        prob_if_fail = get_win_probability(1, 10, 75, -margin, seconds_left_game, seconds_left_half, half,
+                                           1-had_first_possession, -elo_diff_time, 'RUN')
+        prob_if_return = get_win_probability(1, 10, 75, -(margin - 2), seconds_left_game, seconds_left_half, half,
+                                             1-had_first_possession, -elo_diff_time, 'RUN')
+        return 1 - (((301 / 751) * prob_if_success) + ((447  / 751) * prob_if_fail) + ((3 / 751) * prob_if_return))
+    if play_type == 'KICKOFF_NORMAL':
+        return 1 - get_win_probability(1, 10, 75, -margin, seconds_left_game, seconds_left_half, half,
+                                       1-had_first_possession, -elo_diff_time, 'RUN')
+    if play_type == 'KICKOFF_SQUIB':
+        slh = max(seconds_left_half - 5, 0)
+        slg = ((2 - half) * 840) + slh
+        return 1 - get_win_probability(1, 10, 65, -margin, slg, slh, half, 1-had_first_possession, -elo_diff_time,
+                                       'RUN')
+    if play_type == 'KICKOFF_ONSIDE':
+        slh = max(seconds_left_half - 3, 0)
+        slg = ((2 - half) * 840) + slh
+        prob_if_success = get_win_probability(1, 10, 55, margin, slg, slh, half, 1-had_first_possession, elo_diff_time,
+                                              'RUN')
+        prob_if_fail = 1-get_win_probability(1, 10, 45, -margin, slg, slh, half, 1-had_first_possession, -elo_diff_time,
+                                             'RUN')
+        slhr = max(seconds_left_half - 10, 0)
+        slgr = ((2 - half) * 840) + slh
+        prob_if_return = 1-get_win_probability(1, 10, 75, margin - 6, slgr, slhr, half, 1-had_first_possession,
+                                               -elo_diff_time, 'PAT')
+        return ((140 / 751) * prob_if_success) + ((611 / 751) * prob_if_fail) + ((1 / 751) * prob_if_return)
+
+    data["had_first_possession"] = [had_first_possession]
+    data["margin"] = [margin]
+    data["down"] = [down]
+    data["distance"] = [distance]
+    data["position"] = [position]
+    data["seconds_left_game"] = [seconds_left_game]
+    data["seconds_left_half"] = [seconds_left_half]
+    data["half"] = [half]
+    data["elo_diff_time"] = [elo_diff_time]
+
+    return calculate_win_probability_gist(data)
+
     
 """
 Calculate the win probability for the thread crawler
