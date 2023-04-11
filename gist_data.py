@@ -204,19 +204,13 @@ def iterate_through_game_gist(home_team, away_team, home_color, away_color):
                 # Calculate win probability
                 cur_win_probability = abs(get_win_probability(down, distance, position, margin, seconds_left_game,
                                                           seconds_left_half, half, had_first_possession,
-                                                          elo_diff_time, play_type))
-                if row[5] == "home" and "KICKOFF" not in row[12] and row[12] != "PAT" and row[12] != "TWO POINT":
+                                                          elo_diff_time, play_type)) * 100
+                if row[5] == "home":
                     home_win_probability.append(cur_win_probability)
                     away_win_probability.append(100 - cur_win_probability)
-                elif row[5] == "home" and ("KICKOFF" in row[12] or row[12] != "PAT" or row[12] != "TWO POINT"):
+                else:
                     home_win_probability.append(100 - cur_win_probability)
                     away_win_probability.append(cur_win_probability)
-                elif row[5] == "away" and "KICKOFF" not in row[12] and row[12] != "PAT" and row[12] != "TWO POINT":
-                    home_win_probability.append(100 - cur_win_probability)
-                    away_win_probability.append(cur_win_probability)
-                elif row[5] == "away" and ("KICKOFF" in row[12] or row[12] != "PAT" or row[12] != "TWO POINT"):
-                    home_win_probability.append(cur_win_probability)
-                    away_win_probability.append(100 - cur_win_probability)
                     
                 if int(quarter) > 4:
                     overtime_flag = 1

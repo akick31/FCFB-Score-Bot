@@ -173,40 +173,40 @@ def get_win_probability(down, distance, position, margin, seconds_left_game, sec
         return 1 if margin > 0 else (0 if margin < 0 else 0.5)
 
     if play_type == "PAT":
-        prob_if_success = get_win_probability(1, 10, 75, -(margin + 1), seconds_left_game, seconds_left_half, half,
-                                              1-had_first_possession, -elo_diff_time, 'RUN')
-        prob_if_fail = get_win_probability(1, 10, 75, -margin, seconds_left_game, seconds_left_half, half,
-                                           1-had_first_possession, -elo_diff_time, 'RUN')
-        prob_if_return = get_win_probability(1, 10, 75, -(margin - 2), seconds_left_game, seconds_left_half, half,
-                                             1-had_first_possession, -elo_diff_time, 'RUN')
+        prob_if_success = abs(get_win_probability(1, 10, 75, -(margin + 1), seconds_left_game, seconds_left_half, half,
+                                              1-had_first_possession, -elo_diff_time, 'RUN'))
+        prob_if_fail = abs(get_win_probability(1, 10, 75, -margin, seconds_left_game, seconds_left_half, half,
+                                           1-had_first_possession, -elo_diff_time, 'RUN'))
+        prob_if_return = abs(get_win_probability(1, 10, 75, -(margin - 2), seconds_left_game, seconds_left_half, half,
+                                             1-had_first_possession, -elo_diff_time, 'RUN'))
         return 1 - (((721 / 751) * prob_if_success) + ((27 / 751) * prob_if_fail) + ((3 / 751) * prob_if_return))
     if play_type == 'TWO_POINT':
-        prob_if_success = get_win_probability(1, 10, 75, -(margin + 2), seconds_left_game, seconds_left_half, half,
-                                              1-had_first_possession, -elo_diff_time, 'RUN')
-        prob_if_fail = get_win_probability(1, 10, 75, -margin, seconds_left_game, seconds_left_half, half,
-                                           1-had_first_possession, -elo_diff_time, 'RUN')
-        prob_if_return = get_win_probability(1, 10, 75, -(margin - 2), seconds_left_game, seconds_left_half, half,
-                                             1-had_first_possession, -elo_diff_time, 'RUN')
+        prob_if_success = abs(get_win_probability(1, 10, 75, -(margin + 2), seconds_left_game, seconds_left_half, half,
+                                              1-had_first_possession, -elo_diff_time, 'RUN'))
+        prob_if_fail = abs(get_win_probability(1, 10, 75, -margin, seconds_left_game, seconds_left_half, half,
+                                           1-had_first_possession, -elo_diff_time, 'RUN'))
+        prob_if_return = abs(get_win_probability(1, 10, 75, -(margin - 2), seconds_left_game, seconds_left_half, half,
+                                             1-had_first_possession, -elo_diff_time, 'RUN'))
         return 1 - (((301 / 751) * prob_if_success) + ((447  / 751) * prob_if_fail) + ((3 / 751) * prob_if_return))
     if play_type == 'KICKOFF_NORMAL':
-        return 1 - get_win_probability(1, 10, 75, -margin, seconds_left_game, seconds_left_half, half,
-                                       1-had_first_possession, -elo_diff_time, 'RUN')
+        return 1 - abs(get_win_probability(1, 10, 75, -margin, seconds_left_game, seconds_left_half, half,
+                                       1-had_first_possession, -elo_diff_time, 'RUN'))
     if play_type == 'KICKOFF_SQUIB':
         slh = max(seconds_left_half - 5, 0)
         slg = ((2 - half) * 840) + slh
-        return 1 - get_win_probability(1, 10, 65, -margin, slg, slh, half, 1-had_first_possession, -elo_diff_time,
-                                       'RUN')
+        return 1 - abs(get_win_probability(1, 10, 65, -margin, slg, slh, half, 1-had_first_possession, -elo_diff_time,
+                                       'RUN'))
     if play_type == 'KICKOFF_ONSIDE':
         slh = max(seconds_left_half - 3, 0)
         slg = ((2 - half) * 840) + slh
-        prob_if_success = get_win_probability(1, 10, 55, margin, slg, slh, half, 1-had_first_possession, elo_diff_time,
-                                              'RUN')
-        prob_if_fail = 1-get_win_probability(1, 10, 45, -margin, slg, slh, half, 1-had_first_possession, -elo_diff_time,
-                                             'RUN')
+        prob_if_success = abs(get_win_probability(1, 10, 55, margin, slg, slh, half, 1-had_first_possession, elo_diff_time,
+                                              'RUN'))
+        prob_if_fail = 1-abs(get_win_probability(1, 10, 45, -margin, slg, slh, half, 1-had_first_possession, -elo_diff_time,
+                                             'RUN'))
         slhr = max(seconds_left_half - 10, 0)
         slgr = ((2 - half) * 840) + slh
-        prob_if_return = 1-get_win_probability(1, 10, 75, margin - 6, slgr, slhr, half, 1-had_first_possession,
-                                               -elo_diff_time, 'PAT')
+        prob_if_return = 1-abs(get_win_probability(1, 10, 75, margin - 6, slgr, slhr, half, 1-had_first_possession,
+                                               -elo_diff_time, 'PAT'))
         return ((140 / 751) * prob_if_success) + ((611 / 751) * prob_if_fail) + ((1 / 751) * prob_if_return)
 
     data["had_first_possession"] = [had_first_possession]
@@ -269,7 +269,7 @@ def calculate_win_probability_gist(data):
     df_data = pd.DataFrame.from_dict(data)
     win_probability = model_xgb.predict(df_data)
 
-    return float(win_probability)*100
+    return float(win_probability)
     
     
 """
