@@ -20,17 +20,12 @@ Get information to make a post for ongoing games on Reddit
 async def get_ongoing_game_information(message, submission, home_vegas_odds, away_vegas_odds, home_team, away_team, home_score, away_score):
     # Get win probability
     cur_possession = parse_possession(submission.selftext)
-    win_probability_result = get_in_game_win_probability(home_team, away_team)
-    offense_win_probability = win_probability_result[1]
-    last_play_possession_change = win_probability_result[2]
+    cur_win_probability = get_in_game_win_probability(home_team, away_team) * 100
 
-    if cur_possession == home_team and last_play_possession_change is False:
-        home_win_probability = offense_win_probability
-    elif cur_possession == home_team and last_play_possession_change is True:
-        home_win_probability = 100 - offense_win_probability
+    if cur_possession == home_team:
+        home_win_probability = cur_win_probability
     else:
-        home_win_probability = 100 - offense_win_probability
-    away_win_probability = 100 - home_win_probability
+        home_win_probability = 100 - cur_win_probability
 
     # Get other game data
     cur_yard_line = parse_yard_line(submission.selftext)
@@ -47,7 +42,9 @@ async def get_ongoing_game_information(message, submission, home_vegas_odds, awa
     else:
         cur_clock = str(cur_time) + " " + str(cur_quarter)
 
-    await craft_ongoing_game_comment(message, submission, cur_clock, cur_down, cur_possession, cur_yard_line, home_vegas_odds, home_team, away_team, home_score, away_score, home_win_probability, waiting_on)
+    await craft_ongoing_game_comment(message, submission, cur_clock, cur_down, cur_possession, cur_yard_line,
+                                     home_vegas_odds, home_team, away_team, home_score, away_score,
+                                     home_win_probability, waiting_on)
 
 
 """
