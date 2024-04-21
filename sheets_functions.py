@@ -16,13 +16,13 @@ scope = ['https://spreadsheets.google.com/feeds',
 credentials = ServiceAccountCredentials.from_json_keyfile_name('FCFBRollCallBot-2d263a255851.json', scope)
 gc = gspread.authorize(credentials)
 sh = gc.open_by_url('https://docs.google.com/spreadsheets/d/1ZFi4MqxWX84-VdIiWjJmuvB8f80lfKNkffeKcdJKtAU/edit#gid=1106595477')
-fbs_worksheet = sh.worksheet("Season 8 Rankings (All-Time)")
+fbs_worksheet = sh.worksheet("Season 9 Rankings (All-Time)")
 
 file_location = "FCSElo.xlsx"
 fcs_excel = xlrd.open_workbook(file_location)
 sheet = fcs_excel.sheet_by_name('sheet')
 
-sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/15_pyH1iT2YaqiZViETvK6joCDiob4bxDPzmgENC_U-8/edit#gid=0')
+sh3 = gc.open_by_url('https://docs.google.com/spreadsheets/d/1HXbeE-TSWCxVgWd57Y_yEQliANVZs_srLd4VWzdg_q0/edit#gid=0')
 standingsWorksheet = sh3.worksheet("Standings")
 rankingsWorksheet = sh3.worksheet("Rankings")
 composite_worksheet = sh3.worksheet("Composite")
